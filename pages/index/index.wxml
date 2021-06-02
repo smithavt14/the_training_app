@@ -1,0 +1,10 @@
+<view class="page__container">
+
+<view wx:for="{{workouts}}" wx:for-item="workout">
+  <view class="date">{{workout.date}}</view>
+  <view wx:for="{{workout.workouts}}" wx:for-item="workout" class="workout-card-white">
+    <view class="name">{{workout.name}}</view>
+  </view>
+</view>
+
+</view>
