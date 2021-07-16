@@ -3,4 +3,41 @@
   padding: 0 40rpx;
   min-height: 100vh;
   background: #FAFAFA;
-} 
+}
+
+.header {
+  font-size: 48rpx;
+  font-weight: bold;
+  margin: 16rpx 0;
+}
+
+.subheader {
+  font-size: 40rpx;
+  font-weight: bold;
+  margin: 8rpx 0;
+}
+
+.page__section {
+  padding: 32rpx 0;
+  border-bottom: 3px solid black;
+}
+
+.btn {
+  border-radius: 4px;
+  text-align: center;
+  padding: 40rpx;
+  font-weight: bold;
+  margin: 0 16rpx;
+  flex: 1;
+}
+
+.btn-share {
+  background: black;
+  border: 2px solid black;
+  color: white;
+}
+
+.btn-complete {
+  background: white;
+  border: 2px solid black;
+}
