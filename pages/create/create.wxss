@@ -1,0 +1,13 @@
+.input-container {
+    margin: 32rpx 0;
+}
+
+.input {
+    border: 3px solid black; 
+    border-radius: 4rpx;
+    padding: 32rpx 16rpx;
+}
+
+.input-textarea {
+    width: unset;
+}

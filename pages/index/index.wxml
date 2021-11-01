@@ -1,15 +1,31 @@
 <view class="page__container">
 
+  <view class="header-container">
+    TRAINING
+  </view>
+
+  <view class="btn-today btn-today-popout" bindtap="scrollToToday">TODAY</view>
+
   <view wx:for="{{trainingDates}}" wx:for-item="trainingDay">
-    <view class="date {{trainingDay.top ? 'top' : ''}} ">{{trainingDay.date}}</view>
-    <view 
-    wx:for="{{trainingDay.workouts}}" 
-    wx:for-item="workout" 
-    class="workout-card-white" 
-    data-id="{{workout.id}}"
-    bindtap="navigateToShow"
-    >
-      <view class="name">{{workout.name}}</view>
+    <view class="date" id="{{ trainingDay.today ? 'today' : '' }}">{{trainingDay.date}}</view>
+    
+    <view wx:for="{{trainingDay.workouts}}" wx:for-item="workout" class="workout-card-white" data-id="{{workout.id}}" bindtap="navigateToShow">
+      
+      <image class="icon" src="/icons/{{workout.category}}.png"/>
+      
+      <view class="info-container">
+        <view class="name">{{workout.name}}</view>
+        <view class="time">{{workout.time}}</view>
+      </view>
+      
+      <view class="attendee-container">
+        <image class="avatar" src="/avatar.png"/>
+      </view>
     </view>
   </view>
+
+  <view class="container-btn">
+    <view class="btn btn-create">CREATE A WORKOUT</view>
+  </view>
+
 </view>

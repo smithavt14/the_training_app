@@ -1,8 +1,24 @@
 /**app.wxss**/
 .page__container {
-  padding: 0 40rpx;
+  padding: 160rpx 40rpx 40rpx 40rpx;
   min-height: 100vh;
   background: #FAFAFA;
+}
+
+.header-container {
+  height: 200rpx;
+  padding-top: 64rpx;
+  box-sizing: border-box;
+  width: 100%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
 
 .header {
@@ -22,13 +38,32 @@
   border-bottom: 3px solid black;
 }
 
+.container-btn {
+  height: 200rpx;
+  background: white;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .btn {
   border-radius: 4px;
-  text-align: center;
-  padding: 40rpx;
+  height: 128rpx;
+  width: 100%;
   font-weight: bold;
-  margin: 0 16rpx;
-  flex: 1;
+  margin: 0 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-create {
+  background: #232323;
+  color: white;
 }
 
 .btn-share {

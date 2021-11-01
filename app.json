@@ -1,13 +1,12 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/show/show"
+    "pages/show/show", 
+    "pages/create/create", 
+    "pages/user/user"
   ],
   "window":{
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
-    "navigationBarTextStyle":"black"
+    "navigationStyle": "custom"
   },
   "plugins": {
     "sdkPlugin": {

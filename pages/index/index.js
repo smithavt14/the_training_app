@@ -13,36 +13,46 @@ Page({
 
   sortDates: function (workouts) {
     let trainingDates = []
-    let options = {weekday: "long", month: "long", day: "numeric"}
-    let today = new Date().toLocaleDateString('en-us', options)
+    let dateOptions = {weekday: "long", month: "long", day: "numeric"}
+    let timeOptions = {hour: 'numeric', minute: '2-digit'}
+    let today = new Date().toLocaleDateString([], dateOptions)
     
+    // -- 1. Iterate through each workout
     workouts.forEach((workout) => {
-      let date = new Date(workout.date_time).toLocaleDateString('en-us', options)
-      // -- Check to see if this workout's day already exists in the trainingDates array
+      // -- 2. Turn date to a locale date string
+      let date = new Date(workout.date_time).toLocaleDateString('en-us', dateOptions)
+      let time = new Date(workout.date_time).toLocaleTimeString('en-us', timeOptions)
+      // -- 2a. Add time to the workout
+      workout['time'] = time
+      // -- 3. Check to see if this workout's day already exists in the trainingDates array
       let existing_date = trainingDates.find(workout => workout.date === date);
-      let dateDiff = Math.floor((new Date(workout.date_time) - new Date()) / 1000 / 60 / 60 / 24)
       
       if (existing_date) {
-        existing_date['workouts'].push(workout)
+        existing_date['workouts'].push(workout);
       } else {
-        trainingDates.push({date, workouts: [workout], dateDiff})
+        trainingDates.push({date, workouts: [workout]});
       }
-    })
+    });
 
-    let positiveDates = trainingDates.filter(trainingDate => trainingDate.dateDiff >= 0 )
-    positiveDates = positiveDates.sort((a, b) => a.dateDiff - b.dateDiff)
-
-    console.log(positiveDates)
-
-    trainingDates = trainingDates.sort((a, b) => new Date(a.date) - new Date(b.date))
+    // -- 4. Check if today's date exists in the array; 
+    let today_date = trainingDates.find(workout => workout.date == today);
     
-    this.setData({trainingDates})
-    this.scrollToToday()
+    if (today_date) {
+      today_date['today'] = true
+    } else {
+      trainingDates.push({date: today, today: true});
+    }
+
+    // -- 5. Sort the array
+    trainingDates = trainingDates.sort((a, b) => new Date(a.date) - new Date(b.date))
+  
+    this.setData({trainingDates});
+    this.scrollToToday();
   },
 
   scrollToToday: function () {
     wx.pageScrollTo({
-      selector: '.top',
+      selector: '#today',
       duration: 300,
       success: res => console.log(res),
       fail: err => console.log(err)

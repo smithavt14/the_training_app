@@ -1,5 +1,12 @@
+.page__container {
+  padding-top: 232rpx;
+  padding-bottom: 232rpx;
+}
+
+/* --- Workout Card --- */
+
 .workout-card-white {
-  height: 80px; 
+  height: 128rpx; 
   background: white;
   box-sizing: border-box;
   padding: 16px;
@@ -9,3 +16,64 @@
   align-items: center;
   margin: 16px 0;
 }
+
+.workout-card-white > .icon {
+  height: 64rpx;
+  width: 64rpx;
+  flex-shrink: 0;
+  padding-right: 16rpx;
+}
+
+.workout-card-white > .info-container {
+  flex-shrink: 0;
+  flex-grow: 1;
+}
+
+.workout-card-white > .info-container > .name {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.workout-card-white > .info-container > .time {
+  font-size: 12px;
+}
+
+.workout-card-white > .attendee-container {
+  flex-shrink: 0;
+  display: flex;  
+}
+
+.workout-card-white > .attendee-container > .avatar {
+  height: 64rpx;
+  width: 64rpx;
+  flex-shrink: 0;
+  padding-left: 16rpx;
+}
+
+/* --- Buttons --- */
+
+.btn-today {
+  position: fixed; 
+  top: 80rpx;
+  background: white; 
+  padding: 24rpx 40rpx;
+  border-radius: 50px; 
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.25);
+  font-weight: bolder;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+}
+
+.btn-today-popout {
+  top: 216rpx;
+  display: hidden;
+  animation: 1s ease-in-out pop-out;
+  animation-delay: 3s;
+  animation-fill-mode: both;
+}
+
+@keyframes pop-out {
+  from { top: 80rpx } to { top: 216rpx }
+}
+

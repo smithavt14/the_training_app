@@ -1,0 +1,29 @@
+<view class="page__container">
+    <view class="input-container">
+        <view class="subheader">Workout Title</view>
+        <input class="input" bindinput="changeTitle" type="text" placeholder="Enter title here..."/>
+    </view>
+    <view class="input-container">
+        <view class="subheader">Category</view>
+        <picker class="input" bindchange="changeCategory" range="{{category.items}}" value="{{index}}">
+            <view wx:if="{{category.active}}" class="input-picker">{{category.items[category.active]}}</view>
+            <view wx:else class="input-picker" style="color: gray;">Click to choose your category</view>
+        </picker>
+    </view>
+    <view class="input-container">
+        <view class="subheader">Date + Time</view>
+        <picker class="input" mode="date" bindchange="changeDate" value="{{date}}" start="{{date.start}}" end="{{date.end}}">
+            <view wx:if="{{date.active}}" class="input-picker">{{date.selected}}</view>
+            <view wx:else class="input-picker" style="color: gray;">Click to choose your date</view>
+        </picker>
+    </view>
+    <view class="input-container">
+        <view class="subheader">Location</view>
+        <view class="input" bindtap="changeLocation" style="color: gray;">Click to open map</view>
+    </view>
+    <view class="input-container">
+        <view class="subheader">Description</view>
+        <textarea class="input input-textarea" bindblur="bindTextAreaBlur" placeholder="Write your workout's description here..." />
+    </view>
+    <view class="btn btn-complete">Complete</view>
+</view>
