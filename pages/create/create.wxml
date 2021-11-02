@@ -35,7 +35,7 @@
     </view>
 
     <view class="input-container">
-        <textarea class="input input-textarea" bindblur="bindTextAreaBlur" placeholder="INPUT YOUR WORKOUT DESCRIPTION" />
+        <textarea class="input input-textarea" bindblur="bindTextAreaBlur" bindinput="changeDescription" placeholder="INPUT YOUR WORKOUT DESCRIPTION" />
     </view>
 
     <view class="container-btn">

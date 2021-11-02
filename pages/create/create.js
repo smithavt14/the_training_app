@@ -60,6 +60,10 @@ Page({
         })
     },
 
+    changeDescription: function (e) {
+        this.setData({description: e.detail.value})
+    },
+
     onLoad: function () {
         this.setDate()
     }
