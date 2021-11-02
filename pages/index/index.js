@@ -11,6 +11,12 @@ Page({
     })
   },
 
+  navigateToCreate: function (e) {
+    wx.navigateTo({
+      url: '/pages/create/create'
+    })
+  },
+
   sortDates: function (workouts) {
     let trainingDates = []
     let dateOptions = {weekday: "long", month: "long", day: "numeric"}

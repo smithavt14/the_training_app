@@ -1,6 +1,6 @@
 <view class="page__container">
 
-  <view class="header-container">
+  <view class="container-header">
     TRAINING
   </view>
 
@@ -25,7 +25,7 @@
   </view>
 
   <view class="container-btn">
-    <view class="btn btn-create">CREATE A WORKOUT</view>
+    <view class="btn btn-primary" bindtap="navigateToCreate">CREATE A WORKOUT</view>
   </view>
 
 </view>

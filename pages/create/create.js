@@ -2,9 +2,12 @@ Page({
     data: {
         category: {
             active: 0,
-            items: ['Run', 'HIIT', 'Ride', 'Swim', 'Recovery']
+            items: ['Run', 'Metcon', 'Track', 'Yoga', 'Swim']
         }, 
         date: {
+            active: false,
+        },
+        time: {
             active: false,
         }
     }, 
@@ -17,7 +20,7 @@ Page({
     setDate: function () {
         const now = new Date(Date.now())
         let end = new Date(Date.now())
-        end = new Date(end.setDate(end.getDate() + 28))
+        end = new Date(end.setDate(end.getDate() + 14))
         
         const year = now.getFullYear()
         const month = now.getMonth() < 10 ? `0${now.getMonth() + 1}` : now.getMonth() + 1
@@ -42,6 +45,10 @@ Page({
         const selected = new Date(e.detail.value).toLocaleDateString('en-us', options)
         
         this.setData({'date.active': true, 'date.selected': selected})
+    },
+
+    changeTime: function (e) {
+        this.setData({'time.active': true, 'time.selected': e.detail.value})
     },
 
     changeLocation: function (e) {

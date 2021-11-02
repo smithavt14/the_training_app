@@ -1,29 +1,45 @@
 <view class="page__container">
+    <view class="container-header">CREATE A WORKOUT</view>
+
     <view class="input-container">
-        <view class="subheader">Workout Title</view>
-        <input class="input" bindinput="changeTitle" type="text" placeholder="Enter title here..."/>
+        <image class="icon" src="/icons/name.png" />
+        <input class="input" bindinput="changeTitle" type="text" placeholder="INPUT YOUR WORKOUT NAME"/>
     </view>
     <view class="input-container">
-        <view class="subheader">Category</view>
+        <image class="icon" src="/icons/category.png" />
         <picker class="input" bindchange="changeCategory" range="{{category.items}}" value="{{index}}">
             <view wx:if="{{category.active}}" class="input-picker">{{category.items[category.active]}}</view>
-            <view wx:else class="input-picker" style="color: gray;">Click to choose your category</view>
+            <view wx:else class="input-picker" style="color: gray;">CHOOSE YOUR CATEGORY</view>
         </picker>
     </view>
-    <view class="input-container">
-        <view class="subheader">Date + Time</view>
-        <picker class="input" mode="date" bindchange="changeDate" value="{{date}}" start="{{date.start}}" end="{{date.end}}">
-            <view wx:if="{{date.active}}" class="input-picker">{{date.selected}}</view>
-            <view wx:else class="input-picker" style="color: gray;">Click to choose your date</view>
-        </picker>
+    <image class="input-container img-category" mode="aspectFill" src="/illustrations/{{category.items[category.active]}}.png"/>
+    <view class="input-container" style="display: block">
+        <view class="section">
+            <image class="icon" src="/icons/date.png" />
+            <picker class="input" mode="date" bindchange="changeDate" value="{{date}}" start="{{date.start}}" end="{{date.end}}">
+                <view wx:if="{{date.active}}" class="input-picker">{{date.selected}}</view>
+                <view wx:else class="input-picker" style="color: gray;">CHOOSE YOUR DATE</view>
+            </picker>
+        </view>
+        <view class="section">
+            <image class="icon" src="/icons/time.png" />
+            <picker class="input" mode="time" bindchange="changeTime" value="{{time}}">
+                <view wx:if="{{time.active}}" class="input-picker">{{time.selected}}</view>
+                <view wx:else class="input-picker" style="color: gray;">CHOOSE YOUR TIME</view>
+            </picker>
+        </view>
+        <view class="section">
+            <image class="icon" src="/icons/location.png" />
+            <view class="input" bindtap="changeLocation" style="color: gray;">CHOOSE YOUR LOCATION</view>
+        </view>
     </view>
+
     <view class="input-container">
-        <view class="subheader">Location</view>
-        <view class="input" bindtap="changeLocation" style="color: gray;">Click to open map</view>
+        <textarea class="input input-textarea" bindblur="bindTextAreaBlur" placeholder="INPUT YOUR WORKOUT DESCRIPTION" />
     </view>
-    <view class="input-container">
-        <view class="subheader">Description</view>
-        <textarea class="input input-textarea" bindblur="bindTextAreaBlur" placeholder="Write your workout's description here..." />
+
+    <view class="container-btn">
+        <view class="btn btn-primary">SUBMIT</view>
     </view>
-    <view class="btn btn-complete">Complete</view>
+    
 </view>

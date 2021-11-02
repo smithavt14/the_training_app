@@ -3,9 +3,10 @@
   padding: 160rpx 40rpx 40rpx 40rpx;
   min-height: 100vh;
   background: #FAFAFA;
+  box-sizing: border-box;
 }
 
-.header-container {
+.container-header {
   height: 200rpx;
   padding-top: 64rpx;
   box-sizing: border-box;
@@ -61,7 +62,7 @@
   align-items: center;
 }
 
-.btn-create {
+.btn-primary {
   background: #232323;
   color: white;
 }
