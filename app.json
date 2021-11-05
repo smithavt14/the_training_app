@@ -10,7 +10,7 @@
   },
   "plugins": {
     "sdkPlugin": {
-      "version": "3.18.0",
+      "version": "3.21.3",
       "provider": "wxc6b86e382a1e3294"
      }
  },

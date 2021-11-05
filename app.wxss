@@ -67,9 +67,23 @@
   color: white;
 }
 
-.btn-share {
-  background: black;
-  border: 2px solid black;
+
+.btn-login {
+  background: #44A767; 
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-login > .icon {
+  height: 56rpx;
+  width: 56rpx;
+  padding-left: 24rpx;
+}
+
+.btn-ghost {
+  background: #C0C0C0;
   color: white;
 }
 

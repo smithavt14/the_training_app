@@ -3,7 +3,7 @@
 
     <view class="input-container">
         <image class="icon" src="/icons/name.png" />
-        <input class="input" bindinput="changeTitle" type="text" placeholder="INPUT YOUR WORKOUT NAME"/>
+        <input class="input" bindinput="changeName" type="text" placeholder="INPUT YOUR WORKOUT NAME"/>
     </view>
     <view class="input-container">
         <image class="icon" src="/icons/category.png" />
@@ -12,7 +12,7 @@
             <view wx:else class="input-picker" style="color: gray;">CHOOSE YOUR CATEGORY</view>
         </picker>
     </view>
-    <image class="input-container img-category" mode="aspectFill" src="/illustrations/{{category.items[category.active]}}.png"/>
+    <image wx:if="{{category.active}}" class="input-container img-category" mode="aspectFill" src="/illustrations/{{category.items[category.active]}}.png"/>
     <view class="input-container" style="display: block">
         <view class="section">
             <image class="icon" src="/icons/date.png" />
@@ -30,7 +30,7 @@
         </view>
         <view class="section">
             <image class="icon" src="/icons/location.png" />
-            <view class="input" bindtap="changeLocation" style="color: gray;">CHOOSE YOUR LOCATION</view>
+            <view class="input" bindtap="changeLocation" style="color: {{location ? '#232323' : 'gray'}}">{{location ? location.address : 'CHOOSE YOUR LOCATION'}}</view>
         </view>
     </view>
 
@@ -39,7 +39,12 @@
     </view>
 
     <view class="container-btn">
-        <view class="btn btn-primary">SUBMIT</view>
+        <view wx:if="{{user && !user.is_authorized}}" class="btn btn-login" bindtap="updateUserInformation">
+            <view>LOGIN</view>
+            <image class="icon" src="/icons/wechat-white.png"/>
+        </view>
+        <view wx:if="{{user.is_authorized && !validated}}" class="btn btn-ghost">INCOMPLETE</view>
+        <view wx:if="{{user.is_authorized && validated}}" class="btn btn-primary" bindtap="submitWorkout">SUBMIT</view>
     </view>
     
 </view>

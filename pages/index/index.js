@@ -65,9 +65,8 @@ Page({
     })
   },
 
-  getMyWorkouts: function () {
+  getMyWorkouts: function (user) {
     // Set Variables
-    let user = wx.getStorageSync('user');
     let User = new wx.BaaS.TableObject('user');
     let Attendees = new wx.BaaS.TableObject('attendees');
     let id = user.id;
@@ -80,8 +79,31 @@ Page({
       this.sortDates(workouts);
     })
   },
+
+  getCurrentUser: function () {
+    wx.getStorage({
+      key: 'user',
+      success: (res) => {
+        let user = res.data
+        this.getMyWorkouts(user);
+      },
+      fail: async () => {
+        let user = await this.loginWithWeChat();
+        this.getMyWorkouts(user);
+      }
+    })
+  },
+
+  loginWithWeChat: function () {
+    return new Promise(resolve => {
+      wx.BaaS.auth.loginWithWechat().then(res => {
+        wx.setStorageSync('user', {id: res.id});
+        resolve(user);
+      })
+    })
+  },
   
   onLoad: function () {
-    this.getMyWorkouts();
+    this.getCurrentUser();
   }
 })

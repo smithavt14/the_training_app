@@ -8,9 +8,7 @@ App({
 
     wx.BaaS.init('a7b1c8f99027c47a7afb')
     wx.BaaS.auth.loginWithWechat().then(res => {
-      let user = {};
-      user['id'] = res.id;
-      wx.setStorageSync('user', user);
+      wx.setStorageSync('user', res);
     })
   },
 })
