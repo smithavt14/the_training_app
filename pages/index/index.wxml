@@ -9,6 +9,8 @@
   <view wx:for="{{trainingDates}}" wx:for-item="trainingDay">
     <view class="date" id="{{ trainingDay.today ? 'today' : '' }}">{{trainingDay.date}}</view>
     
+    <view wx:if="{{trainingDay.today}}" class="empty-message">NO WORKOUTS TODAY. REST AND ENJOY!</view>
+    
     <view wx:for="{{trainingDay.workouts}}" wx:for-item="workout" class="workout-card-white" data-id="{{workout.id}}" bindtap="navigateToShow">
       
       <image class="icon" src="/icons/{{workout.category}}.png"/>

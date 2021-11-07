@@ -65,6 +65,14 @@
   font-size: 12px;
 }
 
+.empty-message {
+  margin: 64rpx 0;
+  font-size: 28rpx;
+  text-align: center;
+  color: #232323;
+  font-weight: lighter;
+}
+
 .btn-today-popout {
   top: 216rpx;
   display: hidden;

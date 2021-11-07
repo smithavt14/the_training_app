@@ -1,31 +1,11 @@
-<view class="page__container" style="min-height: calc(100vh - 240rpx)">
-    <view class="page__section">
-        <view class="header">{{workout.name}}</view>
-        <view class="body">{{workout.date_time}}</view>
-        <view class="body">{{workout.location}}</view>
+<view class="page__container">
+    <view 
+    class="container-header" 
+    style="background-image: url('{{illustrations[workout.category]}}')">
+        {{workout.name}}
     </view>
-    <view class="page__section">
-        <view class="subheader">Who's Going?</view>
-        <view wx:for="{{attendees}}" wx:for-item="attendee" class="container-attendees">
-            <image class="attendee {{ attendee.is_creator ? 'creator' : ''}}" mode="aspectFill" src="{{attendee.user.avatar}}">
-                <image mode="aspectFit" wx:if="{{attendee.is_complete}}" class="icon-complete" src="../../icons/completed.svg"/>
-            </image>
-        </view>
+
+    <view class="container-btn">
+        <view class="btn btn-primary">JOIN</view>
     </view>
-    <view class="container-tabbar">
-        <view class="tab subheader {{toggleContainer ? '' : 'active'}}" data-binary="0" bindtap="toggleContainer">Description</view>
-        <view>|</view>
-        <view class="tab subheader {{toggleContainer ? 'active' : ''}}" data-binary="1" bindtap="toggleContainer">Reviews</view>
-    </view>
-    <view wx:if="{{!toggleContainer}}" class="container-description">
-        {{workout.description}}
-    </view>
-    <view wx:if="{{toggleContainer}}"  class="container-reviews">
-        <view wx:if="{{!reviews.size}}" class="btn btn-complete">Leave a Review</view>
-        <view wx:for="{{reviews}}">{{item}}</view>
-    </view>
-</view>
-<view class="container-btns">
-    <view class="btn btn-share">SHARE</view>
-    <view class="btn btn-complete" bindtap="completeWorkout">COMPLETE</view>
 </view>
