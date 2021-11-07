@@ -139,10 +139,10 @@ Page({
             description: this.data.description
         }
 
-        console.log(details);
-
         workout.set(details).save().then(res => {
-            console.log(res);
+            let workoutId = res.data.id;
+            let userId = res.data.created_by;
+            this.setAttendee(workoutId, userId);
             wx.hideLoading();
             wx.showToast({
                 title: 'Success!', 
@@ -161,6 +161,15 @@ Page({
                 duration: 1500, 
             })
         })
+    },
+
+    setAttendee: function (workoutId, userId) {
+        let Attendees = new wx.BaaS.TableObject('attendees');
+        let attendee = Attendees.create();
+
+        let details = {user: userId, workout: workoutId}
+
+        attendee.set(details).save().then(res => console.log(res))
     },
 
     onLoad: function () {
