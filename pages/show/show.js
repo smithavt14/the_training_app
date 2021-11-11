@@ -12,7 +12,7 @@ Page({
     
     // ----- Lifecycle Functions -----
     onLoad: function (options) {
-        this.getUser();
+        this.getCurrentUser();
         this.getWorkout(options.id);
     },
 
@@ -23,28 +23,65 @@ Page({
 
         Workout.get(id).then(res => {
             let workout = res.data;
-            let options = {weekday: "long", month: "long", day: "numeric"};
+            let dateOptions = {weekday: "long", month: "long", day: "numeric"}
+            let timeOptions = {hour: 'numeric', minute: '2-digit'}
 
-            workout.date_time = new Date(workout.date_time).toLocaleDateString('en-us', options);
+            workout.date = new Date(workout.date_time).toLocaleDateString('en-us', dateOptions);
+            workout.time = new Date(workout.date_time).toLocaleTimeString('en-us', timeOptions);
+
+            workout.name = workout.name.toUpperCase();
             
-            this.setData({workout: res.data});
-            this.getAttendees(res.data.id);
-            // this.getReviews(res.data.id);
+            this.setData({workout});
+            this.getAttendees(workout.id);
         })
     },
 
-    completeWorkout: function (e) {
-        const attendees = this.data.attendees; 
-        const myAttendee = attendees.find(attendee => attendee.is_user);
-
-        myAttendee['is_complete'] = true;
-
-        this.setData({attendees})
+    getCurrentUser: function () {
+        wx.getStorage({
+            key: 'user',
+            success: (res) => {
+                let user = res.data
+                this.setData({user});
+            },
+            fail: async () => {
+                let user = await this.loginWithWeChat();
+                this.setData({user});
+            }
+        })
     },
 
-    getUser: function () {
-        const user = wx.getStorageSync('user');
-        this.setData({user});
+    updateUserInformation: function () {
+        const _getLoginCode = new Promise(resolve => {
+            wx.login({
+                success: res => resolve(res.code)
+            })
+        })
+      
+        const _getUserProfile = new Promise(resolve => {
+            wx.getUserProfile({
+                desc: '获取用户信息',
+                success: res => resolve(res)
+            })
+        })
+
+        Promise.all([_getLoginCode, _getUserProfile]).then(result => {
+            const [code, userProfile] = result
+            wx.BaaS.auth.updateUserInfo(userProfile, {code}).then(user => {
+              wx.setStorageSync('user');
+              this.setData(user);
+            }, err => {
+                console.log(err);
+            })
+        })
+    },
+    
+    loginWithWeChat: function () {
+        return new Promise(resolve => {
+            wx.BaaS.auth.loginWithWechat().then(res => {
+                wx.setStorageSync('user', {id: res.id});
+                resolve(user);
+            })
+        })
     },
 
     getAttendees: function (id) {
@@ -54,27 +91,43 @@ Page({
         query.compare('workout', '=', id);
 
         Attendees.setQuery(query).expand(['user']).find().then(res => {
-            const attendees = res.data.objects;
+            let createdBy = this.data.workout.created_by
+            let attendees = res.data.objects;
             
-            // Identify whether user is an attendee
-            const user = wx.getStorageSync('user');
-            const myAttendee = attendees.find(attendee => attendee.user.id === user.id);
-            if (myAttendee) myAttendee['is_user'] = true;
-            if (myAttendee) myAttendee['is_user'] = true;
+            // Identify whether user is an attendee;
+            const user = this.data.user;
+            user['is_attending'] = attendees.some(attendee => attendee.user.id === user.id);
+            
+            // Find the creator, separate him from the attendee list; 
+            const index = attendees.findIndex(attendee => attendee.user.id === createdBy);
+            const creator = attendees[index];
+            attendees.splice(0, 1);
 
-            // Create local data variable to easily access info
-            const is_user = !!myAttendee;
+            // Check if user is creator; 
+            if (creator) {
+                user['is_creator'] = creator.user.id === user.id; 
+            } else  {
+                user['is_creator'] = false
+            }
 
-            // Set whether or not the workout it complete
-            const is_complete =  myAttendee['is_complete']
-
-            this.setData({attendees, is_complete, is_user})
-
-            wx.pageScrollTo({
-                scrollTop: 100,
-                duration: 300
-            })
+            this.setData({attendees, user, creator})
         })
+    },
+
+    createAttendee: function () {
+        let workout = this.data.workout;
+        let user = this.data.user;
+        
+        let Attendees = new wx.BaaS.TableObject('attendees');
+        let attendee = Attendees.create();
+
+        let details = {user: user.id, workout: workout.id}
+
+        attendee.set(details).save().then(res => {
+            wx.showModal({title: 'Success!', icon: 'success'})
+            console.log(res);
+            this.getAttendees(workout.id);
+        });
     },
 
     toggleContainer: function (e) {

@@ -1,11 +1,45 @@
 <view class="page__container">
     <view 
     class="container-header" 
-    style="background-image: url('{{illustrations[workout.category]}}')">
+    style="background-image: linear-gradient(0deg, rgba(0,0,0,0.25), rgba(0,0,0,0.25)), url('{{illustrations[workout.category]}}')">
         {{workout.name}}
     </view>
 
+    <view class="container-info">
+        <view class="flex">
+            <image class="icon" src="/icons/time.png"/>
+            <view class="text">{{workout.time}}</view>
+        </view>
+        <view class="flex margin-32">
+            <image class="icon" src="/icons/date.png"/>
+            <view class="text">{{workout.date}}</view>
+        </view>
+        <view class="flex">
+            <image class="icon" src="/icons/location.png"/>
+            <view class="text">{{workout.location.address}}</view>
+        </view>
+    </view>
+
+    <view class="container-info">
+        <view class="title">WHO'S GOING</view>
+        <view class="box-avatars">
+            <image wx:if="{{creator}}" class="avatar" src="{{creator.user.avatar}}"/>
+            <view wx:if="{{creator && !!attendees[0]}}" class="line-vertical"/>
+            <block wx:for="{{attendees}}" wx:for-item="attendee">
+                <image class="avatar" src="{{attendee.user.avatar}}"/>
+            </block>
+        </view>
+    </view>
+
+    <view class="container-info">
+        <view class="area-description">
+            {{workout.description}}
+        </view>
+    </view>
+
     <view class="container-btn">
-        <view class="btn btn-primary">JOIN</view>
+        <view class="btn btn-share" style="background-image: url({{illustrations[workout.category]}})" bindtap="share">SHARE</view>
+        <view wx:if="{{!user.is_attending && !user.is_creator}}" class="btn btn-primary" bindtap="createAttendee">JOIN</view>
+        <view wx:if="{{user.is_attending}}" class="btn btn-cancel" bindtap="removeAttendee">CANCEL</view>
     </view>
 </view>

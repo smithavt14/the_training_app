@@ -1,5 +1,12 @@
 Page({
     data: {
+        illustrations: {
+            'Swim': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYzx5mqh3pVD.png', 
+            'Metcon': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYEeHJPcDdfX.png',
+            'Yoga': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYx63uokqkjo.png',
+            'Run': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5ZMcoe8pvcs.png',
+            'Track': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5UlV4LLKSC1.png'
+        },
         category: {
             active: false,
             items: ['Run', 'Metcon', 'Track', 'Yoga', 'Swim']
@@ -14,8 +21,9 @@ Page({
     }, 
     
     changeCategory: function (e) {
+        const categories = this.data.category.items
         const active = e.detail.value;
-        this.setData({'category.active': active})
+        this.setData({'category.active': categories[active]})
         this.validate();
     },
 
@@ -133,7 +141,7 @@ Page({
         
         let details = {
             name: this.data.name, 
-            category: this.data.category.items[this.data.category.active],
+            category: this.data.category.active.toLowerCase(),
             date_time,
             location: this.data.location,
             description: this.data.description

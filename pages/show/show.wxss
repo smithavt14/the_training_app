@@ -1,5 +1,76 @@
+.page__container {
+    padding-top: 320rpx;
+    padding-bottom: 232rpx;
+}
+
 .container-header {
-    height: 240rpx;
+    height: 320rpx;
     background-size: cover;
+    background-position: 50% 75%;
     color: white;
+    text-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+    font-size: 40rpx;
+    font-weight: bold;
+}
+
+.container-info {
+    background: white;
+    margin: 32rpx 0;
+    padding: 32rpx 32rpx;
+    box-sizing: border-box;
+    border-radius: 4px; 
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.25);
+    font-size: 14px;
+}
+
+.container-info > .flex {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.container-info > .margin-32 {
+    margin: 32rpx 0;
+}
+
+.container-info > .flex > .icon {
+    height: 48rpx;
+    width: 48rpx;
+    margin-right: 16rpx;
+}
+
+.container-info > .box-avatars {
+    display: flex;
+    align-items: center;
+}
+
+.container-info > .box-avatars > .avatar {
+    height: 96rpx;
+    width: 96rpx;
+    border-radius: 50%;
+    margin: 32rpx 16rpx 0 0;
+}
+
+.container-info > .box-avatars > .line-vertical {
+    height: 96rpx;
+    width: 1px;
+    background: lightgray;
+    margin: 32rpx 16rpx 0 0;
+}
+
+.container-info > .area-description {
+    color: #616161;
+    min-height: 360rpx;
+}
+
+.container-btn > .btn-share {
+    background-size: 500%;
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+    background-position: bottom;
+}
+
+.container-btn > .btn-cancel {
+    background: white;
+    border: 1px solid black;
 }

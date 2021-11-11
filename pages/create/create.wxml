@@ -5,14 +5,21 @@
         <image class="icon" src="/icons/name.png" />
         <input class="input" bindinput="changeName" type="text" placeholder="INPUT YOUR WORKOUT NAME"/>
     </view>
+    
     <view class="input-container">
         <image class="icon" src="/icons/category.png" />
         <picker class="input" bindchange="changeCategory" range="{{category.items}}" value="{{index}}">
-            <view wx:if="{{category.active}}" class="input-picker">{{category.items[category.active]}}</view>
+            <view wx:if="{{category.active}}" class="input-picker">{{category.active}}</view>
             <view wx:else class="input-picker" style="color: gray;">CHOOSE YOUR CATEGORY</view>
         </picker>
     </view>
-    <image wx:if="{{category.active}}" class="input-container img-category" mode="aspectFill" src="/illustrations/{{category.items[category.active]}}.png"/>
+
+    <image 
+    wx:if="{{category.active}}" 
+    class="input-container img-category" 
+    mode="aspectFill" 
+    src="{{illustrations[category.active]}}"/>
+    
     <view class="input-container" style="display: block">
         <view class="section">
             <image class="icon" src="/icons/date.png" />
@@ -44,7 +51,10 @@
             <image class="icon" src="/icons/wechat-white.png"/>
         </view>
         <view wx:if="{{user.is_authorized && !validated}}" class="btn btn-ghost">INCOMPLETE</view>
-        <view wx:if="{{user.is_authorized && validated}}" class="btn btn-primary" bindtap="submitWorkout">SUBMIT</view>
+        <view 
+        wx:if="{{user.is_authorized && validated}}" 
+        class="btn btn-primary" 
+        bindtap="{{user.is_authorized ? submitWorkout : updateUserInformation}}">SUBMIT</view>
     </view>
     
 </view>
