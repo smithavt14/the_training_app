@@ -1,14 +1,10 @@
+const _auth = require('/utils/auth.js')
+
 App({
   onLaunch: function() {
     wx.BaaS = requirePlugin('sdkPlugin')
-    //让插件帮助完成登录、支付等功能
-    wx.BaaS.wxExtend(wx.login,
-     wx.getUserInfo,
-     wx.requestPayment)
-
+    wx.BaaS.wxExtend(wx.login, wx.getUserInfo)
     wx.BaaS.init('a7b1c8f99027c47a7afb')
-    wx.BaaS.auth.loginWithWechat().then(res => {
-      wx.setStorageSync('user', res);
-    })
+    _auth.getCurrentUser()
   },
 })
