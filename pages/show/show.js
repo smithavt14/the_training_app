@@ -1,3 +1,7 @@
+const _auth = require('../../utils/auth.js')
+const _workout = require('../../utils/workout.js')
+const _attendee = require('../../utils/attendee.js')
+
 Page({
     data: {
         toggleContainer: false, 
@@ -9,45 +13,28 @@ Page({
             track: 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5UlV4LLKSC1.png'
         }
     },
+
+    // ----- Navigation Functions -----
+
+    navigateHome: function () {
+        wx.redirectTo({ url: '/pages/index/index' })
+    },
     
     // ----- Lifecycle Functions -----
-    onLoad: function (options) {
-        this.getCurrentUser();
-        this.getWorkout(options.id);
+    onLoad: async function (options) {
+        const user = await _auth.getCurrentUser()
+        const workout = await _workout.fetchWithID(options.id)
+        const data = await _attendee.findAll(workout, user)
+        this.setData(data)
     },
 
+    // ----- Workout Functions -----
+    
     // ----- Custom Functions -----
 
-    getWorkout: function (id) {
-        const Workout = new wx.BaaS.TableObject('workouts')
-
-        Workout.get(id).then(res => {
-            let workout = res.data;
-            let dateOptions = {weekday: "long", month: "long", day: "numeric"}
-            let timeOptions = {hour: 'numeric', minute: '2-digit'}
-
-            workout.date = new Date(workout.date_time).toLocaleDateString('en-us', dateOptions);
-            workout.time = new Date(workout.date_time).toLocaleTimeString('en-us', timeOptions);
-
-            workout.name = workout.name.toUpperCase();
-            
-            this.setData({workout});
-            this.getAttendees(workout.id);
-        })
-    },
-
-    getCurrentUser: function () {
-        wx.getStorage({
-            key: 'user',
-            success: (res) => {
-                let user = res.data
-                this.setData({user});
-            },
-            fail: async () => {
-                let user = await this.loginWithWeChat();
-                this.setData({user});
-            }
-        })
+    getWorkout: async function (id) {
+        let workout = _auth.fetchWithID(id)
+        this.setData({workout})
     },
 
     updateUserInformation: function () {
@@ -84,50 +71,18 @@ Page({
         })
     },
 
-    getAttendees: function (id) {
-        let Attendees = new wx.BaaS.TableObject('attendees');
-        let query = new wx.BaaS.Query();
-
-        query.compare('workout', '=', id);
-
-        Attendees.setQuery(query).expand(['user']).find().then(res => {
-            let createdBy = this.data.workout.created_by
-            let attendees = res.data.objects;
-            
-            // Identify whether user is an attendee;
-            const user = this.data.user;
-            user['is_attending'] = attendees.some(attendee => attendee.user.id === user.id);
-            
-            // Find the creator, separate him from the attendee list; 
-            const index = attendees.findIndex(attendee => attendee.user.id === createdBy);
-            const creator = attendees[index];
-            attendees.splice(0, 1);
-
-            // Check if user is creator; 
-            if (creator) {
-                user['is_creator'] = creator.user.id === user.id; 
-            } else  {
-                user['is_creator'] = false
-            }
-
-            this.setData({attendees, user, creator})
-        })
+    createAttendee: async function () {
+        let user = this.data.user
+        let workout = this.data.workout
+        
+        await _attendee.create(user, workout)
+        
+        const data = await _attendee.findAll(workout, user)
+        this.setData(data)
     },
 
-    createAttendee: function () {
-        let workout = this.data.workout;
-        let user = this.data.user;
-        
-        let Attendees = new wx.BaaS.TableObject('attendees');
-        let attendee = Attendees.create();
-
-        let details = {user: user.id, workout: workout.id}
-
-        attendee.set(details).save().then(res => {
-            wx.showModal({title: 'Success!', icon: 'success'})
-            console.log(res);
-            this.getAttendees(workout.id);
-        });
+    removeAttendee: async function () {
+        let attendee = this.attendee
     },
 
     toggleContainer: function (e) {

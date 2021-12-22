@@ -11,6 +11,15 @@
     text-shadow: 0px 4px 4px rgba(0,0,0,0.25);
     font-size: 40rpx;
     font-weight: bold;
+    padding-top: 120rpx;
+}
+
+.container-header > .btn-back {
+    position: fixed;
+    top: 6%;
+    left: 5%;
+    height: 64rpx;
+    width: 64rpx;
 }
 
 .container-info {

@@ -59,17 +59,18 @@ const sort = (workouts) => {
 
 const fetchWithID = (id) => {
   return new Promise(resolve => {
-    let query = new wx.BaaS.Query()
-    let Story = new wx.BaaS.TableObject('story')
+    const Workout = new wx.BaaS.TableObject('workouts')
+    Workout.get(id).then(res => {
+      let workout = res.data;
+      let dateOptions = {weekday: "long", month: "long", day: "numeric"}
+      let timeOptions = {hour: 'numeric', minute: '2-digit'}
 
-    query.compare('id', '=', id)
+      workout.date = new Date(workout.date_time).toLocaleDateString('en-us', dateOptions);
+      workout.time = new Date(workout.date_time).toLocaleTimeString('en-us', timeOptions);
 
-    Story.setQuery(query).find().then(res => {
-      let story = res.data.objects[0]
-      story.content = story.content.split('/n')
-      resolve(story)
-    }, err => {
-      resolve(err)
+      workout.name = workout.name.toUpperCase();
+      
+      resolve(workout)
     })
   })
 }
