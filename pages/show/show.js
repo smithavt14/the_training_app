@@ -19,57 +19,15 @@ Page({
     navigateHome: function () {
         wx.redirectTo({ url: '/pages/index/index' })
     },
-    
-    // ----- Lifecycle Functions -----
-    onLoad: async function (options) {
-        const user = await _auth.getCurrentUser()
-        const workout = await _workout.fetchWithID(options.id)
-        const data = await _attendee.findAll(workout, user)
-        this.setData(data)
-    },
 
     // ----- Workout Functions -----
-    
-    // ----- Custom Functions -----
 
     getWorkout: async function (id) {
         let workout = _auth.fetchWithID(id)
         this.setData({workout})
     },
 
-    updateUserInformation: function () {
-        const _getLoginCode = new Promise(resolve => {
-            wx.login({
-                success: res => resolve(res.code)
-            })
-        })
-      
-        const _getUserProfile = new Promise(resolve => {
-            wx.getUserProfile({
-                desc: '获取用户信息',
-                success: res => resolve(res)
-            })
-        })
-
-        Promise.all([_getLoginCode, _getUserProfile]).then(result => {
-            const [code, userProfile] = result
-            wx.BaaS.auth.updateUserInfo(userProfile, {code}).then(user => {
-              wx.setStorageSync('user');
-              this.setData(user);
-            }, err => {
-                console.log(err);
-            })
-        })
-    },
-    
-    loginWithWeChat: function () {
-        return new Promise(resolve => {
-            wx.BaaS.auth.loginWithWechat().then(res => {
-                wx.setStorageSync('user', {id: res.id});
-                resolve(user);
-            })
-        })
-    },
+    // ----- Attendee Functions -----
 
     createAttendee: async function () {
         let user = this.data.user
@@ -85,9 +43,25 @@ Page({
         let attendee = this.attendee
     },
 
+    // ----- Auth functions -----
+    updateUserInformation: async function () {
+        let user = await _auth.updateUserInfo()
+        console.log(user)
+    },
+    
+    // ----- Custom Functions -----
+
     toggleContainer: function (e) {
         let binary = parseInt(e.currentTarget.dataset.binary)
         let toggleContainer = !!binary
         this.setData({toggleContainer})
-    }
+    }, 
+
+    // ----- Lifecycle Functions -----
+    onLoad: async function (options) {
+        const user = await _auth.getCurrentUser()
+        const workout = await _workout.fetchWithID(options.id)
+        const data = await _attendee.findAll(workout, user)
+        this.setData(data)
+    },
 })
