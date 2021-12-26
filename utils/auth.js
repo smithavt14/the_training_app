@@ -33,10 +33,11 @@ const updateUserInfo = () => {
 
   Promise.all([_getLoginCode, _getUserProfile]).then(result => {
     const [code, userProfile] = result
-    wx.BaaS.auth.updateUserInfo(userProfile, {code}).then(res => {
-      console.log(res);
+    wx.BaaS.auth.updateUserInfo(userProfile, {code}).then(user => {
+      wx.setStorageSync('user', user)
+      resolve(user)
     }, err => {
-      console.log(err);
+      resolve(err);
     })
   })
 }

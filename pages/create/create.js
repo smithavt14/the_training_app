@@ -135,6 +135,11 @@ Page({
         })
     },
 
+    updateUserInformation: async function () {
+        let user = await _auth.updateUserInfo()
+        this.setData({user})
+    },
+
     setAttendee: function (workoutId, userId) {
         let Attendees = new wx.BaaS.TableObject('attendees');
         let attendee = Attendees.create();

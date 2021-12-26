@@ -64,4 +64,13 @@ Page({
         const data = await _attendee.findAll(workout, user)
         this.setData(data)
     },
+
+    onShareAppMessage: function () {
+        let title = this.data.workout.name
+        let date = this.data.workout.date
+        let id = this.data.workout.id
+        let imageUrl = this.data.illustrations[this.data.workout.category]
+
+        return { title: `${title} (${date})`, path: `/page/show?id=${id}`, imageUrl }
+    }
 })
