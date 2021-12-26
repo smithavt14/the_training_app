@@ -5,26 +5,76 @@ const findAll = (workout, user) => {
     
         query.compare('workout', '=', workout.id);
     
-        Attendees.setQuery(query).expand(['user']).find().then(res => {
-            let createdBy = workout.created_by
-            let attendees = res.data.objects;
+        Attendees.setQuery(query).expand('user').select(['user.avatar', 'user.nickname', 'user.id']).find().then(res => {
+            let attendees = res.data.objects
             
             // Identify whether user is an attendee;
-            user['is_attending'] = attendees.some(attendee => attendee.user.id === user.id);
-            
-            // Find the creator, separate him from the attendee list; 
-            const index = attendees.findIndex(attendee => attendee.user.id === createdBy);
-            const creator = attendees[index];
-            attendees.splice(0, 1);
-    
-            // Check if user is creator; 
-            if (creator) {
-                user['is_creator'] = creator.user.id === user.id; 
-            } else  {
-                user['is_creator'] = false
-            }
-            resolve({attendees, user, creator, workout})
+            user['is_attending'] = attendees.some(attendee => attendee.user.id === user.id)
+
+            resolve({attendees, user, workout})
         })
+    })
+}
+
+const fetchAllWithWorkout = (user) => {
+    return new Promise(resolve => {
+      let Attendees = new wx.BaaS.TableObject('attendees')
+      let id = user.id
+      let query = new wx.BaaS.Query()
+    
+      query.compare('user', '=', id)
+    
+      Attendees.setQuery(query).limit(20).expand('workout').orderBy(['-workout.date_time']).find().then(async res => {
+        let workouts = res.data.objects.map(attendee => attendee.workout)
+        let trainingDates = await sort(workouts)
+        resolve(trainingDates)
+      })
+    })
+}
+
+const sort = (workouts) => {
+    return new Promise(resolve => {
+      let trainingDates = []
+      let dateOptions = {weekday: "long", month: "long", day: "numeric"}
+      let timeOptions = {hour: 'numeric', minute: '2-digit'}
+      let today = new Date().toLocaleDateString([], dateOptions)
+  
+      workouts.forEach((workout) => {
+        // -- Turn date to a locale date string
+        let date = new Date(workout.date_time).toLocaleDateString('en-us', dateOptions)
+        let time = new Date(workout.date_time).toLocaleTimeString('en-us', timeOptions)
+        // -- Add time to the workout
+        workout['time'] = time
+        workout['date'] = date
+        // -- Check to see if this workout's day already exists in the trainingDates array
+        let existing_date = trainingDates.find(workout => workout.date === date);
+
+        // -- Indicate whether workout is in the past or not -- 
+        workout['completed'] = new Date(workout.date_time) < new Date()
+        
+        // -- Push workouts into calendar dates --
+        if (existing_date) {
+          existing_date['workouts'].push(workout);
+        } else {
+          trainingDates.push({date, workouts: [workout]});
+        }
+      });
+  
+      // Check if today's date exists in the array; 
+      let today_date = trainingDates.find(workout => workout.date == today);
+      
+      if (today_date) {
+        today_date['today'] = true
+      } else {
+        trainingDates.push({date: today, today: true});
+      }
+  
+      // Sort the array
+      trainingDates = trainingDates.sort((a, b) => new Date(b.date) - new Date(a.date))
+      
+      // resolve
+      console.log('end of sort', trainingDates)
+      resolve(trainingDates)
     })
 }
 
@@ -49,4 +99,4 @@ const remove = (attendee) => {
     })
 }
 
-module.exports = { findAll, create, remove }
+module.exports = { findAll, fetchAllWithWorkout, create, remove }

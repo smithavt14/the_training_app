@@ -1,3 +1,5 @@
+const _auth = require('../../utils/auth.js')
+
 Page({
     data: {
         illustrations: {
@@ -93,46 +95,8 @@ Page({
         }
     },
 
-    getCurrentUser: function () {
-        wx.getStorage({
-            key: 'user',
-            success: (res) => {
-                let user = res.data;
-                this.setData({user});
-            },
-            fail: async () => {
-                let user = await this.loginWithWeChat();
-                this.setData({user})
-            }
-        })
-    },
-
-    updateUserInformation: function () {
-        const _getLoginCode = new Promise(resolve => {
-            wx.login({
-                success: res => resolve(res.code)
-            })
-        })
-      
-        const _getUserProfile = new Promise(resolve => {
-            wx.getUserProfile({
-                desc: '获取用户信息',
-                success: res => resolve(res)
-            })
-        })
-
-        Promise.all([_getLoginCode, _getUserProfile]).then(result => {
-            const [code, userProfile] = result
-            wx.BaaS.auth.updateUserInfo(userProfile, {code}).then(user => {
-              wx.setStorageSync('user');
-              this.setData(user);
-            }, err => {
-                console.log(err);
-            })
-        })
-    },
-
     submitWorkout: function () {
+        console.log('submitWorkout')
         wx.showLoading({ title: 'Uploading' })
 
         let Workouts = new wx.BaaS.TableObject('workouts');
@@ -180,8 +144,9 @@ Page({
         attendee.set(details).save().then(res => console.log(res))
     },
 
-    onLoad: function () {
-        this.getCurrentUser();
+    onLoad: async function () {
+        let user = await _auth.getCurrentUser()
+        this.setData({user});
         this.setDate();
     }
 })

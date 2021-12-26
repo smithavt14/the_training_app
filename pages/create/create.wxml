@@ -54,7 +54,7 @@
         <view 
         wx:if="{{user.is_authorized && validated}}" 
         class="btn btn-primary" 
-        bindtap="{{user.is_authorized ? submitWorkout : updateUserInformation}}">SUBMIT</view>
+        bindtap="submitWorkout">SUBMIT</view>
     </view>
     
 </view>

@@ -1,17 +1,22 @@
 <view class="page__container">
 
-  <view class="container-header">
-    TRAINING
+  <view bindtap="scrollToTop" class="container-header">
+    TRAINING SCHEDULE
   </view>
 
-  <view class="btn-today btn-today-popout" bindtap="scrollToToday">TODAY</view>
+  <!-- <view class="btn-today btn-today-popout" bindtap="scrollToToday">TODAY</view> -->
 
-  <view wx:for="{{trainingDates}}" wx:for-item="trainingDay">
+  <view wx:for="{{trainingDates}}" wx:key="id" wx:for-item="trainingDay">
     <view class="date" id="{{ trainingDay.today ? 'today' : '' }}">{{trainingDay.date}}</view>
-    
+  
     <view wx:if="{{trainingDay.today}}" class="empty-message">NO WORKOUTS TODAY. REST AND ENJOY!</view>
     
-    <view wx:for="{{trainingDay.workouts}}" wx:for-item="workout" class="workout-card-white" data-id="{{workout.id}}" bindtap="navigateToShow">
+    <view 
+    wx:for="{{trainingDay.workouts}}" 
+    wx:key="id" wx:for-item="workout" 
+    class="workout-card-white {{workout.completed ? 'completed' : '' }}" 
+    data-id="{{workout.id}}" 
+    bindtap="navigateToShow">
       
       <image class="icon" src="/icons/{{workout.category}}.png"/>
       

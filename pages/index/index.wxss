@@ -17,6 +17,10 @@
   margin: 16px 0;
 }
 
+.completed {
+  opacity: .5
+}
+
 .workout-card-white > .icon {
   height: 64rpx;
   width: 64rpx;

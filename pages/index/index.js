@@ -1,5 +1,5 @@
 const _auth = require('../../utils/auth.js')
-const _workout = require('../../utils/workout.js')
+const _attendee = require('../../utils/attendee.js')
 
 Page({
 
@@ -21,16 +21,15 @@ Page({
   // ----- Workout Functions -----
 
   getAllWorkouts: async function (user) {
-    let trainingDates = await _workout.fetchAll(user)
+    let trainingDates = await _attendee.fetchAllWithWorkout(user)
     this.setData({trainingDates})
-    this.scrollToToday()
   },
 
   // ----- Display Functions -----
 
-  scrollToToday: function () {
+  scrollToTop: function () {
     wx.pageScrollTo({
-      selector: '#today',
+      scrollTop: 0,
       duration: 300,
       success: res => console.log(res),
       fail: err => console.log(err)

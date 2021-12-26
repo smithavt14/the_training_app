@@ -24,10 +24,10 @@
     <view class="container-info">
         <view class="title">WHO'S GOING</view>
         <view class="box-avatars">
-            <image wx:if="{{creator}}" class="avatar" src="{{creator.user.avatar}}"/>
-            <view wx:if="{{creator && !!attendees[0]}}" class="line-vertical"/>
+            <image class="avatar" src="{{workout.created_by.avatar}}"/>
+            <view class="line-vertical"/>
             <block wx:for="{{attendees}}" wx:for-item="attendee">
-                <image class="avatar" src="{{attendee.user.avatar}}"/>
+                <image wx:if="{{attendee.user.id != workout.created_by.id}}" class="avatar" src="{{attendee.user.avatar}}"/>
             </block>
         </view>
     </view>
