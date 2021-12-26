@@ -18,28 +18,31 @@ const getCurrentUser = () => {
 }
 
 const updateUserInfo = () => {
-  const _getLoginCode = new Promise(resolve => {
-    wx.login({
-      success: res => resolve(res.code)
+  return new Promise(resolve => {
+    const _getLoginCode = new Promise(resolve => {
+      wx.login({
+        success: res => resolve(res.code)
+      })
+    })
+  
+    const _getUserProfile = new Promise(resolve => {
+      wx.getUserProfile({
+        desc: '获取用户信息',
+        success: res => resolve(res)
+      })
+    })
+  
+    Promise.all([_getLoginCode, _getUserProfile]).then(result => {
+      const [code, userProfile] = result
+      wx.BaaS.auth.updateUserInfo(userProfile, {code}).then(user => {
+        wx.setStorageSync('user', user)
+        resolve(user)
+      }, err => {
+        resolve(err);
+      })
     })
   })
-
-  const _getUserProfile = new Promise(resolve => {
-    wx.getUserProfile({
-      desc: '获取用户信息',
-      success: res => resolve(res)
-    })
-  })
-
-  Promise.all([_getLoginCode, _getUserProfile]).then(result => {
-    const [code, userProfile] = result
-    wx.BaaS.auth.updateUserInfo(userProfile, {code}).then(user => {
-      wx.setStorageSync('user', user)
-      resolve(user)
-    }, err => {
-      resolve(err);
-    })
-  })
+  
 }
 
 const login = (data) => {
