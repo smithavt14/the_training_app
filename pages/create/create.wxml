@@ -37,7 +37,8 @@
         </view>
         <view class="section">
             <image class="icon" src="/icons/location.png" />
-            <view class="input" bindtap="changeLocation" style="color: {{location ? '#232323' : 'gray'}}">{{location ? location.address : 'CHOOSE YOUR LOCATION'}}</view>
+            <view wx:if="{{user.is_authorized}}"class="input" bindtap="changeLocation" style="color: {{location ? '#232323' : 'gray'}}">{{location ? location.address : 'CHOOSE YOUR LOCATION'}}</view>
+            <view wx:else class="input" bindtap="updateUserInformation" style="color: {{location ? '#232323' : 'gray'}}">{{location ? location.address : 'CHOOSE YOUR LOCATION'}}</view>
         </view>
     </view>
 
