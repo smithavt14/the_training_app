@@ -39,7 +39,7 @@
     </view>
 
     <view class="container-btn">
-        <view class="btn btn-share" style="background-image: url({{illustrations[workout.category]}})" bindtap="share">SHARE</view>
+        <button class="btn btn-share" style="background-image: url({{illustrations[workout.category]}})" open-type="share">SHARE</button>
         <view wx:if="{{!user.is_attending && user.id != workout.created_by.id}}" class="btn btn-primary" bindtap="createAttendee">JOIN</view>
         <view wx:if="{{user.is_attending && user.id != workout.created_by.id}}" class="btn btn-cancel" bindtap="removeAttendee">CANCEL</view>
     </view>

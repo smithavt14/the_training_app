@@ -35,18 +35,34 @@ Page({
         
         await _attendee.create(user, workout)
         
-        const data = await _attendee.findAll(workout, user)
+        const data = await _attendee.findAllForWorkout(workout, user)
         this.setData(data)
     },
 
     removeAttendee: async function () {
-        let attendee = this.attendee
+        let user = this.data.user
+        let workout = this.data.workout
+
+        if (user.is_attending) {
+            wx.showModal({
+                title: 'Training Cancellation',
+                content: 'Are you sure you want to cancel?',
+                cancelText: 'Go Back',
+                confirmText: 'Confirm',
+                success: async () => {
+                    await _attendee.remove(user.attendee)
+                    const data = await _attendee.findAllForWorkout(workout, user)
+                    this.setData(data)
+                }
+            })
+            
+        }
     },
 
     // ----- Auth functions -----
     updateUserInformation: async function () {
         let user = await _auth.updateUserInfo()
-        console.log(user)
+        this.setData({user})
     },
     
     // ----- Custom Functions -----
@@ -61,7 +77,7 @@ Page({
     onLoad: async function (options) {
         const user = await _auth.getCurrentUser()
         const workout = await _workout.fetchWithID(options.id)
-        const data = await _attendee.findAll(workout, user)
+        const data = await _attendee.findAllForWorkout(workout, user)
         this.setData(data)
     },
 
@@ -71,6 +87,6 @@ Page({
         let id = this.data.workout.id
         let imageUrl = this.data.illustrations[this.data.workout.category]
 
-        return { title: `${title} (${date})`, path: `/page/show?id=${id}`, imageUrl }
+        return { title: `${title} (${date})`, path: `/pages/show/show?id=${id}`, imageUrl }
     }
 })

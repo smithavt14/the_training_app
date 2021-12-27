@@ -21,7 +21,7 @@ Page({
   // ----- Workout Functions -----
 
   getAllWorkouts: async function (user) {
-    let trainingDates = await _attendee.fetchAllWithWorkout(user)
+    let trainingDates = await _attendee.fetchAllForUser(user)
     this.setData({trainingDates})
   },
 

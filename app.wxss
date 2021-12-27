@@ -54,12 +54,14 @@
 .btn {
   border-radius: 4px;
   height: 128rpx;
-  width: 100%;
+  width: 35% !important;
   font-weight: bold;
-  margin: 0 40rpx;
+  margin: 0 40rpx !important;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-grow: 1;
+  flex-shrink: 0;
 }
 
 .btn-primary {
