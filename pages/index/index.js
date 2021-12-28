@@ -1,5 +1,6 @@
 const _auth = require('../../utils/auth.js')
 const _attendee = require('../../utils/attendee.js')
+const _workout = require('../../utils/workout.js')
 
 Page({
 
@@ -21,7 +22,8 @@ Page({
   // ----- Workout Functions -----
 
   getAllWorkouts: async function (user) {
-    let trainingDates = await _attendee.fetchAllForUser(user)
+    let workouts = await _attendee.fetchAllForUser(user)
+    let trainingDates = await _workout.setTrainingDates(workouts)
     this.setData({trainingDates})
   },
 

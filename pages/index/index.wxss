@@ -54,6 +54,10 @@
   padding-left: 16rpx;
 }
 
+.date-today {
+  font-weight: bold; 
+}
+
 /* --- Buttons --- */
 
 .btn-today {

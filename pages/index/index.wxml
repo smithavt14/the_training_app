@@ -7,9 +7,9 @@
   <!-- <view class="btn-today btn-today-popout" bindtap="scrollToToday">TODAY</view> -->
 
   <view wx:for="{{trainingDates}}" wx:key="id" wx:for-item="trainingDay">
-    <view class="date" id="{{ trainingDay.today ? 'today' : '' }}">{{trainingDay.date}}</view>
+    <view class="date {{ trainingDay.today ? 'date-today' : '' }}">{{trainingDay.today ? 'Today: ' : ''}}{{trainingDay.date}}</view>
   
-    <view wx:if="{{trainingDay.today}}" class="empty-message">NO WORKOUTS TODAY. REST AND ENJOY!</view>
+    <view wx:if="{{trainingDay.today && !trainingDay.workouts}}" class="empty-message">NO WORKOUTS TODAY. REST AND ENJOY!</view>
     
     <view 
     wx:for="{{trainingDay.workouts}}" 
@@ -26,7 +26,7 @@
       </view>
       
       <view class="attendee-container">
-        <image class="avatar" src="/avatar.png"/>
+        <image class="avatar" src="{{workout.creator || '/avatar.png'}}"/>
       </view>
     </view>
   </view>
