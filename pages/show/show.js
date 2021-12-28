@@ -27,6 +27,19 @@ Page({
         this.setData({workout})
     },
 
+    // ----- Location Functions -----
+    openLocation: function () {
+        let location = this.data.workout.location
+        
+        wx.openLocation({
+            latitude: location.latitude,
+            longitude: location.longitude,
+            name: location.name,
+            address: location.address,
+            scale: 10
+        })
+    },
+
     // ----- Attendee Functions -----
 
     createAttendee: async function () {
@@ -65,8 +78,7 @@ Page({
         this.setData({user})
     },
     
-    // ----- Custom Functions -----
-
+    // ----- Custom Functions ----
     toggleContainer: function (e) {
         let binary = parseInt(e.currentTarget.dataset.binary)
         let toggleContainer = !!binary

@@ -15,7 +15,7 @@
             <image class="icon" src="/icons/date.png"/>
             <view class="text">{{workout.date}}</view>
         </view>
-        <view class="flex">
+        <view class="flex" bindtap="openLocation">
             <image class="icon" src="/icons/location.png"/>
             <view class="text">{{workout.location.address}}</view>
         </view>
