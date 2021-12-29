@@ -51,7 +51,9 @@
   height: 64rpx;
   width: 64rpx;
   flex-shrink: 0;
-  padding-left: 16rpx;
+  margin-left: 16rpx;
+  box-sizing: border-box;
+  border-radius: 50%;
 }
 
 .date-today {

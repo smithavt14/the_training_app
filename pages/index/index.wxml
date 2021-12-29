@@ -4,33 +4,34 @@
     TRAINING SCHEDULE
   </view>
 
-  <!-- <view class="btn-today btn-today-popout" bindtap="scrollToToday">TODAY</view> -->
-
-  <view wx:for="{{trainingDates}}" wx:key="id" wx:for-item="trainingDay">
-    <view class="date {{ trainingDay.today ? 'date-today' : '' }}">{{trainingDay.today ? 'Today: ' : ''}}{{trainingDay.date}}</view>
-  
-    <view wx:if="{{trainingDay.today && !trainingDay.workouts}}" class="empty-message">NO WORKOUTS TODAY. REST AND ENJOY!</view>
+  <block wx:if="{{trainingDates[0].workouts[0]['creator']}}">
+    <view wx:for="{{trainingDates}}" wx:key="id" wx:for-item="trainingDay">
+      <view class="date {{ trainingDay.today ? 'date-today' : '' }}">{{trainingDay.today ? 'Today: ' : ''}}{{trainingDay.date}}</view>
     
-    <view 
-    wx:for="{{trainingDay.workouts}}" 
-    wx:key="id" wx:for-item="workout" 
-    class="workout-card-white {{workout.completed ? 'completed' : '' }}" 
-    data-id="{{workout.id}}" 
-    bindtap="navigateToShow">
+      <view wx:if="{{trainingDay.today && !trainingDay.workouts}}" class="empty-message">NO WORKOUTS TODAY. REST AND ENJOY!</view>
       
-      <image class="icon" src="/icons/{{workout.category}}.png"/>
-      
-      <view class="info-container">
-        <view class="name">{{workout.name}}</view>
-        <view class="time">{{workout.time}}</view>
-      </view>
-      
-      <view class="attendee-container">
-        <image class="avatar" src="{{workout.creator || '/avatar.png'}}"/>
+      <view  
+      wx:for="{{trainingDay.workouts}}"
+      wx:key="id" 
+      wx:for-item="workout" 
+      class="workout-card-white {{workout.completed ? 'completed' : '' }}" 
+      data-id="{{workout.id}}" 
+      bindtap="navigateToShow">
+          
+        <image class="icon" src="/icons/{{workout.category}}.png"/>
+          
+        <view class="info-container">
+          <view class="name">{{workout.name}}</view>
+          <view class="time">{{workout.time}}</view>
+        </view>
+          
+        <view class="attendee-container">
+          <image class="avatar" mode="aspectFill" src="{{workout.creator.avatar}}"/>
+        </view>
       </view>
     </view>
-  </view>
-
+  </block>
+    
   <view class="container-btn">
     <view class="btn btn-primary" bindtap="navigateToCreate">CREATE A WORKOUT</view>
   </view>

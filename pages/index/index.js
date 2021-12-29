@@ -23,6 +23,8 @@ Page({
 
   getAllWorkouts: async function (user) {
     let workouts = await _attendee.fetchAllForUser(user)
+    workouts = await _workout.getCreatorInfo(workouts)
+    
     let trainingDates = await _workout.setTrainingDates(workouts)
     this.setData({trainingDates})
   },

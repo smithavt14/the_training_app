@@ -61,5 +61,18 @@ const setTrainingDates = (workouts) => {
   })
 }
 
+const getCreatorInfo = (workouts) => {
+  return new Promise(resolve => {
+    let User = new wx.BaaS.User()
+    let promises = []
+    workouts.forEach(workout => {
+      promises.push(
+        User.get(workout.created_by).then(res => { workout['creator'] = res.data })
+      )
+    })
+    Promise.all(promises).then(res => { resolve(workouts) })
+  })
+}
 
-module.exports = { fetchWithID, setTrainingDates }
+
+module.exports = { fetchWithID, setTrainingDates, getCreatorInfo }
