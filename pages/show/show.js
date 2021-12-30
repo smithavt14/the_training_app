@@ -113,7 +113,7 @@ Page({
         let title = this.data.workout.name
         let date = this.data.workout.date
         let id = this.data.workout.id
-        let imageUrl = this.data.illustrations[this.data.workout.category]
+        let imageUrl = this.data.workout.image ? this.data.workout.image.path : this.data.illustrations[this.data.workout.category]
 
         return { title: `${title} (${date})`, path: `/pages/show/show?id=${id}`, imageUrl }
     }

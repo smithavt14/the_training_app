@@ -52,9 +52,6 @@ const setTrainingDates = (workouts) => {
     } else {
       trainingDates.push({date: today, today: true});
     }
-
-    // Sort the array
-    trainingDates = trainingDates.sort((a, b) => new Date(b.date) - new Date(a.date))
     
     // resolve
     resolve(trainingDates)
