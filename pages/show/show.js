@@ -11,7 +11,23 @@ Page({
             yoga: 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYx63uokqkjo.png',
             run: 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5ZMcoe8pvcs.png',
             track: 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5UlV4LLKSC1.png'
+        },
+        animation: {
+            toggleSize: {}
         }
+    },
+
+    // ----- Animation Functions -----
+
+    animateToggleSize: function () {
+        let active = this.data.animation.toggleSize.active
+        
+        const toggleSize = wx.createAnimation({duration: 500, timingFunction: 'ease'})
+
+        active ? toggleSize.height(128).step() : toggleSize.height(256).step()
+        
+        this.setData({'animation.toggleSize': toggleSize.export() })
+        this.setData({'animation.toggleSize.active': !active })
     },
 
     // ----- Navigation Functions -----
