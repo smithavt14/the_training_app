@@ -27,7 +27,12 @@
             <image class="avatar" src="{{workout.created_by.avatar}}"/>
             <view class="line-vertical"/>
             <block wx:for="{{attendees}}" wx:for-item="attendee">
-                <image wx:if="{{attendee.user.id != workout.created_by.id}}" class="avatar" src="{{attendee.user.avatar}}"/>
+                
+                <image 
+                bindtap="animateToggleAttendee"
+                animation="{{animation.toggleAttendee[attendee.id]}}" 
+                data-id="{{attendee.id}}" 
+                wx:if="{{attendee.user.id != workout.created_by.id}}" class="avatar" src="{{attendee.user.avatar}}"/>
             </block>
         </view>
     </view>

@@ -13,7 +13,8 @@ Page({
             track: 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5UlV4LLKSC1.png'
         },
         animation: {
-            toggleSize: {}
+            toggleSize: {},
+            toggleAttendee: {}
         }
     },
 
@@ -28,6 +29,24 @@ Page({
         
         this.setData({'animation.toggleSize': toggleSize.export() })
         this.setData({'animation.toggleSize.active': !active })
+    },
+
+    animateToggleAttendee: function (e) {
+        let id = e.currentTarget.dataset.id
+        let animation = this.data.animation
+
+        let active = animation.toggleAttendee[id] ? animation.toggleAttendee[id].active : false
+
+        const toggleAttendee = wx.createAnimation({duration: 500, timingFunction: 'ease'})
+
+        active ? toggleAttendee.opacity(1).step() : toggleAttendee.opacity(0.2).step()
+
+        let property = 'animation.toggleAttendee.' + id
+        let propertyActive = 'animation.toggleAttendee.' + id + '.' + 'active'
+
+        this.setData({[property]: toggleAttendee.export() })
+        this.setData({[propertyActive]: !active })
+        
     },
 
     // ----- Navigation Functions -----

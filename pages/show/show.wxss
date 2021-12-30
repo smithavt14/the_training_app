@@ -12,11 +12,12 @@
     font-size: 40rpx;
     font-weight: bold;
     padding-top: 120rpx;
+    position: absolute;
 }
 
 .container-header > .btn-back {
-    position: fixed;
-    top: 6%;
+    position: absolute;
+    top: 30%;
     left: 5%;
     height: 64rpx;
     width: 64rpx;
