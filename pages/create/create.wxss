@@ -15,11 +15,17 @@
     font-size: 14px;
 }
 
-.img-category {
+.container-image {
     padding: 0;
     box-sizing: border-box;
     height: 256rpx;
     width: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
 }
 
 .input-container > .icon {

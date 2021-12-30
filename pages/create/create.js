@@ -21,13 +21,6 @@ Page({
         }, 
         validated: false
     }, 
-    
-    changeCategory: function (e) {
-        const categories = this.data.category.items
-        const active = e.detail.value;
-        this.setData({'category.active': categories[active]})
-        this.validate();
-    },
 
     setDate: function () {
         const now = new Date(Date.now())
@@ -45,6 +38,35 @@ Page({
         end = `${yearEnd}-${monthEnd}-${dayEnd}`
 
         this.setData({'date.start': start, 'date.end': end})
+    },
+
+    // ----- Input Functions -----
+
+    changeImage: function () {
+        wx.chooseImage({
+            success: (res) => {
+              let MyFile = new wx.BaaS.File()
+              let fileParams = {filePath: res.tempFilePaths[0]}
+              let metaData = {categoryName: 'SDK'}
+          
+              MyFile.upload(fileParams, metaData).then(res => {
+                this.setData({image: res.data.file})
+              }, err => {
+                wx.showToast({
+                    title: 'Error', 
+                    icon: "error", 
+                    duration: 1500, 
+                })
+              })
+            }
+        })
+    },
+    
+    changeCategory: function (e) {
+        const categories = this.data.category.items
+        const active = e.detail.value;
+        this.setData({'category.active': categories[active]})
+        this.validate();
     },
 
     changeName: function (e) {
@@ -80,6 +102,8 @@ Page({
         this.validate();
     },
 
+    // ----- Validation Functions -----
+
     validate: function () {
         let data = this.data
 
@@ -95,6 +119,8 @@ Page({
         }
     },
 
+    // ----- Workout Functions -----
+
     submitWorkout: function () {
         console.log('submitWorkout')
         wx.showLoading({ title: 'Uploading' })
@@ -108,7 +134,8 @@ Page({
             category: this.data.category.active.toLowerCase(),
             date_time,
             location: this.data.location,
-            description: this.data.description
+            description: this.data.description,
+            image: this.data.image
         }
 
         workout.set(details).save().then(res => {
@@ -135,10 +162,7 @@ Page({
         })
     },
 
-    updateUserInformation: async function () {
-        let user = await _auth.updateUserInfo()
-        this.setData({user})
-    },
+    // ----- Attendee Functions -----
 
     setAttendee: function (workoutId, userId) {
         let Attendees = new wx.BaaS.TableObject('attendees');
@@ -148,6 +172,15 @@ Page({
 
         attendee.set(details).save().then(res => console.log(res))
     },
+
+    // ----- Authentication Functions -----
+
+    updateUserInformation: async function () {
+        let user = await _auth.updateUserInfo()
+        this.setData({user})
+    },
+
+    // ----- Lifecycle Functions -----
 
     onLoad: async function () {
         let user = await _auth.getCurrentUser()

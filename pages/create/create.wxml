@@ -14,11 +14,13 @@
         </picker>
     </view>
 
-    <image 
-    wx:if="{{category.active}}" 
-    class="input-container img-category" 
-    mode="aspectFill" 
-    src="{{illustrations[category.active]}}"/>
+    <view
+    class="input-container container-image" 
+    mode="aspectFill"
+    bindtap="changeImage" 
+    style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url({{ image.path || illustrations[category.active] || illustrations['Run']}})">
+        <view>CHOOSE IMAGE</view>
+    </view>
     
     <view class="input-container" style="display: block">
         <view class="section">
