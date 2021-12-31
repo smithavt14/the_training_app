@@ -1,6 +1,7 @@
 .page__container {
-    padding-top: 320rpx;
+    padding-top: 0rpx;
     padding-bottom: 232rpx;
+    min-height: 0;
 }
 
 .container-header {
@@ -12,12 +13,12 @@
     font-size: 40rpx;
     font-weight: bold;
     padding-top: 120rpx;
-    position: absolute;
+    position: unset;
 }
 
 .container-header > .btn-back {
     position: absolute;
-    top: 30%;
+    top: 96rpx;
     left: 5%;
     height: 64rpx;
     width: 64rpx;

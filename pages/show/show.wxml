@@ -1,11 +1,12 @@
-<view class="page__container">
-    <view 
+<view 
     class="container-header" 
-    style="background-image: linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('{{illustrations[workout.category]}}')">
+    bindtap="animateToggleSize" 
+    animation="{{animation.toggleSize}}"
+    style="background-image: linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('{{ workout.image.path }}')">
         <view>{{workout.name}}</view>
         <image bindtap="navigateHome" class="btn-back" src="../../icons/home.svg"/>
-    </view>
-
+</view>
+<view class="page__container">    
     <view class="container-info">
         <view class="flex">
             <image class="icon" src="/icons/time.png"/>
@@ -37,7 +38,7 @@
         </view>
     </view>
 
-    <image bindtap="animateToggleSize" animation="{{animation.toggleSize}}" class="container-info container-image" mode="aspectFill" src="{{workout.image.path}}"/>
+    <!-- <image class="container-info container-image" mode="aspectFill" src="{{workout.image.path}}"/> -->
 
     <view class="container-info">
         <view class="area-description">

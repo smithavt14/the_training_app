@@ -25,7 +25,7 @@ Page({
         
         const toggleSize = wx.createAnimation({duration: 500, timingFunction: 'ease'})
 
-        active ? toggleSize.height(128).step() : toggleSize.height(256).step()
+        active ? toggleSize.height(160).step() : toggleSize.height(320).step()
         
         this.setData({'animation.toggleSize': toggleSize.export() })
         this.setData({'animation.toggleSize.active': !active })
