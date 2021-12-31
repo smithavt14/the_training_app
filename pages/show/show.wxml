@@ -10,7 +10,7 @@
     <view class="container-info">
         <view class="flex">
             <image class="icon" src="/icons/{{workout.category}}.png"/>
-            <view class="text">{{workout.category}}</view>
+            <view class="text">{{workout.capitalizedCategory}}</view>
         </view>
         <view class="flex margin-32">
             <image class="icon" src="/icons/time.png"/>
@@ -20,19 +20,15 @@
             <image class="icon" src="/icons/date.png"/>
             <view class="text">{{workout.date}}</view>
         </view>
-        <!-- <view class="flex" bindtap="openLocation">
-            <image class="icon" src="/icons/location.png"/>
-            <view class="text">{{workout.location.address}}</view>
-        </view> -->
     </view>
 
     <map class="container-info container-map"
     longitude="{{workout.location.longitude}}" 
     latitude="{{workout.location.latitude}}" 
-    scale="12"
-    markers="{{[{latitude: workout.location.latitude, longitude: workout.location.longitude}]}}"
-    bindtap="openLocation"
-    />
+    scale="14"
+    markers="{{[{latitude: workout.location.latitude, longitude: workout.location.longitude}]}}">
+        <view class="container-map-overlay" bindtap="openLocation"/>
+    </map>
 
     <view class="container-info">
         <view class="title">WHO'S GOING</view>

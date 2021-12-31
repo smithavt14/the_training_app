@@ -47,6 +47,16 @@
     height: 240rpx;
 }
 
+.container-map-overlay {
+    /* background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)); */
+    color: white;
+    padding: 32rpx;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    text-align: right;
+}
+
 .container-info > .flex {
     display: flex;
     align-items: center;

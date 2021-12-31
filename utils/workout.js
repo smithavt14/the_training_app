@@ -10,7 +10,7 @@ const fetchWithID = (id) => {
       workout.time = new Date(workout.date_time).toLocaleTimeString('en-us', timeOptions)
 
       workout.name = workout.name.toUpperCase()
-      workout.category = workout.category[0].toUpperCase() + workout.category.substring(1);
+      workout['capitalizedCategory'] = workout.category[0].toUpperCase() + workout.category.substring(1);
 
       resolve(workout)
     })
