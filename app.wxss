@@ -69,13 +69,17 @@
   color: white;
 }
 
-
 .btn-login {
   background: #44A767; 
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.btn-share {
+  background: #16b8f3; 
+  color: white;
 }
 
 .btn-login > .icon {

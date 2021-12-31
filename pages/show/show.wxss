@@ -97,13 +97,6 @@
     min-height: 360rpx;
 }
 
-.container-btn > .btn-share {
-    background-size: 500%;
-    color: white;
-    text-shadow: 2px 2px 2px rgba(0,0,0,0.2);
-    background-position: bottom;
-}
-
 .container-btn > .btn-cancel {
     background: white;
     border: 1px solid black;
