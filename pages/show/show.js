@@ -14,11 +14,28 @@ Page({
         },
         animation: {
             toggleSize: {},
-            toggleAttendee: {}
+            attendees: []
         }
     },
 
     // ----- Animation Functions -----
+
+    setAttendeeAnimation: function () {
+        let attendees = this.data.attendees
+        let animation = this.data.animation
+
+        attendees.forEach(() => { animation.attendees.push({}) })
+
+        this.setData({animation})
+    },
+
+    toggleActiveAttendee: function (e) {
+        let active = e.currentTarget.dataset.index
+        let activeAttendee = this.data.activeAttendee
+
+        activeAttendee = active === activeAttendee ? false : active
+        this.setData({activeAttendee})
+    },
 
     animateToggleSize: function () {
         let active = this.data.animation.toggleSize.active
@@ -31,22 +48,33 @@ Page({
         this.setData({'animation.toggleSize.active': !active })
     },
 
-    animateToggleAttendee: function (e) {
-        let id = e.currentTarget.dataset.id
-        let animation = this.data.animation
-
-        let active = animation.toggleAttendee[id] ? animation.toggleAttendee[id].active : false
-
-        const toggleAttendee = wx.createAnimation({duration: 500, timingFunction: 'ease'})
-
-        active ? toggleAttendee.opacity(1).step() : toggleAttendee.opacity(0.2).step()
-
-        let property = 'animation.toggleAttendee.' + id
-        let propertyActive = 'animation.toggleAttendee.' + id + '.' + 'active'
-
-        this.setData({[property]: toggleAttendee.export() })
-        this.setData({[propertyActive]: !active })
+    animateAttendee: function (e) {
+        let activeIndex = e.currentTarget.dataset.index
+        let attendees = this.data.animation.attendees
         
+        // -- If user clicks on activeAttendee, show all attendees --
+        if (attendees.active === activeIndex) {
+            attendees.forEach((attendee, index) => {
+                const animation = wx.createAnimation({duration: 500, timingFunction: 'ease'})
+                animation.opacity(1).step()
+                
+                let property = `animation.attendees[${index}]`
+
+                this.setData({ [property]: animation.export() })
+                this.setData({ 'animation.attendees.active': false })
+            })
+        // -- Else if user clicks on another Attendee, show that one, but hide all others
+        } else {
+            attendees.forEach((attendee, index) => {
+                const animation = wx.createAnimation({duration: 500, timingFunction: 'ease'})
+                let property = `animation.attendees[${index}]`
+
+                index === activeIndex ? animation.opacity(1).step() : animation.opacity(.2).step()
+
+                this.setData({ [property]: animation.export() })
+            })
+            this.setData({ 'animation.attendees.active': activeIndex })
+        }
     },
 
     // ----- Navigation Functions -----
@@ -134,10 +162,8 @@ Page({
         const workout = await _workout.fetchWithID(options.id)
         const data = await _attendee.findAllForWorkout(workout, user)
         this.setData(data)
-    },
-
-    onShow: function () {
-
+        
+        this.setAttendeeAnimation()
     },
 
     onShareAppMessage: function () {

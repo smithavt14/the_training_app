@@ -76,16 +76,26 @@
 .container-info > .box-avatars {
     display: flex;
     align-items: center;
+    position: relative;
 }
 
-.container-info > .box-avatars > .avatar {
+.active {
+    opacity: 1; 
+}
+
+.inactive {
+    opacity: 0.1; 
+}
+
+.avatar {
     height: 96rpx;
     width: 96rpx;
     border-radius: 50%;
     margin: 32rpx 16rpx 0 0;
+    transition: .5s ease;
 }
 
-.container-info > .box-avatars > .line-vertical {
+.line-vertical {
     height: 96rpx;
     width: 1px;
     background: lightgray;
