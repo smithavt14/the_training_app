@@ -41,6 +41,12 @@
     height: 256rpx;
 }
 
+.container-map {
+    width: 100%;
+    padding: 0;
+    height: 240rpx;
+}
+
 .container-info > .flex {
     display: flex;
     align-items: center;

@@ -118,7 +118,15 @@ Page({
         let binary = parseInt(e.currentTarget.dataset.binary)
         let toggleContainer = !!binary
         this.setData({toggleContainer})
-    }, 
+    },
+
+    // ----- Map Functionality -----
+
+    buildMap: function () {
+        this.mapCtx = wx.createMapContext('myMap')
+    },
+
+    
 
     // ----- Lifecycle Functions -----
     onLoad: async function (options) {
@@ -126,6 +134,10 @@ Page({
         const workout = await _workout.fetchWithID(options.id)
         const data = await _attendee.findAllForWorkout(workout, user)
         this.setData(data)
+    },
+
+    onShow: function () {
+
     },
 
     onShareAppMessage: function () {

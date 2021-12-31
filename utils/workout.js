@@ -6,11 +6,12 @@ const fetchWithID = (id) => {
       let dateOptions = {weekday: "long", month: "long", day: "numeric"}
       let timeOptions = {hour: 'numeric', minute: '2-digit'}
 
-      workout.date = new Date(workout.date_time).toLocaleDateString('en-us', dateOptions);
-      workout.time = new Date(workout.date_time).toLocaleTimeString('en-us', timeOptions);
+      workout.date = new Date(workout.date_time).toLocaleDateString('en-us', dateOptions)
+      workout.time = new Date(workout.date_time).toLocaleTimeString('en-us', timeOptions)
 
-      workout.name = workout.name.toUpperCase();
-      
+      workout.name = workout.name.toUpperCase()
+      workout.category = workout.category[0].toUpperCase() + workout.category.substring(1);
+
       resolve(workout)
     })
   })
