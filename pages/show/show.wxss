@@ -73,10 +73,16 @@
     margin-right: 16rpx;
 }
 
-.container-info > .box-avatars {
+.container-info > .container-avatars {
     display: flex;
     align-items: center;
     position: relative;
+    overflow: scroll;
+}
+
+.avatar-box {
+    display: flex;
+    align-items: center;
 }
 
 .active {
@@ -93,6 +99,23 @@
     border-radius: 50%;
     margin: 32rpx 16rpx 0 0;
     transition: .5s ease;
+    flex-shrink: 0;
+    z-index: 5
+}
+
+.avatar-name {
+    margin: 16rpx 12rpx 0 112rpx;
+    flex-shrink: 0;
+    opacity: 0;
+    position: absolute;
+    transition: .5s ease;
+    z-index: 0;
+}
+
+.avatar-name-active {
+    opacity: 1;
+    z-index: 10;
+    font-weight: bold;
 }
 
 .line-vertical {

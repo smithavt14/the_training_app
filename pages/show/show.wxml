@@ -32,28 +32,23 @@
 
     <view class="container-info">
         <view class="title">WHO'S GOING</view>
-        <view class="box-avatars">
-            <view style="display: flex; align-items: center;">
-                <image 
-                bindtap="toggleActiveAttendee"
-                data-index="0"
-                class="avatar {{!activeAttendee || activeAttendee == 0 ? 'active' : 'inactive'}}" 
-                src="{{workout.created_by.avatar}}"/>
-
-                <view style="margin-right: 8rpx">{{workout.created_by.nickname}}</view>
-            </view>
-            
-            <view class="line-vertical {{!activeAttendee ? 'active' : 'inactive'}}"/>
-            <block wx:for="{{attendees}}" wx:for-item="attendee">
+        <view class="container-avatars">
+            <view class="avatar-box" wx:for="{{attendees}}" wx:for-item="attendee">
                 
                 <image 
                 bindtap="toggleActiveAttendee"
-                data-index="{{index}}" 
-                wx:if="{{attendee.user.id != workout.created_by.id}}" 
-                class="avatar {{!activeAttendee || activeAttendee === index ? 'active' : 'inactive'}}" 
+                data-index="{{index}}"
+                class="avatar active {{ activeAttendee === -1 || activeAttendee === index ? 'active' : 'inactive'}}"
                 src="{{attendee.user.avatar}}"/>
 
-            </block>
+                <view 
+                class="avatar-name {{activeAttendee === index ? 'avatar-name-active' : ''}}">{{attendee.user.nickname}}</view>
+                
+                <view 
+                wx:if="{{attendee.user.id === workout.created_by.id}}" 
+                class="line-vertical {{activeAttendee === -1 ? 'active' : 'inactive'}}"/>
+
+            </view>
         </view>
     </view>
 
