@@ -1,4 +1,5 @@
 const _auth = require('../../utils/auth.js')
+const _workout = require('../../utils/workout.js')
 
 Page({
     data: {
@@ -50,7 +51,8 @@ Page({
               let metaData = {categoryName: 'SDK'}
           
               MyFile.upload(fileParams, metaData).then(res => {
-                this.setData({image: res.data.file})
+                this.setData({'workout.image': res.data.file})
+                this.validate()
               }, err => {
                 wx.showToast({
                     title: 'Error', 
@@ -65,12 +67,12 @@ Page({
     changeCategory: function (e) {
         const categories = this.data.category.items
         const active = e.detail.value;
-        this.setData({'category.active': categories[active]})
+        this.setData({'category.active': categories[active], 'workout.category': categories[active]})
         this.validate();
     },
 
     changeName: function (e) {
-        this.setData({name: e.detail.value})
+        this.setData({'workout.name': e.detail.value})
         this.validate();
     },
 
@@ -78,19 +80,21 @@ Page({
         const options = {year: 'numeric', month: 'long', weekday: 'long', day: 'numeric'}
         const selected = new Date(e.detail.value).toLocaleDateString('en-us', options)
         
-        this.setData({'date.active': true, 'date.selected': selected})
+        this.setData({'date.active': true, 'date.selected': selected, 'workout.date': selected})
         this.validate();
     },
 
     changeTime: function (e) {
-        this.setData({'time.active': true, 'time.selected': e.detail.value})
+        let selected = e.detail.value
+        this.setData({'time.active': true, 'time.selected': selected, 'workout.time': selected})
         this.validate();
     },
 
     changeLocation: function (e) {
         wx.chooseLocation({
             success: (location) => {
-                this.setData({location})
+                console.log(location)
+                this.setData({'workout.location': location})
                 this.validate();
             }, 
             fail: res => console.log(res)
@@ -98,22 +102,21 @@ Page({
     },
 
     changeDescription: function (e) {
-        this.setData({description: e.detail.value})
+        this.setData({'workout.description': e.detail.value})
         this.validate();
     },
 
     // ----- Validation Functions -----
 
     validate: function () {
-        let data = this.data
+        let workout = this.data.workout
 
-        if (data.category.active 
-            && data.name 
-            && data.category
-            && data.date.active 
-            && data.time.active 
-            && data.description 
-            && data.location) {
+        if (workout.category
+            && workout.name 
+            && workout.date
+            && workout.time
+            && workout.description 
+            && workout.location) {
 
             this.setData({validated: true})
         }
@@ -121,45 +124,43 @@ Page({
 
     // ----- Workout Functions -----
 
-    submitWorkout: function () {
-        console.log('submitWorkout')
-        wx.showLoading({ title: 'Uploading' })
-
-        let Workouts = new wx.BaaS.TableObject('workouts');
-        let workout = Workouts.create();
-        let date_time = new Date(this.data.date.selected + ' ' + this.data.time.selected).toISOString().toString();
-        
-        let details = {
-            name: this.data.name, 
-            category: this.data.category.active.toLowerCase(),
-            date_time,
-            location: this.data.location,
-            description: this.data.description,
-            image: this.data.image
-        }
-
-        workout.set(details).save().then(res => {
-            let workoutId = res.data.id;
-            let userId = res.data.created_by;
-            this.setAttendee(workoutId, userId);
-            wx.hideLoading();
-            wx.showToast({
-                title: 'Success!', 
-                icon: "success", 
-                duration: 1500, 
+    createWorkout: function (workout) {
+        _workout.create(workout).then(res => {
+            let workoutId = res.data.id
+            let userId = res.data.created_by
+            this.setAttendee(workoutId, userId)
+            wx.hideLoading()
+            wx.showToast({ title: 'Success!', icon: "success", duration: 1500, 
                 complete: () => {
                     wx.reLaunch({ url: '/pages/index/index' })
                 }
             })
-        }, err => {
-            wx.hideLoading();
-            console.log(err);
-            wx.showToast({
-                title: 'Error', 
-                icon: "error", 
-                duration: 1500, 
+        })
+    },
+
+    editWorkout: function (workout) {
+        _workout.edit(workout).then(res => {
+            console.log(res)
+            wx.hideLoading()
+            wx.showToast({ title: 'Success!', icon: "success", duration: 1500, 
+                complete: () => {
+                    wx.reLaunch({ url: `/pages/show/show?id=${workout.id}` })
+                }
             })
         })
+    },
+
+    submit: function () {
+        wx.showLoading({ title: 'Submitting' })
+        let workout = this.data.workout
+
+        workout.id ? this.editWorkout(workout) : this.createWorkout(workout)
+    },
+
+    getWorkout: async function (id) {
+        let workout = await _workout.fetchWithID(id)
+        console.log(workout)
+        this.setData({workout})
     },
 
     // ----- Attendee Functions -----
@@ -182,9 +183,15 @@ Page({
 
     // ----- Lifecycle Functions -----
 
-    onLoad: async function () {
+    onLoad: async function (options) {
         let user = await _auth.getCurrentUser()
-        this.setData({user});
-        this.setDate();
+        if (options.id) {
+            this.getWorkout(options.id)
+            this.setData({title: 'EDIT'})
+        } else {
+            this.setData({title: 'CREATE'})
+        }
+        this.setData({user})
+        this.setDate()
     }
 })

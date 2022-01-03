@@ -72,5 +72,27 @@ const getCreatorInfo = (workouts) => {
   })
 }
 
+const create = (workout) => {
+  return new Promise(resolve => {
+    let Workouts = new wx.BaaS.TableObject('workouts')
+    let new_workout = Workouts.create()
+    workout['date_time'] = new Date(workout.date + ' ' + workout.time).toISOString().toString()
 
-module.exports = { fetchWithID, setTrainingDates, getCreatorInfo }
+    new_workout.set(workout).save().then(res => resolve(res))
+  })
+}
+
+const edit = (workout) => {
+  return new Promise(resolve => {
+    let Workouts = new wx.BaaS.TableObject('workouts')
+    let existing_workout = Workouts.getWithoutData(workout.id)
+
+    workout.date_time = new Date(workout.date + ' ' + workout.time).toISOString().toString()
+    workout.created_by = workout.created_by.id
+
+    existing_workout.set(workout).update().then(res => resolve(res))
+  })
+}
+
+
+module.exports = { fetchWithID, setTrainingDates, getCreatorInfo, edit, create }

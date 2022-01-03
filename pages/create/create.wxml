@@ -1,15 +1,15 @@
 <view class="page__container">
-    <view class="container-header">CREATE A WORKOUT</view>
+    <view class="container-header">{{title}}</view>
 
     <view class="input-container">
         <image class="icon" src="/icons/name.png" />
-        <input class="input" bindinput="changeName" type="text" placeholder="INPUT YOUR WORKOUT NAME"/>
+        <input class="input" bindinput="changeName" value="{{workout.name}}" type="text" placeholder="INPUT YOUR WORKOUT NAME"/>
     </view>
     
     <view class="input-container">
         <image class="icon" src="/icons/category.png" />
         <picker class="input" bindchange="changeCategory" range="{{category.items}}" value="{{index}}">
-            <view wx:if="{{category.active}}" class="input-picker">{{category.active}}</view>
+            <view wx:if="{{workout.category}}" class="input-picker">{{workout.category}}</view>
             <view wx:else class="input-picker" style="color: gray;">CHOOSE YOUR CATEGORY</view>
         </picker>
     </view>
@@ -18,7 +18,7 @@
     class="input-container container-image" 
     mode="aspectFill"
     bindtap="changeImage" 
-    style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url({{ image.path || illustrations[category.active] || illustrations['Run'] }})">
+    style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url({{ workout.image.path || illustrations[category.active] || illustrations['Run'] }})">
         <view>CHOOSE IMAGE</view>
     </view>
     
@@ -26,26 +26,28 @@
         <view class="section">
             <image class="icon" src="/icons/date.png" />
             <picker class="input" mode="date" bindchange="changeDate" value="{{date}}" start="{{date.start}}" end="{{date.end}}">
-                <view wx:if="{{date.active}}" class="input-picker">{{date.selected}}</view>
-                <view wx:else class="input-picker" style="color: gray;">CHOOSE YOUR DATE</view>
+                <view wx:if="{{workout.date}}" class="input-picker">{{workout.date}}</view>
+                <view wx:if="{{!workout.date && date.active}}" class="input-picker">{{date.selected}}</view>
+                <view wx:if="{{!workout.date && !date.active}}" class="input-picker" style="color: gray;">CHOOSE YOUR DATE</view>
             </picker>
         </view>
         <view class="section">
             <image class="icon" src="/icons/time.png" />
             <picker class="input" mode="time" bindchange="changeTime" value="{{time}}">
-                <view wx:if="{{time.active}}" class="input-picker">{{time.selected}}</view>
-                <view wx:else class="input-picker" style="color: gray;">CHOOSE YOUR TIME</view>
+                <view wx:if="{{workout.time}}" class="input-picker">{{workout.time}}</view>
+                <view wx:if="{{!workout.time && time.active}}" class="input-picker">{{time.selected}}</view>
+                <view wx:if="{{!workout.time && !time.active}}" class="input-picker" style="color: gray;">CHOOSE YOUR TIME</view>
             </picker>
         </view>
         <view class="section">
             <image class="icon" src="/icons/location.png" />
-            <view wx:if="{{user.is_authorized}}"class="input" bindtap="changeLocation" style="color: {{location ? '#232323' : 'gray'}}">{{location ? location.address : 'CHOOSE YOUR LOCATION'}}</view>
-            <view wx:else class="input" bindtap="updateUserInformation" style="color: {{location ? '#232323' : 'gray'}}">{{location ? location.address : 'CHOOSE YOUR LOCATION'}}</view>
+            <view wx:if="{{user.is_authorized}}" class="input" bindtap="changeLocation" style="color: {{workout.location ? '#232323' : 'gray'}}">{{workout.location ? workout.location.name : 'CHOOSE YOUR LOCATION'}}</view>
+            <view wx:else class="input" bindtap="updateUserInformation" style="color: {{workout.location ? '#232323' : 'gray'}}">{{workout.location ? workout.location.name : 'CHOOSE YOUR LOCATION'}}</view>
         </view>
     </view>
 
     <view class="input-container">
-        <textarea class="input input-textarea" bindblur="bindTextAreaBlur" bindinput="changeDescription" placeholder="INPUT YOUR WORKOUT DESCRIPTION" />
+        <textarea maxlength="1000" class="input input-textarea" value="{{workout.description}}" bindblur="bindTextAreaBlur" bindinput="changeDescription" placeholder="INPUT YOUR WORKOUT DESCRIPTION" />
     </view>
 
     <view class="container-btn">
@@ -57,7 +59,7 @@
         <view 
         wx:if="{{user.is_authorized && validated}}" 
         class="btn btn-primary" 
-        bindtap="submitWorkout">SUBMIT</view>
+        bindtap="submit">SUBMIT</view>
     </view>
     
 </view>

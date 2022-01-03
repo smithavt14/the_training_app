@@ -70,6 +70,11 @@ Page({
         wx.redirectTo({ url: '/pages/index/index' })
     },
 
+    navigateToEdit: function () {
+        let id = this.data.workout.id
+        wx.navigateTo({ url: `/pages/create/create?id=${id}` })
+    },
+
     // ----- Workout Functions -----
 
     getWorkout: async function (id) {
