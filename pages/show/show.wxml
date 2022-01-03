@@ -60,7 +60,7 @@
 
     <view class="container-btn">
         <button class="btn btn-share" open-type="share">SHARE</button>
-        <button wx:if="{{user.id === workout.created_by.id}}"class="btn btn-primary" bindtap="navigateToEdit">EDIT</button>
+        <button wx:if="{{user.id === workout.created_by.id}}"class="btn btn-ghost" bindtap="navigateToEdit">EDIT</button>
         <view wx:if="{{!user.is_attending && user.id != workout.created_by.id}}" class="btn btn-primary" bindtap="createAttendee">JOIN</view>
         <view wx:if="{{user.is_attending && user.id != workout.created_by.id}}" class="btn btn-cancel" bindtap="removeAttendee">CANCEL</view>
     </view>

@@ -49,6 +49,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 }
 
 .btn {
@@ -65,7 +66,7 @@
 }
 
 .btn-primary {
-  background: #232323;
+  background: linear-gradient(225deg, rgba(23, 23, 23, 0.1) 0%, rgba(22, 184, 243, 0.1) 100%), #171717;
   color: white;
 }
 
@@ -88,12 +89,17 @@
   padding-left: 24rpx;
 }
 
-.btn-ghost {
+.btn-disabled {
   background: #C0C0C0;
   color: white;
 }
 
+.btn-ghost {
+  background: white;
+  border: 2px solid #171717; 
+}
+
 .btn-complete {
   background: white;
-  border: 2px solid black;
+  border: 2px solid #171717;
 }

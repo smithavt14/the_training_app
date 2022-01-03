@@ -103,7 +103,7 @@ Page({
 
     changeDescription: function (e) {
         this.setData({'workout.description': e.detail.value})
-        this.validate();
+        this.validate()
     },
 
     // ----- Validation Functions -----
@@ -140,7 +140,6 @@ Page({
 
     editWorkout: function (workout) {
         _workout.edit(workout).then(res => {
-            console.log(res)
             wx.hideLoading()
             wx.showToast({ title: 'Success!', icon: "success", duration: 1500, 
                 complete: () => {

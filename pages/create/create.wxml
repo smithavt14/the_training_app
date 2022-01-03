@@ -39,10 +39,10 @@
                 <view wx:if="{{!workout.time && !time.active}}" class="input-picker" style="color: gray;">CHOOSE YOUR TIME</view>
             </picker>
         </view>
-        <view class="section">
+        <view class="section" bindtap="{{user.is_authorized ? 'changeLocation' : 'updateUserInformation'}}">
             <image class="icon" src="/icons/location.png" />
-            <view wx:if="{{user.is_authorized}}" class="input" bindtap="changeLocation" style="color: {{workout.location ? '#232323' : 'gray'}}">{{workout.location ? workout.location.name : 'CHOOSE YOUR LOCATION'}}</view>
-            <view wx:else class="input" bindtap="updateUserInformation" style="color: {{workout.location ? '#232323' : 'gray'}}">{{workout.location ? workout.location.name : 'CHOOSE YOUR LOCATION'}}</view>
+            <view wx:if="{{user.is_authorized}}" class="input"style="color: {{workout.location ? '#232323' : 'gray'}}">{{workout.location ? workout.location.address : 'CHOOSE YOUR LOCATION'}}</view>
+            <view wx:else class="input"style="color: {{workout.location ? '#232323' : 'gray'}}">{{workout.location ? workout.location.address : 'CHOOSE YOUR LOCATION'}}</view>
         </view>
     </view>
 
@@ -55,7 +55,7 @@
             <view>LOGIN</view>
             <image class="icon" src="/icons/wechat-white.png"/>
         </view>
-        <view wx:if="{{user.is_authorized && !validated}}" class="btn btn-ghost">INCOMPLETE</view>
+        <view wx:if="{{user.is_authorized && !validated}}" class="btn btn-disabled">INCOMPLETE</view>
         <view 
         wx:if="{{user.is_authorized && validated}}" 
         class="btn btn-primary" 

@@ -3,7 +3,7 @@ const fetchWithID = (id) => {
     const Workout = new wx.BaaS.TableObject('workouts')
     Workout.expand('created_by').get(id).then(res => {
       let workout = res.data;
-      let dateOptions = {weekday: "long", month: "long", day: "numeric"}
+      let dateOptions = {year: 'numeric', weekday: "long", month: "long", day: "numeric"}
       let timeOptions = {hour: 'numeric', minute: '2-digit'}
 
       workout.date = new Date(workout.date_time).toLocaleDateString('en-us', dateOptions)
