@@ -79,7 +79,7 @@
 }
 
 .btn-share {
-  background: #16b8f3; 
+  background: linear-gradient(225deg, rgba(23, 23, 23, 0.1) 0%, rgba(243, 22, 22, 0.1) 100%), #171717;
   color: white;
 }
 
