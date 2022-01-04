@@ -117,10 +117,12 @@ Page({
                 content: 'Are you sure you want to cancel?',
                 cancelText: 'Go Back',
                 confirmText: 'Confirm',
-                success: async () => {
-                    await _attendee.remove(user.attendee)
-                    const data = await _attendee.findAllForWorkout(workout, user)
-                    this.setData(data)
+                success: async (res) => {
+                    if (res.confirm) {
+                        await _attendee.remove(user.attendee)
+                        const data = await _attendee.findAllForWorkout(workout, user)
+                        this.setData(data)
+                    }
                 }
             })
             
