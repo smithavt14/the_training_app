@@ -20,7 +20,7 @@ const fetchWithID = (id) => {
 const setTrainingDates = (workouts) => {
   return new Promise(resolve => {
     let trainingDates = []
-    let dateOptions = {weekday: "long", month: "long", day: "numeric"}
+    let dateOptions = {weekday: "long", month: "long", day: "numeric", year: "numeric"}
     let timeOptions = {hour: 'numeric', minute: '2-digit'}
     let today = new Date().toLocaleDateString([], dateOptions)
 
@@ -53,6 +53,8 @@ const setTrainingDates = (workouts) => {
     } else {
       trainingDates.push({date: today, today: true});
     }
+
+    trainingDates = trainingDates.sort((a, b) => {return new Date(b.date) - new Date(a.date)})
     
     // resolve
     resolve(trainingDates)
