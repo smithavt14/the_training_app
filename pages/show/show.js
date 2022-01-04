@@ -86,7 +86,7 @@ Page({
             longitude: location.longitude,
             name: location.name,
             address: location.address,
-            scale: 10
+            scale: 14
         })
     },
 
