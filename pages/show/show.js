@@ -1,6 +1,7 @@
 const _auth = require('../../utils/auth.js')
 const _workout = require('../../utils/workout.js')
 const _attendee = require('../../utils/attendee.js')
+const _weather = require('../../utils/weather.js')
 
 Page({
     data: {
@@ -39,7 +40,6 @@ Page({
     },
 
     animateAttendee: function (e) {
-        console.log(e)
         let activeIndex = e.currentTarget.dataset.index
         let activeAttendee = this.data.activeAttendee
         let animation = wx.createAnimation({duration: 500, timingFunction: 'ease'})
@@ -76,11 +76,6 @@ Page({
     },
 
     // ----- Workout Functions -----
-
-    getWorkout: async function (id) {
-        let workout = _auth.fetchWithID(id)
-        this.setData({workout})
-    },
 
     // ----- Location Functions -----
     openLocation: function () {
@@ -155,7 +150,9 @@ Page({
         const user = await _auth.getCurrentUser()
         const workout = await _workout.fetchWithID(options.id)
         const data = await _attendee.findAllForWorkout(workout, user)
-        this.setData(data)        
+        const aqi = await _weather.fetchAQI(workout)
+        this.setData(data)
+        this.setData({ aqi })
         this.setAttendeeAnimation()
     },
 

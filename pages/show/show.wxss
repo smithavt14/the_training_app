@@ -35,6 +35,27 @@
     font-size: 14px;
 }
 
+.container-aqi {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.box-aqi {
+    text-align: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.box-aqi > .top {
+    font-size: 48rpx;
+    font-weight: bold;
+}
+
+.box-aqi > .bottom {
+    font-size: 24rpx;
+}
+
 .container-image {
     width: 100%;
     padding: 0;
