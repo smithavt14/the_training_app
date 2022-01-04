@@ -56,10 +56,7 @@
             <image class="icon" src="/icons/wechat-white.png"/>
         </view>
         <view wx:if="{{user.is_authorized && !validated}}" class="btn btn-disabled">INCOMPLETE</view>
-        <view 
-        wx:if="{{user.is_authorized && validated}}" 
-        class="btn btn-primary" 
-        bindtap="submit">SUBMIT</view>
+        <view wx:if="{{user.is_authorized && validated}}" class="btn btn-primary" bindtap="submit">SUBMIT</view>
     </view>
     
 </view>

@@ -22,24 +22,27 @@
         </view>
     </view>
 
-    <view class="container-info container-aqi" style="background: linear-gradient(273.57deg, rgba(255, 255, 255, 0) -240%, {{aqi.hex}} 100%), #FFFFFF;">
-        <view class="box-aqi">
-            <view class="top">{{aqi.number}}</view>
-            <view class="bottom">中国 AQI</view>
+    <view class="container-info container-combined-map-aqi">
+        <view class="container-aqi" style="background: linear-gradient(273.57deg, rgba(255, 255, 255, 0) -240%, {{aqi.hex}} 100%), #FFFFFF;">
+            <view class="box-aqi">
+                <view class="top">{{aqi.number}}</view>
+                <view class="bottom">中国 AQI</view>
+            </view>
+            <view class="box-aqi">
+                <view class="top">{{aqi.location.name}}</view>
+                <view class="bottom">WORKOUT LOCATION</view>
+            </view>
         </view>
-        <view class="box-aqi">
-            <view class="top">{{aqi.location.name}}</view>
-            <view class="bottom">WORKOUT LOCATION</view>
-        </view>
+        
+        <map class="container-map"
+        longitude="{{workout.location.longitude}}" 
+        latitude="{{workout.location.latitude}}" 
+        scale="14"
+        markers="{{[{latitude: workout.location.latitude, longitude: workout.location.longitude}]}}">
+            <view class="container-map-overlay" bindtap="openLocation"/>
+        </map>
     </view>
-
-    <map class="container-info container-map"
-    longitude="{{workout.location.longitude}}" 
-    latitude="{{workout.location.latitude}}" 
-    scale="14"
-    markers="{{[{latitude: workout.location.latitude, longitude: workout.location.longitude}]}}">
-        <view class="container-map-overlay" bindtap="openLocation"/>
-    </map>
+    
 
     <view class="container-info">
         <view class="title">WHO'S GOING</view>
@@ -71,8 +74,9 @@
 
     <view class="container-btn">
         <button class="btn btn-share" open-type="share">SHARE</button>
-        <button wx:if="{{user.id === workout.created_by.id}}"class="btn btn-ghost" bindtap="navigateToEdit">EDIT</button>
-        <view wx:if="{{!user.is_attending && user.id != workout.created_by.id}}" class="btn btn-primary" bindtap="createAttendee">JOIN</view>
-        <view wx:if="{{user.is_attending && user.id != workout.created_by.id}}" class="btn btn-cancel" bindtap="removeAttendee">CANCEL</view>
+        <view wx:if="{{user.id === workout.created_by.id}}" class="btn btn-ghost" bindtap="navigateToEdit">EDIT</view>
+        <view wx:if="{{!user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-login" bindtap="updateUserInformation">LOGIN</view>
+        <view wx:if="{{user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-primary" bindtap="createAttendee">JOIN</view>
+        <view wx:if="{{user.is_attending && user.id != workout.created_by.id}}" class="btn btn-ghost" bindtap="removeAttendee">CANCEL</view>
     </view>
 </view>

@@ -71,7 +71,7 @@
 }
 
 .btn-login {
-  background: #44A767; 
+  background: linear-gradient(225deg, rgba(0, 194, 97, 0.1) 0%, rgba(0, 194, 97, 0.1) 100%), #171717; 
   color: white;
   display: flex;
   justify-content: center;
@@ -96,10 +96,6 @@
 
 .btn-ghost {
   background: white;
-  border: 2px solid #171717; 
-}
-
-.btn-complete {
-  background: white;
-  border: 2px solid #171717;
+  border: 4rpx solid #171717; 
+  height: 120rpx;
 }

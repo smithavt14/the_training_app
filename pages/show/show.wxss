@@ -39,6 +39,8 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    padding: 16rpx;
+    box-sizing: border-box;
 }
 
 .box-aqi {
@@ -152,7 +154,7 @@
     min-height: 360rpx;
 }
 
-.container-btn > .btn-cancel {
-    background: white;
-    border: 1px solid black;
+.container-combined-map-aqi {
+    padding: 0;
+    overflow: hidden;
 }
