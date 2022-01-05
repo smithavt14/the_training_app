@@ -29,13 +29,16 @@
 }
 
 .workout-card-white > .info-container {
-  flex-shrink: 0;
   flex-grow: 1;
+  max-width: 75%;
 }
 
 .workout-card-white > .info-container > .name {
   font-size: 14px;
   font-weight: bold;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .workout-card-white > .info-container > .time {
