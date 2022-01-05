@@ -153,7 +153,6 @@ Page({
         const aqi = await _weather.fetchAQI(workout)
         this.setData(data)
         this.setData({ aqi })
-        this.setAttendeeAnimation()
     },
 
     onShareAppMessage: function () {

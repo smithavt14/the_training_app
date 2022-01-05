@@ -1,5 +1,6 @@
 const _auth = require('../../utils/auth.js')
 const _workout = require('../../utils/workout.js')
+const _picker = require('../../utils/picker.js')
 
 Page({
     data: {
@@ -17,9 +18,7 @@ Page({
         date: {
             active: false,
         },
-        time: {
-            active: false,
-        }, 
+        time: _picker.time(), 
         validated: false
     }, 
 
@@ -87,7 +86,15 @@ Page({
     changeTime: function (e) {
         let selected = e.detail.value
         this.setData({'time.active': true, 'time.selected': selected, 'workout.time': selected})
-        this.validate();
+        this.validate()
+    },
+
+    changeCustomTime: function (e) {
+        let index = e.detail.value
+        let columns = this.data.time.columns
+        let time = `${columns[0][index[0]]}:${columns[1][index[1]]} ${columns[2][index[2]]}`
+        
+        this.setData({'time.index': index, 'time.active': true, 'workout.time': time})
     },
 
     changeLocation: function (e) {

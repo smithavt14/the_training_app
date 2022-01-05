@@ -6,8 +6,8 @@ const fetchWithID = (id) => {
       let dateOptions = {year: 'numeric', weekday: "long", month: "long", day: "numeric"}
       let timeOptions = {hour: 'numeric', minute: '2-digit'}
 
-      workout.date = new Date(workout.date_time).toLocaleDateString('en-us', dateOptions)
-      workout.time = new Date(workout.date_time).toLocaleTimeString('en-us', timeOptions)
+      workout.date = new Date(workout.start_date_time).toLocaleDateString('en-us', dateOptions)
+      workout.time = new Date(workout.start_date_time).toLocaleTimeString('en-us', timeOptions)
 
       workout.name = workout.name.toUpperCase()
       workout['capitalizedCategory'] = workout.category[0].toUpperCase() + workout.category.substring(1);
@@ -26,8 +26,8 @@ const setTrainingDates = (workouts) => {
 
     workouts.forEach((workout) => {
       // -- Turn date to a locale date string
-      let date = new Date(workout.date_time).toLocaleDateString('en-us', dateOptions)
-      let time = new Date(workout.date_time).toLocaleTimeString('en-us', timeOptions)
+      let date = new Date(workout.start_date_time).toLocaleDateString('en-us', dateOptions)
+      let time = new Date(workout.start_date_time).toLocaleTimeString('en-us', timeOptions)
       // -- Add time to the workout
       workout['time'] = time
       workout['date'] = date
@@ -35,7 +35,7 @@ const setTrainingDates = (workouts) => {
       let existing_date = trainingDates.find(workout => workout.date === date);
 
       // -- Indicate whether workout is in the past or not -- 
-      workout['completed'] = new Date(workout.date_time) < new Date()
+      workout['completed'] = new Date(workout.start_date_time) < new Date()
       
       // -- Push workouts into calendar dates --
       if (existing_date) {
@@ -78,7 +78,10 @@ const create = (workout) => {
   return new Promise(resolve => {
     let Workouts = new wx.BaaS.TableObject('workouts')
     let new_workout = Workouts.create()
-    workout['date_time'] = new Date(workout.date + ' ' + workout.time).toISOString().toString()
+
+    workout['start_date_time'] = new Date(workout.date + ' ' + workout.time).toISOString()
+
+    console.log(workout.date, workout.time, workout['date_time'])
 
     new_workout.set(workout).save().then(res => resolve(res))
   })

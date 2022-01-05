@@ -31,14 +31,15 @@
                 <view wx:if="{{!workout.date && !date.active}}" class="input-picker" style="color: gray;">CHOOSE YOUR DATE</view>
             </picker>
         </view>
+
         <view class="section">
             <image class="icon" src="/icons/time.png" />
-            <picker class="input" mode="time" bindchange="changeTime" value="{{time}}">
+            <picker class="input" mode="multiSelector" bindchange="changeCustomTime" value="{{time.index}}" range="{{time.columns}}" >
                 <view wx:if="{{workout.time}}" class="input-picker">{{workout.time}}</view>
-                <view wx:if="{{!workout.time && time.active}}" class="input-picker">{{time.selected}}</view>
-                <view wx:if="{{!workout.time && !time.active}}" class="input-picker" style="color: gray;">CHOOSE YOUR TIME</view>
+                <view wx:else class="input-picker" style="color: gray;">CHOOSE YOUR TIME</view>
             </picker>
         </view>
+
         <view class="section" bindtap="{{user.is_authorized ? 'changeLocation' : 'updateUserInformation'}}">
             <image class="icon" src="/icons/location.png" />
             <view wx:if="{{user.is_authorized}}" class="input"style="color: {{workout.location ? '#232323' : 'gray'}}">{{workout.location ? workout.location.address : 'CHOOSE YOUR LOCATION'}}</view>
