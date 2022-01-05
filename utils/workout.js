@@ -92,7 +92,7 @@ const edit = (workout) => {
     let Workouts = new wx.BaaS.TableObject('workouts')
     let existing_workout = Workouts.getWithoutData(workout.id)
 
-    workout.date_time = new Date(workout.date + ' ' + workout.time).toISOString().toString()
+    workout['start_date_time'] = new Date(workout.date + ' ' + workout.time).toISOString()
     workout.created_by = workout.created_by.id
 
     existing_workout.set(workout).update().then(res => resolve(res))

@@ -95,6 +95,7 @@ Page({
         let time = `${columns[0][index[0]]}:${columns[1][index[1]]} ${columns[2][index[2]]}`
         
         this.setData({'time.index': index, 'time.active': true, 'workout.time': time})
+        this.validate()
     },
 
     changeLocation: function (e) {
