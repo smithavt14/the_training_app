@@ -107,6 +107,8 @@
 .avatar-box {
     display: flex;
     align-items: center;
+    padding-top: 16rpx;
+    margin-right: 16rpx;
 }
 
 .active {
@@ -121,14 +123,13 @@
     height: 96rpx;
     width: 96rpx;
     border-radius: 50%;
-    margin: 32rpx 16rpx 0 0;
     transition: .5s ease;
     flex-shrink: 0;
     z-index: 5
 }
 
 .avatar-name {
-    margin: 16rpx 12rpx 0 112rpx;
+    margin-left: 112rpx;
     flex-shrink: 0;
     opacity: 0;
     position: absolute;
@@ -146,7 +147,7 @@
     height: 96rpx;
     width: 1px;
     background: lightgray;
-    margin: 32rpx 16rpx 0 0;
+    margin-left: 16rpx;
 }
 
 .container-info > .area-description {
