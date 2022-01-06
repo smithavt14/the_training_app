@@ -18,7 +18,7 @@
     class="input-container container-image" 
     mode="aspectFill"
     bindtap="changeImage" 
-    style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url({{ workout.image.path || illustrations[category.active] || illustrations['Run'] }})">
+    style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url({{ workout.image.path || illustrations[workout.category] || illustrations['Run'] }})">
         <view>CHOOSE IMAGE</view>
     </view>
     
