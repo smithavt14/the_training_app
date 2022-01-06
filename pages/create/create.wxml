@@ -3,7 +3,7 @@
 
     <view class="input-container">
         <image class="icon" src="/icons/name.png" />
-        <input class="input" bindinput="changeName" value="{{workout.name}}" type="text" placeholder="INPUT YOUR WORKOUT NAME"/>
+        <input class="input" bindinput="changeName" value="{{workout.name}}" type="text" placeholder="INPUT YOUR WORKOUT NAME" maxlength="25"/>
     </view>
     
     <view class="input-container">
@@ -25,10 +25,9 @@
     <view class="input-container" style="display: block">
         <view class="section">
             <image class="icon" src="/icons/date.png" />
-            <picker class="input" mode="date" bindchange="changeDate" value="{{date}}" start="{{date.start}}" end="{{date.end}}">
+            <picker class="input" mode="selector" bindchange="changeDate" value="{{date.index}}" range="{{date.column}}" range-key="alias">
                 <view wx:if="{{workout.date}}" class="input-picker">{{workout.date}}</view>
-                <view wx:if="{{!workout.date && date.active}}" class="input-picker">{{date.selected}}</view>
-                <view wx:if="{{!workout.date && !date.active}}" class="input-picker" style="color: gray;">CHOOSE YOUR DATE</view>
+                <view wx:if="{{!workout.date}}" class="input-picker" style="color: gray;">CHOOSE YOUR DATE</view>
             </picker>
         </view>
 

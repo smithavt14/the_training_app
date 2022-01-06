@@ -15,30 +15,10 @@ Page({
             active: false,
             items: ['Run', 'Metcon', 'Track', 'Yoga', 'Swim']
         }, 
-        date: {
-            active: false,
-        },
+        date: _picker.date(),
         time: _picker.time(), 
         validated: false
     }, 
-
-    setDate: function () {
-        const now = new Date(Date.now())
-        let end = new Date(Date.now())
-        end = new Date(end.setDate(end.getDate() + 14))
-        
-        const year = now.getFullYear()
-        const month = now.getMonth() < 10 ? `0${now.getMonth() + 1}` : now.getMonth() + 1
-        const day = now.getDate()
-        const start = `${year}-${month}-${day}`
-
-        const yearEnd = end.getFullYear()
-        const monthEnd = end.getMonth() < 10 ? `0${end.getMonth() + 1}` : end.getMonth() + 1
-        const dayEnd = end.getDate()
-        end = `${yearEnd}-${monthEnd}-${dayEnd}`
-
-        this.setData({'date.start': start, 'date.end': end})
-    },
 
     // ----- Input Functions -----
 
@@ -71,15 +51,18 @@ Page({
     },
 
     changeName: function (e) {
+        let cursor = e.detail.cursor
+        if (cursor >= 25) wx.showToast({title: 'Keep it Short', icon: 'none'})
+
         this.setData({'workout.name': e.detail.value})
         this.validate();
     },
 
     changeDate: function (e) {
-        const options = {year: 'numeric', month: 'long', weekday: 'long', day: 'numeric'}
-        const selected = new Date(e.detail.value).toLocaleDateString('en-us', options)
+        let index = e.detail.value
+        let date = this.data.date
         
-        this.setData({'date.active': true, 'date.selected': selected, 'workout.date': selected})
+        this.setData({'workout.date': date.column[index].fullDate})
         this.validate();
     },
 
@@ -199,6 +182,5 @@ Page({
             this.setData({title: 'CREATE'})
         }
         this.setData({user})
-        this.setDate()
     }
 })
