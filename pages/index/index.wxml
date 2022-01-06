@@ -17,9 +17,9 @@
       class="workout-card-white {{workout.completed ? 'completed' : '' }}" 
       data-id="{{workout.id}}" 
       bindtap="navigateToShow">
-          
+
         <image class="icon" src="/icons/{{workout.category}}.png"/>
-          
+
         <view class="info-container">
           <view class="name">{{workout.name}}</view>
           <view class="time">{{workout.time.start}}</view>
