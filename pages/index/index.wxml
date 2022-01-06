@@ -22,7 +22,7 @@
           
         <view class="info-container">
           <view class="name">{{workout.name}}</view>
-          <view class="time">{{workout.time}}</view>
+          <view class="time">{{workout.time.start}}</view>
         </view>
           
         <view class="attendee-container">

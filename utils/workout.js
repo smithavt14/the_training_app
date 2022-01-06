@@ -6,10 +6,14 @@ const fetchWithID = (id) => {
       let dateOptions = {year: 'numeric', weekday: "long", month: "long", day: "numeric"}
       let timeOptions = {hour: 'numeric', minute: '2-digit'}
 
-      workout.date = new Date(workout.start_date_time).toLocaleDateString('en-us', dateOptions)
-      workout.time = new Date(workout.start_date_time).toLocaleTimeString('en-us', timeOptions)
+      let date = new Date(workout.start_date_time).toLocaleDateString('en-us', dateOptions)
+      let start = new Date(workout.start_date_time).toLocaleTimeString('en-us', timeOptions)
+      let end = workout.end_date_time ? new Date(workout.end_date_time).toLocaleTimeString('en-us', timeOptions) : ''
 
+      workout['time'] = {start, end}
+      workout['date'] = date
       workout.name = workout.name.toUpperCase()
+
       workout['capitalizedCategory'] = workout.category[0].toUpperCase() + workout.category.substring(1);
 
       resolve(workout)
@@ -27,10 +31,13 @@ const setTrainingDates = (workouts) => {
     workouts.forEach((workout) => {
       // -- Turn date to a locale date string
       let date = new Date(workout.start_date_time).toLocaleDateString('en-us', dateOptions)
-      let time = new Date(workout.start_date_time).toLocaleTimeString('en-us', timeOptions)
+      let start = new Date(workout.start_date_time).toLocaleTimeString('en-us', timeOptions)
+      let end = new Date(workout.end_date_time).toLocaleTimeString('en-us', timeOptions)
+      
       // -- Add time to the workout
-      workout['time'] = time
+      workout['time'] = { start, end }
       workout['date'] = date
+      
       // -- Check to see if this workout's day already exists in the trainingDates array
       let existing_date = trainingDates.find(workout => workout.date === date);
 
@@ -79,9 +86,8 @@ const create = (workout) => {
     let Workouts = new wx.BaaS.TableObject('workouts')
     let new_workout = Workouts.create()
 
-    workout['start_date_time'] = new Date(workout.date + ' ' + workout.time).toISOString()
-
-    console.log(workout.date, workout.time, workout['date_time'])
+    workout['start_date_time'] = new Date(workout.date + ' ' + workout.time.start).toISOString()
+    if (workout.time.end) workout['end_date_time'] = new Date(workout.date + ' ' + workout.time.end).toISOString()
 
     new_workout.set(workout).save().then(res => resolve(res))
   })
@@ -92,7 +98,8 @@ const edit = (workout) => {
     let Workouts = new wx.BaaS.TableObject('workouts')
     let existing_workout = Workouts.getWithoutData(workout.id)
 
-    workout['start_date_time'] = new Date(workout.date + ' ' + workout.time).toISOString()
+    workout['start_date_time'] = new Date(workout.date + ' ' + workout.time.start).toISOString()
+    workout['end_date_time'] = new Date(workout.date + ' ' + workout.time.end).toISOString()
     workout.created_by = workout.created_by.id
 
     existing_workout.set(workout).update().then(res => resolve(res))

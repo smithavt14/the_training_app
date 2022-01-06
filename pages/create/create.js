@@ -66,18 +66,13 @@ Page({
         this.validate();
     },
 
-    changeTime: function (e) {
-        let selected = e.detail.value
-        this.setData({'time.active': true, 'time.selected': selected, 'workout.time': selected})
-        this.validate()
-    },
-
     changeCustomTime: function (e) {
+        let id = e.currentTarget.dataset.id
         let index = e.detail.value
         let columns = this.data.time.columns
         let time = `${columns[0][index[0]]}:${columns[1][index[1]]} ${columns[2][index[2]]}`
         
-        this.setData({'time.index': index, 'time.active': true, 'workout.time': time})
+        this.setData({[`workout.time.${id}`]: time})
         this.validate()
     },
 
@@ -105,7 +100,7 @@ Page({
         if (workout.category
             && workout.name 
             && workout.date
-            && workout.time
+            && workout.time.start
             && workout.description 
             && workout.location) {
 
@@ -149,7 +144,6 @@ Page({
 
     getWorkout: async function (id) {
         let workout = await _workout.fetchWithID(id)
-        console.log(workout)
         this.setData({workout})
     },
 

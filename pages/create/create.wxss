@@ -37,6 +37,12 @@
 
 .input-container > .input {
     flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.section > .input {
+    flex-grow: 1;
+    flex-shrink: 0;
 }
 
 .input-container > .section {

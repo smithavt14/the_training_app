@@ -3,7 +3,7 @@
 
     <view class="input-container">
         <image class="icon" src="/icons/name.png" />
-        <input class="input" bindinput="changeName" value="{{workout.name}}" type="text" placeholder="INPUT YOUR WORKOUT NAME" maxlength="25"/>
+        <input class="input" bindinput="changeName" value="{{workout.name}}" type="text" placeholder="INPUT WORKOUT NAME" maxlength="30"/>
     </view>
     
     <view class="input-container">
@@ -25,7 +25,7 @@
     <view class="input-container" style="display: block">
         <view class="section">
             <image class="icon" src="/icons/date.png" />
-            <picker class="input" mode="selector" bindchange="changeDate" value="{{date.index}}" range="{{date.column}}" range-key="alias">
+            <picker class="input" mode="selector" bindchange="changeDate" value="{{date.column[date.index]}}" range="{{date.column}}" range-key="alias">
                 <view wx:if="{{workout.date}}" class="input-picker">{{workout.date}}</view>
                 <view wx:if="{{!workout.date}}" class="input-picker" style="color: gray;">CHOOSE YOUR DATE</view>
             </picker>
@@ -33,9 +33,14 @@
 
         <view class="section">
             <image class="icon" src="/icons/time.png" />
-            <picker class="input" mode="multiSelector" bindchange="changeCustomTime" value="{{time.index}}" range="{{time.columns}}" >
-                <view wx:if="{{workout.time}}" class="input-picker">{{workout.time}}</view>
-                <view wx:else class="input-picker" style="color: gray;">CHOOSE YOUR TIME</view>
+            <picker data-id="start" class="input" mode="multiSelector" bindchange="changeCustomTime" value="{{time.columns[time.index]}}" range="{{time.columns}}">
+                <view wx:if="{{workout.time.start}}" class="input-picker">{{workout.time.start}}</view>
+                <view wx:else class="input-picker" style="color: gray;">CHOOSE START TIME</view>
+            </picker>
+            <view wx:if="{{workout.time.end}}" class="input">-</view>
+            <picker wx:if="{{workout.time.start}}" data-id="end" class="input" mode="multiSelector" bindchange="changeCustomTime" value="{{time.columns[time.index]}}" range="{{time.columns}}">
+                <view wx:if="{{workout.time.end}}" class="input-picker">{{workout.time.end}}</view>
+                <view wx:else class="input-picker" style="color: gray;">CHOOSE END TIME</view>
             </picker>
         </view>
 

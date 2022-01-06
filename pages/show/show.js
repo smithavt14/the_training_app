@@ -7,11 +7,11 @@ Page({
     data: {
         toggleContainer: false, 
         illustrations: {
-            swim: 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYzx5mqh3pVD.png', 
-            metcon: 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYEeHJPcDdfX.png',
-            yoga: 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYx63uokqkjo.png',
-            run: 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5ZMcoe8pvcs.png',
-            track: 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5UlV4LLKSC1.png'
+            'Swim': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYzx5mqh3pVD.png', 
+            'Metcon': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYEeHJPcDdfX.png',
+            'Yoga': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYx63uokqkjo.png',
+            'Run': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5ZMcoe8pvcs.png',
+            'Track': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5UlV4LLKSC1.png'
         },
         animation: {
             toggleSize: {},
@@ -58,7 +58,7 @@ Page({
         
         const toggleSize = wx.createAnimation({duration: 500, timingFunction: 'ease'})
 
-        active ? toggleSize.height(160).step() : toggleSize.height(320).step()
+        active ? toggleSize.height(180).step() : toggleSize.height(360).step()
         
         this.setData({'animation.toggleSize': toggleSize.export() })
         this.setData({'animation.toggleSize.active': !active })
