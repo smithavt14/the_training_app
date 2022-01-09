@@ -56,8 +56,7 @@
                 class="avatar active {{ activeAttendee === -1 || activeAttendee === index ? 'active' : 'inactive'}}"
                 src="{{attendee.user.avatar}}"/>
 
-                <view 
-                class="avatar-name {{activeAttendee === index ? 'avatar-name-active' : ''}}">{{attendee.user.nickname}}</view>
+                <view wx:if="{{activeAttendee === index}}" class="avatar-name {{activeAttendee === index ? 'avatar-name-active' : ''}}">{{attendee.user.nickname}}</view>
                 
                 <view 
                 wx:if="{{attendee.user.id === workout.created_by.id}}" 

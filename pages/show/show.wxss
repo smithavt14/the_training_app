@@ -136,6 +136,7 @@
     position: absolute;
     transition: .5s ease;
     z-index: 0;
+    min-width: 200rpx;
 }
 
 .avatar-name-active {

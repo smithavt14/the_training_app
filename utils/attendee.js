@@ -5,7 +5,7 @@ const findAllForWorkout = (workout, user) => {
   
       query.compare('workout', '=', workout.id)
   
-      Attendees.setQuery(query).expand('user').select(['id', 'user.avatar', 'user.nickname', 'user.id']).find().then(res => {
+      Attendees.setQuery(query).limit(100).expand('user').select(['id', 'user.avatar', 'user.nickname', 'user.id']).find().then(res => {
           let attendees = res.data.objects
 
           // Identify whether user is an attendee;
