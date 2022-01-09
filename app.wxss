@@ -63,11 +63,17 @@
   align-items: center;
   flex-grow: 1;
   flex-shrink: 0;
+  transition: all .25s ease;
+  opacity: 1;
 }
 
 .btn-primary {
   background: linear-gradient(225deg, rgba(23, 23, 23, 0.1) 0%, rgba(22, 184, 243, 0.1) 100%), #171717;
   color: white;
+}
+
+.btn-primary:active {
+  opacity: .9
 }
 
 .btn-login {
@@ -81,6 +87,10 @@
 .btn-share {
   background: linear-gradient(225deg, rgba(23, 23, 23, 0.1) 0%, rgba(243, 22, 22, 0.1) 100%), #171717;
   color: white;
+}
+
+.btn-share:active {
+  opacity: .9;
 }
 
 .btn-login > .icon {
