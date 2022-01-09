@@ -69,6 +69,7 @@
     width: 100%;
     padding: 0;
     height: 240rpx;
+    overflow: hidden;
 }
 
 .container-map-overlay {
@@ -101,7 +102,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    overflow: scroll;
+    overflow-x: scroll;
 }
 
 .avatar-box {

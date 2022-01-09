@@ -24,18 +24,18 @@
         </view>
     </view>
 
-    <view class="container-info container-combined-map-aqi">
-        <view class="container-aqi" style="background: linear-gradient(273.57deg, rgba(255, 255, 255, 0) -240%, {{aqi.hex}} 100%), #FFFFFF;">
-            <view class="box-aqi">
-                <view class="top">{{aqi.number}}</view>
-                <view class="bottom">中国 AQI</view>
-            </view>
-            <view class="box-aqi">
-                <view class="top">{{aqi.location.name}}</view>
-                <view class="bottom">WORKOUT LOCATION</view>
-            </view>
+    <view class="container-info container-aqi" style="background: linear-gradient(273.57deg, rgba(255, 255, 255, 0) -240%, {{aqi.hex}} 100%), #FFFFFF;">
+        <view class="box-aqi">
+            <view class="top">{{aqi.number}}</view>
+            <view class="bottom">中国 AQI</view>
         </view>
-        
+        <view class="box-aqi">
+            <view class="top">{{aqi.location.name}}</view>
+            <view class="bottom">WORKOUT LOCATION</view>
+        </view>
+    </view>
+
+    <view class="container-info container-map">
         <map class="container-map"
         longitude="{{workout.location.longitude}}" 
         latitude="{{workout.location.latitude}}" 
@@ -44,7 +44,6 @@
             <view class="container-map-overlay" bindtap="openLocation"/>
         </map>
     </view>
-    
 
     <view class="container-info">
         <view class="title">WHO'S GOING</view>
