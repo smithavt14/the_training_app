@@ -76,7 +76,7 @@
         <button class="btn btn-share" open-type="share">SHARE</button>
         <view wx:if="{{user.id === workout.created_by.id}}" class="btn btn-ghost" bindtap="navigateToEdit">EDIT</view>
         <view wx:if="{{!user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-login" bindtap="updateUserInformation">LOGIN</view>
-        <view wx:if="{{user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-primary" bindtap="createAttendee">JOIN</view>
+        <view wx:if="{{user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-primary" bindtap="{{btn.disabled ? '' : 'createAttendee'}}">JOIN</view>
         <view wx:if="{{user.is_attending && user.id != workout.created_by.id}}" class="btn btn-ghost" bindtap="removeAttendee">CANCEL</view>
     </view>
 </view>

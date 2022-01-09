@@ -93,6 +93,8 @@ Page({
     // ----- Attendee Functions -----
 
     createAttendee: async function () {
+        this.setData({ 'btn.disabled': true })
+        
         let user = this.data.user
         let workout = this.data.workout
         
@@ -100,6 +102,7 @@ Page({
         
         const data = await _attendee.findAllForWorkout(workout, user)
         this.setData(data)
+        this.setData({ 'btn.disabled': false })
     },
 
     removeAttendee: async function () {
