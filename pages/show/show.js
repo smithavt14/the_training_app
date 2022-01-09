@@ -66,7 +66,8 @@ Page({
 
     // ----- Navigation Functions -----
 
-    navigateHome: function () {
+    navigateHome: function (e) {
+        console.log(e)
         wx.redirectTo({ url: '/pages/index/index' })
     },
 

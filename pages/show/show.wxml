@@ -4,7 +4,7 @@
     animation="{{animation.toggleSize}}"
     style="background-image: linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('{{ workout.image.path || illustrations[workout.category] }}')">
         {{workout.name}}
-        <image bindtap="navigateHome" class="btn-back" src="../../icons/home.svg"/>
+        <image catchtap="navigateHome" class="btn-back" src="../../icons/home.svg"/>
 </view>
 <view class="page__container">    
     <view class="container-info">

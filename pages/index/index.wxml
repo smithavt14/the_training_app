@@ -4,7 +4,7 @@
     TRAINING SCHEDULE
   </view>
 
-  <block wx:if="{{trainingDates[0].workouts[0]['creator']}}">
+  <block wx:if="{{trainingDates}}">
     <view wx:for="{{trainingDates}}" wx:key="id" wx:for-item="trainingDay">
       <view class="date {{ trainingDay.today ? 'date-today' : '' }}">{{trainingDay.today ? 'Today: ' : ''}}{{trainingDay.date}}</view>
     
