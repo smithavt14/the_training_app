@@ -1,82 +1,84 @@
-<view 
-    class="container-header" 
-    bindtap="animateToggleSize" 
-    animation="{{animation.toggleSize}}"
-    style="background-image: linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('{{ workout.image.path || illustrations[workout.category] }}')">
-        {{workout.name}}
-        <image catchtap="navigateHome" class="btn-back" src="../../icons/home.svg"/>
-</view>
-<view class="page__container">    
-    <view class="container-info">
-        <view class="flex">
-            <image class="icon" src="/icons/{{workout.category}}.png"/>
-            <view class="text">{{workout.capitalizedCategory}}</view>
-        </view>
-        <view class="flex margin-32">
-            <image class="icon" src="/icons/time.png"/>
-            <view class="text">{{workout.time.start}}</view>
-            <view wx:if="{{workout.time.end}}" style="margin: 0 16rpx;">~</view>
-            <view class="text">{{workout.time.end}}</view>
-        </view>
-        <view class="flex">
-            <image class="icon" src="/icons/date.png"/>
-            <view class="text">{{workout.date}}</view>
-        </view>
+<block wx:if="{{workout}}">
+    <view 
+        class="container-header" 
+        bindtap="animateToggleSize" 
+        animation="{{animation.toggleSize}}"
+        style="background-image: linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('{{ workout.image.path || illustrations[workout.category] }}')">
+            {{workout.name}}
+            <image catchtap="navigateHome" class="btn-back" src="../../icons/home.svg"/>
     </view>
-
-    <view class="container-info container-aqi" style="background: linear-gradient(273.57deg, rgba(255, 255, 255, 0) -240%, {{aqi.hex}} 100%), #FFFFFF;">
-        <view class="box-aqi">
-            <view class="top">{{aqi.number}}</view>
-            <view class="bottom">中国 AQI</view>
-        </view>
-        <view class="box-aqi">
-            <view class="top">{{aqi.location.name}}</view>
-            <view class="bottom">WORKOUT LOCATION</view>
-        </view>
-    </view>
-
-    <view class="container-info container-map">
-        <map class="container-map"
-        longitude="{{workout.location.longitude}}" 
-        latitude="{{workout.location.latitude}}" 
-        scale="14"
-        markers="{{[{latitude: workout.location.latitude, longitude: workout.location.longitude}]}}">
-            <view class="container-map-overlay" bindtap="openLocation"/>
-        </map>
-    </view>
-
-    <view class="container-info">
-        <view class="title">WHO'S GOING</view>
-        <view class="container-avatars">
-            <view class="avatar-box" wx:for="{{attendees}}" wx:for-item="attendee">
-                
-                <image 
-                bindtap="toggleActiveAttendee"
-                data-index="{{index}}"
-                class="avatar active {{ activeAttendee === -1 || activeAttendee === index ? 'active' : 'inactive'}}"
-                src="{{attendee.user.avatar}}"/>
-
-                <view wx:if="{{activeAttendee === index}}" class="avatar-name {{activeAttendee === index ? 'avatar-name-active' : ''}}">{{attendee.user.nickname}}</view>
-                
-                <view 
-                wx:if="{{attendee.user.id === workout.created_by.id}}" 
-                class="line-vertical {{activeAttendee === -1 ? 'active' : 'inactive'}}"/>
-
+    <view class="page__container">    
+        <view class="container-info">
+            <view class="flex">
+                <image class="icon" src="/icons/{{workout.category}}.png"/>
+                <view class="text">{{workout.capitalizedCategory}}</view>
+            </view>
+            <view class="flex margin-32">
+                <image class="icon" src="/icons/time.png"/>
+                <view class="text">{{workout.time.start}}</view>
+                <view wx:if="{{workout.time.end}}" style="margin: 0 16rpx;">~</view>
+                <view class="text">{{workout.time.end}}</view>
+            </view>
+            <view class="flex">
+                <image class="icon" src="/icons/date.png"/>
+                <view class="text">{{workout.date}}</view>
             </view>
         </view>
-    </view>
 
-    <view class="container-info">
-        <view class="area-description">
-            {{workout.description}}
+        <view class="container-info container-aqi" style="background: linear-gradient(273.57deg, rgba(255, 255, 255, 0) -240%, {{aqi.hex}} 100%), #FFFFFF;">
+            <view class="box-aqi">
+                <view class="top">{{aqi.number}}</view>
+                <view class="bottom">中国 AQI</view>
+            </view>
+            <view class="box-aqi">
+                <view class="top">{{aqi.location.name}}</view>
+                <view class="bottom">WORKOUT LOCATION</view>
+            </view>
+        </view>
+
+        <view class="container-info container-map">
+            <map class="container-map"
+            longitude="{{workout.location.longitude}}" 
+            latitude="{{workout.location.latitude}}" 
+            scale="14"
+            markers="{{[{latitude: workout.location.latitude, longitude: workout.location.longitude}]}}">
+                <view class="container-map-overlay" bindtap="openLocation"/>
+            </map>
+        </view>
+
+        <view class="container-info">
+            <view class="title">WHO'S GOING</view>
+            <view class="container-avatars">
+                <view class="avatar-box" wx:for="{{attendees}}" wx:for-item="attendee">
+                    
+                    <image 
+                    bindtap="toggleActiveAttendee"
+                    data-index="{{index}}"
+                    class="avatar active {{ activeAttendee === -1 || activeAttendee === index ? 'active' : 'inactive'}}"
+                    src="{{attendee.user.avatar}}"/>
+
+                    <view wx:if="{{activeAttendee === index}}" class="avatar-name {{activeAttendee === index ? 'avatar-name-active' : ''}}">{{attendee.user.nickname}}</view>
+                    
+                    <view 
+                    wx:if="{{attendee.user.id === workout.created_by.id}}" 
+                    class="line-vertical {{activeAttendee === -1 ? 'active' : 'inactive'}}"/>
+
+                </view>
+            </view>
+        </view>
+
+        <view class="container-info">
+            <view class="area-description">
+                {{workout.description}}
+            </view>
+        </view>
+
+        <view class="container-btn">
+            <button class="btn btn-share" open-type="share">SHARE</button>
+            <view wx:if="{{user.id === workout.created_by.id}}" class="btn btn-ghost" bindtap="navigateToEdit">EDIT</view>
+            <view wx:if="{{!user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-login" bindtap="updateUserInformation">LOGIN</view>
+            <view wx:if="{{user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-primary" bindtap="{{btn.disabled ? '' : 'createAttendee'}}">JOIN</view>
+            <view wx:if="{{user.is_attending && user.id != workout.created_by.id}}" class="btn btn-ghost" bindtap="removeAttendee">CANCEL</view>
         </view>
     </view>
-
-    <view class="container-btn">
-        <button class="btn btn-share" open-type="share">SHARE</button>
-        <view wx:if="{{user.id === workout.created_by.id}}" class="btn btn-ghost" bindtap="navigateToEdit">EDIT</view>
-        <view wx:if="{{!user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-login" bindtap="updateUserInformation">LOGIN</view>
-        <view wx:if="{{user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-primary" bindtap="{{btn.disabled ? '' : 'createAttendee'}}">JOIN</view>
-        <view wx:if="{{user.is_attending && user.id != workout.created_by.id}}" class="btn btn-ghost" bindtap="removeAttendee">CANCEL</view>
-    </view>
-</view>
+</block>

@@ -22,11 +22,13 @@ Page({
   // ----- Workout Functions -----
 
   getAllWorkouts: async function (user) {
+    wx.showLoading({title: 'Loading...'})
     let workouts = await _attendee.fetchAllForUser(user)
     workouts = await _workout.getCreatorInfo(workouts)
     
     let trainingDates = await _workout.setTrainingDates(workouts)
     this.setData({trainingDates})
+    wx.hideLoading()
   },
 
   // ----- Display Functions -----

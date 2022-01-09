@@ -150,12 +150,14 @@ Page({
 
     // ----- Lifecycle Functions -----
     onLoad: async function (options) {
+        wx.showLoading({title: 'Loading...'})
         const user = await _auth.getCurrentUser()
         const workout = await _workout.fetchWithID(options.id)
         const data = await _attendee.findAllForWorkout(workout, user)
         const aqi = await _weather.fetchAQI(workout)
         this.setData(data)
         this.setData({ aqi })
+        wx.hideLoading()
     },
 
     onShareAppMessage: function () {
