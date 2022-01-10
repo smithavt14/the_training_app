@@ -45,8 +45,12 @@
 
 .box-aqi {
     text-align: center;
+    padding: 4rpx;
     color: white;
-    flex-shrink: 0;
+    border-radius: 4px;
+    margin-top: 8rpx;
+    box-sizing: border-box;
+    width: 120rpx;
 }
 
 .box-aqi > .top {
@@ -73,7 +77,6 @@
 }
 
 .container-map-overlay {
-    /* background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)); */
     color: white;
     padding: 32rpx;
     box-sizing: border-box;
@@ -103,6 +106,37 @@
     align-items: center;
     position: relative;
     overflow-x: scroll;
+}
+
+.container-weather {
+    position: relative;
+    display: flex;
+    background-size: contain;
+    padding: 32rpx 64rpx;
+    color: white;
+    align-items: center;
+    overflow: hidden;
+}
+
+.container-weather .box-temp {
+    font-size: 72rpx;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.container-weather .box-info {
+    margin-left: 40rpx;
+    font-size: 24rpx;
+}
+
+.container-weather > .weather-icon {
+    height: 180rpx;
+    width: 180rpx;
+    position: absolute;
+    right: 48rpx;
+    transform: translateY(-50%);
+    top: 45%;
 }
 
 .avatar-box {

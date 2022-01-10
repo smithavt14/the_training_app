@@ -152,13 +152,14 @@ Page({
     onLoad: async function (options) {
         wx.showLoading({title: 'Loading...'})
         let unset_user = await _auth.getCurrentUser()
-        const workout = await _workout.fetchWithID(options.id)
+        let workout = await _workout.fetchWithID(options.id)
         
         let [attendees, user] = await _attendee.findAllForWorkout(workout, unset_user)
         
-        const location = await _weather.fetchGeoLocation(workout)
-        const aqi = _weather.fetchAQI(workout, location)
-        const weather = _weather.fetchWeather(location)
+        let location = await _weather.fetchGeoLocation(workout)
+        let aqi = _weather.fetchAQI(workout, location)
+        let weather = _weather.fetchWeather(location)
+        
         Promise.all([aqi, weather]).then(values => {
           this.setData({ user, workout, attendees, aqi: values[0], weather: values[1] })
           wx.hideLoading()

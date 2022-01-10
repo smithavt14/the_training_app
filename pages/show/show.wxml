@@ -25,15 +25,14 @@
             </view>
         </view>
 
-        <view class="container-info container-aqi" style="background: linear-gradient(273.57deg, rgba(255, 255, 255, 0) -240%, {{aqi.hex}} 100%), #FFFFFF;">
-            <view class="box-aqi">
-                <view class="top">{{aqi.number}}</view>
-                <view class="bottom">中国 AQI</view>
+        <view class="container-info container-weather" style="background-image: url({{weather.background}})">
+            <view class="box-temp">{{weather.temp}}°</view>
+            <view class="box-info">
+                <view>{{aqi.location.name}}, {{aqi.location.adm1}}</view>
+                <view>{{weather.text}}</view>
+                <view class="box-aqi" style="background-color: {{aqi.hex}};">AQI: {{aqi.number}}</view>
             </view>
-            <view class="box-aqi">
-                <view class="top">{{aqi.location.name}}</view>
-                <view class="bottom">WORKOUT LOCATION</view>
-            </view>
+            <image class="weather-icon" mode="aspectFit" src="{{weather.new_icon}}"/>
         </view>
 
         <view class="container-info container-map">
@@ -62,7 +61,6 @@
                     <view 
                     wx:if="{{attendee.user.id === workout.created_by.id}}" 
                     class="line-vertical {{activeAttendee === -1 ? 'active' : 'inactive'}}"/>
-
                 </view>
             </view>
         </view>
