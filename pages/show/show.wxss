@@ -112,14 +112,15 @@
     position: relative;
     display: flex;
     background-size: contain;
-    padding: 32rpx 64rpx;
+    padding: 24rpx 48rpx;
     color: white;
     align-items: center;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 .container-weather .box-temp {
-    font-size: 72rpx;
+    font-size: 64rpx;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -131,12 +132,12 @@
 }
 
 .container-weather > .weather-icon {
-    height: 180rpx;
-    width: 180rpx;
+    height: 100%;
+    width: 170rpx;
     position: absolute;
     right: 48rpx;
     transform: translateY(-50%);
-    top: 45%;
+    top: 50%;
 }
 
 .avatar-box {

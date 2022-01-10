@@ -5,6 +5,7 @@ const icons = {
   'rainy': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uScy77rXVqgem.png',
   'thunderstorm': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uScYhSJ1rVBNj.png', 
   'partly_cloudy': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uu6BFKcMphTJo.png',
+  'partly_cloudy_night': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uu6jsr632MbYK.png',
   'clear': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uu6NcqW37F1wx.png',
   'windy': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uScc8C04VNack.png',
   'snow': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uSc5QSJzmxfeO.png',
@@ -22,6 +23,8 @@ const setIcon = (weather) => {
   return new Promise(resolve => {
     let hours = new Date(weather.obsTime).getHours()
     weather['background'] = hours < 19 ? backgrounds['day'] : backgrounds['night']
+
+    console.log(weather)
     
     if (['100', '150'].includes(weather.icon)) {
       weather['new_icon'] = hours < 19 ? icons['clear'] : icons['clear_night']
