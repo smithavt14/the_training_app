@@ -1,4 +1,14 @@
 const key = 'e8e419bb9f8a4ea49e2edeeabb7dd3db'
+const icons = {
+  'partly_rainy': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uScgPcA0OAmjL.png',
+  'cloudy': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uScnc5uBLm1uc.png',
+  'rainy': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uScy77rXVqgem.png',
+  'thunderstorm': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uScYhSJ1rVBNj.png', 
+  'partly_sunny': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uScBT1Dzg9OrA.png',
+  'sunny': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uScAoKFFDnB58.png',
+  'windy': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uScc8C04VNack.png',
+  'snow': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uSc5QSJzmxfeO.png'
+}
 
 /* --- https://dev.heweather.com/docs/api/air --- */
 
@@ -8,10 +18,7 @@ const fetchGeoLocation = (workout) => {
         let long = workout.location.longitude
         wx.request({
           url: `https://geoapi.qweather.com/v2/city/lookup?location=${long},${lat}&lang=en&key=${key}`,
-          success: (res) => {
-
-              resolve(res.data.location[0])
-          }
+          success: (res) => { resolve(res.data.location[0]) }
         })
     })
 }
@@ -44,26 +51,8 @@ const setColor = (qlty) => {
   if (qlty === '严重污染') return '#933D40'
 }
 
-const darkenColor = (hex) => {
-  let lum = -0.03
-  
-  hex = String(hex).replace(/[^0-9a-f]/gi, '');
-  
-  if (hex.length < 6) {
-    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-  }
-  
-  lum = lum || 0;
+const setIcon = () => {
 
-  let rgb = "#", c, i;
-
-  for (i = 0; i < 3; i++) {
-    c = parseInt(hex.substr(i * 2, 2), 16);
-    c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
-    rgb += ("00" + c).substr(c.length);
-  }
-
-  return rgb;
 }
 
 const fetchWeather = async () => {
@@ -75,12 +64,9 @@ const fetchWeather = async () => {
 
     wx.request({
       url,
-      data: {},
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success(res) {
+      success: (res) => {
         let data = res.data.HeWeather6[0].now
+        console.log(data)
         resolve(data)
       },
       fail(err) {
