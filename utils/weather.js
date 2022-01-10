@@ -55,25 +55,4 @@ const setIcon = () => {
 
 }
 
-const fetchWeather = async () => {
-  let location = await _auth.getCurrentLocation
-  
-  return new Promise(resolve => {
-    
-    let url = `https://api.heweather.net/s6/weather/now?location=${location.lat},${location.lon}&key=${key}`
-
-    wx.request({
-      url,
-      success: (res) => {
-        let data = res.data.HeWeather6[0].now
-        console.log(data)
-        resolve(data)
-      },
-      fail(err) {
-        resolve(err)
-      }
-    })
-  })
-}
-
-module.exports = { fetchAQI, fetchWeather }
+module.exports = { fetchAQI, fetchWeather, fetchGeoLocation }

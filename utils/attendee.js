@@ -14,7 +14,7 @@ const findAllForWorkout = (workout, user) => {
           if (user_attendee) user['attendee'] = user_attendee.id 
           user['is_attending'] = !!user_attendee
 
-          resolve({attendees, user, workout})
+          resolve([attendees, user])
       })
   })
 }

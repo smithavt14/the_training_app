@@ -151,13 +151,18 @@ Page({
     // ----- Lifecycle Functions -----
     onLoad: async function (options) {
         wx.showLoading({title: 'Loading...'})
-        const user = await _auth.getCurrentUser()
+        let unset_user = await _auth.getCurrentUser()
         const workout = await _workout.fetchWithID(options.id)
-        const data = await _attendee.findAllForWorkout(workout, user)
-        const aqi = await _weather.fetchAQI(workout)
-        this.setData(data)
-        this.setData({ aqi })
-        wx.hideLoading()
+        
+        let [attendees, user] = await _attendee.findAllForWorkout(workout, unset_user)
+        
+        const location = await _weather.fetchGeoLocation(workout)
+        const aqi = _weather.fetchAQI(workout, location)
+        const weather = _weather.fetchWeather(location)
+        Promise.all([aqi, weather]).then(values => {
+          this.setData({ user, workout, attendees, aqi: values[0], weather: values[1] })
+          wx.hideLoading()
+        })
     },
 
     onShareAppMessage: function () {
