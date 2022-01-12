@@ -41,7 +41,7 @@ const fetchAllForUser = (user) => {
   
     query.compare('user', '=', id)
   
-    Attendees.setQuery(query).limit(20).expand('workout').orderBy(['workout.date_time']).find().then(async res => {
+    Attendees.setQuery(query).limit(50).expand('workout').orderBy(['workout.date_time']).find().then(async res => {
       let workouts = res.data.objects.map(attendee => attendee.workout)
       workouts = workouts.sort((a, b) => new Date(b.date_time) - new Date(a.date_time))
       

@@ -158,7 +158,7 @@ Page({
         
         let location = await _weather.fetchGeoLocation(workout)
         let aqi = _weather.fetchAQI(workout, location)
-        let weather = _weather.fetchWeather(location)
+        let weather = _weather.fetchWeather(location, workout)
         
         Promise.all([aqi, weather]).then(values => {
           this.setData({ user, workout, attendees, aqi: values[0], weather: values[1] })

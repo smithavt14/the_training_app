@@ -19,42 +19,47 @@ const backgrounds = {
   'night': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1n6uKi96ZDgwE1yF.jpg'
 }
 
-const setIcon = (weather) => {
+const setIcon = (weather, workout) => {
   return new Promise(resolve => {
-    let hours = new Date(weather.obsTime).getHours()
-    weather['background'] = hours < 19 ? backgrounds['day'] : backgrounds['night']
+    let workoutTime = new Date(workout.start_date_time).toLocaleTimeString('it-IT')
+    let timeOfDay = workoutTime >= weather.sunrise && workoutTime ? 'Day' : 'Night'
 
-    console.log(weather)
+    weather['background'] = backgrounds[timeOfDay.toLowerCase()]
+    weather['temp'] = timeOfDay === 'Day' ? weather.tempMax : weather.tempMin
+    weather['text'] = timeOfDay === 'Day' ? weather.textDay : weather.textNight
+
+    let icon = timeOfDay === 'Day' ? weather.iconDay : weather.iconNight
     
-    if (['100', '150'].includes(weather.icon)) {
-      weather['new_icon'] = hours < 19 ? icons['clear'] : icons['clear_night']
+    
+    if (['100', '150'].includes(icon)) {
+      weather['new_icon'] = timeOfDay === 'Day' ? icons['clear'] : icons['clear_night']
       resolve(weather)
     
-    } else if (['300', '301', '350', '351'].includes(weather.icon)) {
-      weather['new_icon'] = hours < 19 ? icons['partly_rainy'] : icons['partly_rainy_night']
+    } else if (['300', '301', '350', '351'].includes(icon)) {
+      weather['new_icon'] = timeOfDay === 'Day' ? icons['partly_rainy'] : icons['partly_rainy_night']
       resolve(weather)
       
-    } else if (['104', '154', '501'].includes(weather.icon)) {
+    } else if (['104', '154', '501'].includes(icon)) {
       weather['new_icon'] = icons['overcast']
       resolve(weather)
 
-    } else if (['305', '306', '307', '308', '309', '310', '311', '312', '313', '314', '315', '316', '317', '318', '399'].includes(weather.icon)) {
+    } else if (['305', '306', '307', '308', '309', '310', '311', '312', '313', '314', '315', '316', '317', '318', '399'].includes(icon)) {
       weather['new_icon'] = icons['rainy']
       resolve(weather)
 
-    } else if (['302', '303', '304'].includes(weather.icon)) {
+    } else if (['302', '303', '304'].includes(icon)) {
       weather['new_icon'] = icons['thunderstorm']
       resolve(weather)
 
-    } else if (['101', '102', '103', '151', '152', '153'].includes(weather.icon)) {
-      weather['new_icon'] = hours < 19 ? icons['partly_cloudy'] : icons['partly_cloudy_night']
+    } else if (['101', '102', '103', '151', '152', '153'].includes(icon)) {
+      weather['new_icon'] = timeOfDay === 'Day' ? icons['partly_cloudy'] : icons['partly_cloudy_night']
       resolve(weather)
 
-    } else if (['2001'].includes(weather.icon)) {
+    } else if (['2001'].includes(icon)) {
       weather['new_icon'] = icons['windy']
       resolve(weather)
 
-    } else if (['400', '401', '402', '403', '404', '405', '406', '407', '408', '409', '410', '456', '457', '499', '1004', '1033', '1040'].includes(weather.icon)) {
+    } else if (['400', '401', '402', '403', '404', '405', '406', '407', '408', '409', '410', '456', '457', '499', '1004', '1033', '1040'].includes(icon)) {
       weather['new_icon'] = icons['snow']
       resolve(weather)
 
@@ -106,14 +111,24 @@ const setColor = (qlty) => {
   if (qlty === '严重污染') return '#933D40'
 }
 
+const setWeatherForecast = (forecasts, workout) => {
+  return new Promise(resolve => {
+    let weather = forecasts.find((weather) => {
+      let forecastDate = new Date(weather.fxDate).getDate()
+      let workoutDate = new Date(workout.date).getDate()
+      return forecastDate === workoutDate
+    })
+    resolve(weather)
+  })
+}
 
-
-const fetchWeather = async (location) => {
+const fetchWeather = async (location, workout) => {
   return new Promise(resolve => {
     wx.request({
-      url: `https://api.qweather.com/v7/weather/now?location=${location.id}&key=${key}&lang=en`,
+      url: `https://api.qweather.com/v7/weather/10d?location=${location.id}&key=${key}&lang=en`,
       success: async (res) => { 
-        let weather = await setIcon(res.data.now)
+        let weather = await setWeatherForecast(res.data.daily, workout)
+        weather = await setIcon(weather, workout)
         resolve(weather) 
       }
     })
