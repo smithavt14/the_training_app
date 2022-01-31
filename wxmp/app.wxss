@@ -4,6 +4,7 @@
   min-height: 100vh;
   background: #FAFAFA;
   box-sizing: border-box;
+  font-family: 'Montserrat'
 }
 
 .container-header {
