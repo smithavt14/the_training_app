@@ -8,8 +8,8 @@
     
     <view class="input-container">
         <image class="icon" src="/icons/category.png" />
-        <picker class="input" bindchange="changeCategory" range="{{category.items}}" value="{{index}}">
-            <view wx:if="{{workout.category}}" class="input-picker">{{workout.category}}</view>
+        <picker class="input" bindchange="changeCategory" range="{{categories}}" value="{{index}}">
+            <view wx:if="{{workout.category}}" class="input-picker">{{workout.category.name}}</view>
             <view wx:else class="input-picker" style="color: gray;">CHOOSE YOUR CATEGORY</view>
         </picker>
     </view>

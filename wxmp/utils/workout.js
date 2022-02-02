@@ -1,3 +1,5 @@
+const _category = require('/category.js')
+
 const fetchWithID = (id) => {
   return new Promise(resolve => {
     const Workout = new wx.BaaS.TableObject('workouts')
@@ -13,8 +15,6 @@ const fetchWithID = (id) => {
       workout['time'] = {start, end}
       workout['date'] = date
       workout.name = workout.name.toUpperCase()
-
-      workout['capitalizedCategory'] = workout.category[0].toUpperCase() + workout.category.substring(1);
 
       resolve(workout)
     })

@@ -1,6 +1,7 @@
 const _auth = require('../../utils/auth.js')
 const _workout = require('../../utils/workout.js')
 const _picker = require('../../utils/picker.js')
+const _category = require('../../utils/category.js')
 
 Page({
     data: {
@@ -11,10 +12,7 @@ Page({
             'Run': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5ZMcoe8pvcs.png',
             'Track': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5UlV4LLKSC1.png'
         },
-        category: {
-            active: false,
-            items: ['Run', 'Metcon', 'Track', 'Yoga', 'Swim']
-        }, 
+        categories: _category.categoryNames, 
         date: _picker.date(),
         time: _picker.time(), 
         validated: false
@@ -44,9 +42,10 @@ Page({
     },
     
     changeCategory: function (e) {
-        const categories = this.data.category.items
+        const categories = _category.categories
         const active = e.detail.value;
-        this.setData({'category.active': categories[active], 'workout.category': categories[active]})
+
+        this.setData({'workout.category': categories[active]})
         this.validate();
     },
 
