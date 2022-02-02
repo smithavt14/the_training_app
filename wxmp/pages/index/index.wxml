@@ -18,7 +18,7 @@
       data-id="{{workout.id}}" 
       bindtap="navigateToShow">
 
-        <image class="icon" src="/icons/{{workout.category}}.png"/>
+        <image class="icon" src="{{workout.category.icon}}"/>
 
         <view class="info-container">
           <view class="name">{{workout.name}}</view>
