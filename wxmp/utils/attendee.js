@@ -33,7 +33,7 @@ const findAttendee = (workout, user) => {
   })
 }
 
-const fetchAllForUser = (user) => {
+const fetchAllForUser = (user, active) => {
   return new Promise(resolve => {
     let Attendees = new wx.BaaS.TableObject('attendees')
     let id = user.id
@@ -41,9 +41,9 @@ const fetchAllForUser = (user) => {
   
     query.compare('user', '=', id)
   
-    Attendees.setQuery(query).limit(50).expand('workout').orderBy(['workout.date_time']).find().then(async res => {
+    Attendees.setQuery(query).limit(50).expand('workout').orderBy(['workout.start_date_time']).find().then(async res => {
       let workouts = res.data.objects.map(attendee => attendee.workout)
-      workouts = workouts.sort((a, b) => new Date(b.date_time) - new Date(a.date_time))
+      workouts = workouts.sort((a, b) => new Date(b.start_date_time) - new Date(a.start_date_time))
       
       resolve(workouts)
     })

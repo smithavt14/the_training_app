@@ -1,14 +1,21 @@
 <view class="page__container">
 
   <view bindtap="scrollToTop" class="container-header">
-    TRAINING SCHEDULE
+    <view>SCHEDULE</view>
+    <view class="container-tab">
+      <view class="tab {{tab.active === 'past' ? 'tab-active' : ''}}" bindtap="changeTab" data-value="past">PAST</view>
+      <view class="tab {{tab.active === 'upcoming' ? 'tab-active' : '' }}" bindtap="changeTab" data-value="upcoming">UPCOMING</view>
+    </view>
+    <view 
+      style="width: {{tab[tab.active].width}}px; left: {{tab[tab.active].left}}px; background: {{tab[tab.active].color}}"
+      class="tab-highlight"/>
   </view>
 
-  <block wx:if="{{trainingDates}}">
-    <view wx:for="{{trainingDates}}" wx:key="id" wx:for-item="trainingDay">
+  <block wx:if="{{workouts}}">
+    <view wx:for="{{tab.active === 'upcoming' ? workouts.upcoming : workouts.past}}" wx:key="id" wx:for-item="trainingDay">
       <view class="date {{ trainingDay.today ? 'date-today' : '' }}">{{trainingDay.today ? 'Today: ' : ''}}{{trainingDay.date}}</view>
     
-      <view wx:if="{{trainingDay.today && !trainingDay.workouts}}" class="empty-message">NO WORKOUTS TODAY. REST AND ENJOY!</view>
+      <view wx:if="{{trainingDay.today && !trainingDay.workouts}}" class="empty-message">NO WORKOUTS COMING UP. REST AND ENJOY!</view>
       
       <view  
       wx:for="{{trainingDay.workouts}}"

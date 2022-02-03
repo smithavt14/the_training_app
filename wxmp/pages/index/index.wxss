@@ -3,6 +3,36 @@
   padding-bottom: 232rpx;
 }
 
+/* --- Header Classes --- */
+
+.container-header > .container-tab {
+  display: flex;
+  padding: 32rpx 0;
+  width: 100%;
+  position: relative;
+}
+
+.container-tab > .tab {
+  flex-grow: 1;
+  flex-shrink: 0;
+  text-align: center;
+  opacity: .2;
+}
+
+.container-tab > .tab-active {
+  opacity: 1;
+}
+
+.tab-highlight {
+  height: 4rpx;
+  background: black;
+  border-radius: 10px;
+  position: absolute;
+  bottom: 32rpx;
+  transition: all 0.2s ease-in-out;
+  transform: scale(0.75);
+}
+
 /* --- Workout Card --- */
 
 .workout-card-white {

@@ -68,6 +68,18 @@ const setTrainingDates = (workouts) => {
   })
 }
 
+const sortPastUpcoming = (workouts) => {
+  return new Promise(resolve => {
+
+    let sortedWorkouts = { 
+      upcoming: workouts.filter((workout) => { return Date.parse(workout.start_date_time) >= Date.now() }),
+      past: workouts.filter((workout) => { return Date.parse(workout.start_date_time) < Date.now() })
+    }
+
+    resolve(sortedWorkouts)
+  })
+}
+
 const getCreatorInfo = (workouts) => {
   return new Promise(resolve => {
     let User = new wx.BaaS.User()
@@ -107,4 +119,4 @@ const edit = (workout) => {
 }
 
 
-module.exports = { fetchWithID, setTrainingDates, getCreatorInfo, edit, create }
+module.exports = { fetchWithID, setTrainingDates, getCreatorInfo, edit, create, sortPastUpcoming }
