@@ -48,6 +48,8 @@ Page({
     })
   },
 
+  
+
   changeTab: function (e) {
     let active = e.currentTarget.dataset.value
     this.setData({'tab.active': active})

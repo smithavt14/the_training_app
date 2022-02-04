@@ -24,19 +24,22 @@ const fetchWithID = (id) => {
 const setTrainingDates = (workouts) => {
   return new Promise(resolve => {
     let trainingDates = []
-    let dateOptions = {weekday: "long", month: "long", day: "numeric", year: "numeric"}
+    let dayOptions = {weekday: "long"}
+    let dateOptions = {month: "long", day: "numeric", year: "numeric"}
     let timeOptions = {hour: 'numeric', minute: '2-digit'}
     let today = new Date().toLocaleDateString([], dateOptions)
 
     workouts.forEach((workout) => {
       // -- Turn date to a locale date string
       let date = new Date(workout.start_date_time).toLocaleDateString('en-us', dateOptions)
+      let day = new Date(workout.start_date_time).toLocaleDateString('en-us', dayOptions)
       let start = new Date(workout.start_date_time).toLocaleTimeString('en-us', timeOptions)
       let end = new Date(workout.end_date_time).toLocaleTimeString('en-us', timeOptions)
       
       // -- Add time to the workout
       workout['time'] = { start, end }
       workout['date'] = date
+      workout['day'] = day
       
       // -- Check to see if this workout's day already exists in the trainingDates array
       let existing_date = trainingDates.find(workout => workout.date === date);
@@ -48,18 +51,18 @@ const setTrainingDates = (workouts) => {
       if (existing_date) {
         existing_date['workouts'].push(workout);
       } else {
-        trainingDates.push({date, workouts: [workout]});
+        trainingDates.push({date, day, workouts: [workout]});
       }
     });
 
     // Check if today's date exists in the array; 
-    let today_date = trainingDates.find(workout => workout.date == today);
+    // let today_date = trainingDates.find(workout => workout.date == today);
     
-    if (today_date) {
-      today_date['today'] = true
-    } else {
-      trainingDates.push({date: today, today: true});
-    }
+    // if (today_date) {
+    //   today_date['today'] = true
+    // } else {
+    //   trainingDates.push({date: today, today: true});
+    // }
 
     trainingDates = trainingDates.sort((a, b) => {return new Date(b.date) - new Date(a.date)})
     

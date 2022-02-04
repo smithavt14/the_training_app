@@ -4,7 +4,7 @@
   min-height: 100vh;
   background: #FAFAFA;
   box-sizing: border-box;
-  font-family: 'Montserrat'
+  font-family: 'Lato';
 }
 
 .container-header {
@@ -22,7 +22,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
+  font-family: 'Lato Bold';
   
   /* Position */
   position: fixed;
@@ -50,7 +50,10 @@
 
 .container-btn {
   height: 200rpx;
-  background: white;
+  /* Glass Morphism */
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  /* ---  */
   width: 100%;
   position: fixed;
   bottom: 0;
@@ -65,7 +68,7 @@
   border-radius: 4px;
   height: 128rpx;
   width: 35% !important;
-  font-weight: bold;
+  font-family: 'Lato Bold';
   margin: 0 40rpx !important;
   display: flex;
   justify-content: center;

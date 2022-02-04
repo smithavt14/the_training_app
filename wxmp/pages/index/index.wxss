@@ -1,5 +1,5 @@
 .page__container {
-  padding-top: 232rpx;
+  padding-top: 332rpx;
   padding-bottom: 232rpx;
 }
 
@@ -36,43 +36,44 @@
 /* --- Workout Card --- */
 
 .workout-card-white {
-  height: 128rpx; 
   background: white;
   box-sizing: border-box;
-  padding: 16px;
-  border-radius: 4px; 
-  box-shadow: 2px 2px 4px rgba(0,0,0,0.25);
+  padding: 32rpx;
+  border-radius: 16rpx; 
+  box-shadow: 4px 4px 32px rgba(44, 83, 100, 0.25);
   display: flex;
-  align-items: center;
+  align-items: top;
   margin: 16px 0;
-}
-
-.completed {
-  opacity: .5
 }
 
 .workout-card-white > .icon {
   height: 64rpx;
   width: 64rpx;
   flex-shrink: 0;
-  padding-right: 16rpx;
+  padding-right: 32rpx;
 }
 
 .workout-card-white > .info-container {
   flex-grow: 1;
-  max-width: 75%;
+  max-width: 68%;
 }
 
 .workout-card-white > .info-container > .name {
-  font-size: 14px;
+  height: 64rpx;
+  font-size: 32rpx;
   font-weight: bold;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 .workout-card-white > .info-container > .time {
-  font-size: 12px;
+  font-size: 28rpx;
+  height: 48rpx;
+  display: flex;
+  align-items: center;
 }
 
 .workout-card-white > .attendee-container {
@@ -80,17 +81,30 @@
   display: flex;  
 }
 
+.workout-card-white > .info-container > .highlight-line {
+  height: 2rpx;
+  background: linear-gradient(90deg, rgba(195, 55, 100, 0.2) 0%, rgba(29, 38, 113, 0.2) 100%);  
+  width: 100%;
+  margin: 8rpx 0;
+} 
+
 .workout-card-white > .attendee-container > .avatar {
   height: 64rpx;
   width: 64rpx;
   flex-shrink: 0;
-  margin-left: 16rpx;
+  margin-left: 32rpx;
   box-sizing: border-box;
   border-radius: 50%;
 }
 
 .date-today {
   font-weight: bold; 
+}
+
+.day {
+  font-size: 48rpx;
+  font-family: 'Lato Black';
+  margin: 8rpx 0;
 }
 
 /* --- Buttons --- */

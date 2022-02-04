@@ -11,12 +11,16 @@
       class="tab-highlight"/>
   </view>
 
-  <block wx:if="{{workouts}}">
+  <block wx:if="{{workouts}}">  
     <view wx:for="{{tab.active === 'upcoming' ? workouts.upcoming : workouts.past}}" wx:key="id" wx:for-item="trainingDay">
-      <view class="date {{ trainingDay.today ? 'date-today' : '' }}">{{trainingDay.today ? 'Today: ' : ''}}{{trainingDay.date}}</view>
-    
-      <view wx:if="{{trainingDay.today && !trainingDay.workouts}}" class="empty-message">NO WORKOUTS COMING UP. REST AND ENJOY!</view>
+
+      <!-- Empty Message -->
       
+      <!-- Dates -->
+      <view class="day">{{trainingDay.today ? 'Today' : trainingDay.day}}</view>
+      <view class="date">{{trainingDay.date}}</view>
+    
+      <!-- Card -->
       <view  
       wx:for="{{trainingDay.workouts}}"
       wx:key="id" 
@@ -29,7 +33,8 @@
 
         <view class="info-container">
           <view class="name">{{workout.name}}</view>
-          <view class="time">{{workout.time.start}}</view>
+          <view class="highlight-line"/>
+          <view class="time">{{workout.time.start}} - {{workout.time.end}}</view>
         </view>
           
         <view class="attendee-container">
