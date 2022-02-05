@@ -39,7 +39,6 @@ const fetchAllForUser = (user, active) => {
 }
 
 const setTrainingDates = (workouts) => {
-  let t0 = performance.now()
   return new Promise(resolve => {
     let trainingDates = []
     let dayOptions = {weekday: "long"}
@@ -85,8 +84,6 @@ const setTrainingDates = (workouts) => {
     trainingDates = trainingDates.sort((a, b) => {return new Date(b.date) - new Date(a.date)})
     
     // resolve
-    let t1 = performance.now()
-    console.log('SetTrainingDates: ', t1 - t0, 'ms')
     resolve(trainingDates)
   })
 }
@@ -106,30 +103,6 @@ const sortPastUpcoming = (workouts) => {
       return workoutDate < today 
     })
     resolve({ upcoming, past })
-  })
-}
-
-const getCreatorInfo = (workouts) => {
-  let t0 = performance.now()
-  return new Promise(resolve => {
-    let User = new wx.BaaS.User()
-    let promises = []
-    workouts.forEach(workout => {
-      promises.push(
-        User.get(workout.created_by).then(res => { workout['creator'] = res.data })
-      )
-    })
-    Promise.all(promises)
-    .then(res => { 
-      let t1 = performance.now()
-      console.log('getCreatorInfo: ', t1 - t0, 'ms')
-      resolve(workouts) 
-    })
-    .catch(error => { 
-      console.error(error.message) 
-      // -- If error, continue to create promise chain -- //
-      getCreatorInfo(workouts)
-    })
   })
 }
 
@@ -160,6 +133,8 @@ const edit = (workout) => {
     existing_workout.set(workout).update().then(res => resolve(res))
   })
 }
+
+// --- Attendee Related Functions --- 
 
 const addAttendee = (workoutID, userID) => {
   return new Promise(resolve => {
@@ -197,4 +172,4 @@ const getAttendeeInfo = (workout) => {
 }
 
 
-module.exports = { fetchWithID, fetchAllForUser, setTrainingDates, getCreatorInfo, edit, create, sortPastUpcoming, addAttendee, removeAttendee, getAttendeeInfo }
+module.exports = { fetchWithID, fetchAllForUser, setTrainingDates, edit, create, sortPastUpcoming, addAttendee, removeAttendee, getAttendeeInfo }
