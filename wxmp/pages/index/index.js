@@ -21,17 +21,14 @@ Page({
 
   // ----- Workout Functions -----
 
-  getAllWorkouts: async function (data) {
-    let user, active
-    ({user, active} = data)
-    wx.showLoading({title: 'Loading...'})
-    let workouts = await _attendee.fetchAllForUser(user)
+  getAllWorkouts: async function () {
+    let user = this.data.user
+    let active = this.data.tab.active
     
-    workouts = await _workout.getCreatorInfo(workouts)
-    workouts = await _workout.sortPastUpcoming(workouts)
+    wx.showLoading({title: 'Loading...'})
 
-    workouts.upcoming = await _workout.setTrainingDates(workouts.upcoming)
-    workouts.past = await _workout.setTrainingDates(workouts.past)
+    let workouts = await _workout.fetchAllForUser(user, active)
+    workouts = await _workout.setTrainingDates(workouts)
     
     this.setData({workouts})
     wx.hideLoading()
@@ -53,6 +50,7 @@ Page({
   changeTab: function (e) {
     let active = e.currentTarget.dataset.value
     this.setData({'tab.active': active})
+    this.getAllWorkouts()
   },
 
   getTabBoundaries: function () {
@@ -74,8 +72,9 @@ Page({
   
   onLoad: async function () {
     const user = await _auth.getCurrentUser()
-    const active = this.data.tab.active
-    this.getAllWorkouts({user, active})
+    this.setData({user})
+    
+    this.getAllWorkouts()
   }, 
 
   onShow: function () {

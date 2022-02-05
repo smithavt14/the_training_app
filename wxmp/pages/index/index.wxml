@@ -11,39 +11,42 @@
       class="tab-highlight"/>
   </view>
 
-  <block wx:if="{{workouts}}">  
-    <view wx:for="{{tab.active === 'upcoming' ? workouts.upcoming : workouts.past}}" wx:key="id" wx:for-item="trainingDay">
+  <!-- Workout Cards -->
+  <view wx:for="{{workouts}}" wx:key="id" wx:for-item="trainingDay">
 
-      <!-- Empty Message -->
-      
-      <!-- Dates -->
-      <view class="day">{{trainingDay.today ? 'Today' : trainingDay.day}}</view>
-      <view class="date">{{trainingDay.date}}</view>
+    <!-- Empty Message -->
     
-      <!-- Card -->
-      <view  
-      wx:for="{{trainingDay.workouts}}"
-      wx:key="id" 
-      wx:for-item="workout" 
-      class="workout-card-white {{workout.completed ? 'completed' : '' }}" 
-      data-id="{{workout.id}}" 
-      bindtap="navigateToShow">
+    <!-- Dates -->
+    <view class="day">{{trainingDay.today ? 'Today' : trainingDay.day}}</view>
+    <view class="date">{{trainingDay.date}}</view>
+  
+    <!-- Card -->
+    <view  
+    wx:for="{{trainingDay.workouts}}"
+    wx:key="id" 
+    wx:for-item="workout" 
+    class="workout-card-white {{workout.completed ? 'completed' : '' }}" 
+    data-id="{{workout.id}}" 
+    bindtap="navigateToShow">
 
-        <image class="icon" src="{{workout.category.icon}}"/>
+      <image class="icon" src="{{workout.category.icon}}"/>
 
-        <view class="info-container">
-          <view class="name">{{workout.name}}</view>
-          <view class="highlight-line"/>
-          <view class="time">{{workout.time.start}} - {{workout.time.end}}</view>
-        </view>
-          
-        <view class="attendee-container">
-          <image class="avatar" mode="aspectFill" src="{{workout.creator.avatar}}"/>
-        </view>
+      <view class="info-container">
+        <view class="name">{{workout.name}}</view>
+        <view class="highlight-line"/>
+        <view class="time">{{workout.time.start}} - {{workout.time.end}}</view>
+      </view>
+        
+      <view class="attendee-container">
+        <image class="avatar" mode="aspectFill" src="{{workout.created_by.avatar}}"/>
       </view>
     </view>
-  </block>
-    
+  </view>
+
+  <!-- Empty Message -->
+  <view wx:if="{{workouts.length === 0}}" class="empty-message">NO WORKOUTS! CREATE ONE OR JOIN ONE TO SEE IT ON YOUR HOME PAGE</view>
+
+  <!-- Btn Section -->
   <view class="container-btn">
     <view class="btn btn-primary" bindtap="navigateToCreate">CREATE A WORKOUT</view>
   </view>

@@ -21,6 +21,23 @@ const fetchWithID = (id) => {
   })
 }
 
+const fetchAllForUser = (user, active) => {
+  return new Promise(resolve => {
+    const Workout = new wx.BaaS.TableObject('workouts')
+    let query = new wx.BaaS.Query()
+    let today = new Date().toISOString()
+
+    let operator = active === 'upcoming' ? '>=' : '<='
+
+    query.arrayContains('attendees', [user.id])
+    query.compare('start_date_time', operator, today)
+
+    Workout.setQuery(query).limit(20).expand('created_by').find().then(res => {
+      resolve(res.data.objects)
+    })
+  })
+}
+
 const setTrainingDates = (workouts) => {
   let t0 = performance.now()
   return new Promise(resolve => {
@@ -180,4 +197,4 @@ const getAttendeeInfo = (workout) => {
 }
 
 
-module.exports = { fetchWithID, setTrainingDates, getCreatorInfo, edit, create, sortPastUpcoming, addAttendee, removeAttendee, getAttendeeInfo }
+module.exports = { fetchWithID, fetchAllForUser, setTrainingDates, getCreatorInfo, edit, create, sortPastUpcoming, addAttendee, removeAttendee, getAttendeeInfo }
