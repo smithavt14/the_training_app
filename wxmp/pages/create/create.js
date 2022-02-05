@@ -99,6 +99,7 @@ Page({
         if (workout.category
             && workout.name 
             && workout.date
+            && workout.time
             && workout.time.start
             && workout.description 
             && workout.location) {
@@ -109,8 +110,8 @@ Page({
 
     // ----- Workout Functions -----
 
-    createWorkout: function (workout) {
-        _workout.create(workout).then(res => {
+    createWorkout: function (workout, user) {
+        _workout.create(workout, user).then(res => {
             let workoutId = res.data.id
             let userId = res.data.created_by
             this.setAttendee(workoutId, userId)
@@ -137,8 +138,9 @@ Page({
     submit: function () {
         wx.showLoading({ title: 'Submitting' })
         let workout = this.data.workout
+        let user = this.data.user
 
-        workout.id ? this.editWorkout(workout) : this.createWorkout(workout)
+        workout.id ? this.editWorkout(workout) : this.createWorkout(workout, user)
     },
 
     getWorkout: async function (id) {

@@ -22,6 +22,7 @@ const fetchWithID = (id) => {
 }
 
 const setTrainingDates = (workouts) => {
+  let t0 = performance.now()
   return new Promise(resolve => {
     let trainingDates = []
     let dayOptions = {weekday: "long"}
@@ -67,6 +68,8 @@ const setTrainingDates = (workouts) => {
     trainingDates = trainingDates.sort((a, b) => {return new Date(b.date) - new Date(a.date)})
     
     // resolve
+    let t1 = performance.now()
+    console.log('SetTrainingDates: ', t1 - t0, 'ms')
     resolve(trainingDates)
   })
 }
@@ -74,16 +77,23 @@ const setTrainingDates = (workouts) => {
 const sortPastUpcoming = (workouts) => {
   return new Promise(resolve => {
 
-    let sortedWorkouts = { 
-      upcoming: workouts.filter((workout) => { return Date.parse(workout.start_date_time) >= Date.now() }),
-      past: workouts.filter((workout) => { return Date.parse(workout.start_date_time) < Date.now() })
-    }
+    let today = new Date()
 
-    resolve(sortedWorkouts)
+    let upcoming = workouts.filter((workout) => { 
+      let workoutDate = new Date(workout.start_date_time)
+      return workoutDate >= today 
+    })
+
+    let past = workouts.filter((workout) => { 
+      let workoutDate = new Date(workout.start_date_time)
+      return workoutDate < today 
+    })
+    resolve({ upcoming, past })
   })
 }
 
 const getCreatorInfo = (workouts) => {
+  let t0 = performance.now()
   return new Promise(resolve => {
     let User = new wx.BaaS.User()
     let promises = []
@@ -92,17 +102,30 @@ const getCreatorInfo = (workouts) => {
         User.get(workout.created_by).then(res => { workout['creator'] = res.data })
       )
     })
-    Promise.all(promises).then(res => { resolve(workouts) })
+    Promise.all(promises)
+    .then(res => { 
+      let t1 = performance.now()
+      console.log('getCreatorInfo: ', t1 - t0, 'ms')
+      resolve(workouts) 
+    })
+    .catch(error => { 
+      console.error(error.message) 
+      // -- If error, continue to create promise chain -- //
+      getCreatorInfo(workouts)
+    })
   })
 }
 
-const create = (workout) => {
+const create = (workout, user) => {
   return new Promise(resolve => {
     let Workouts = new wx.BaaS.TableObject('workouts')
     let new_workout = Workouts.create()
 
     workout['start_date_time'] = new Date(workout.date + ' ' + workout.time.start).toISOString()
     if (workout.time.end) workout['end_date_time'] = new Date(workout.date + ' ' + workout.time.end).toISOString()
+
+    console.log(user.id, typeof(user.id))
+    workout['attendees'] = [user.id]
 
     new_workout.set(workout).save().then(res => resolve(res))
   })
@@ -121,5 +144,40 @@ const edit = (workout) => {
   })
 }
 
+const addAttendee = (workoutID, userID) => {
+  return new Promise(resolve => {
+    let Workouts = new wx.BaaS.TableObject('workouts')
+    let workout = Workouts.getWithoutData(workoutID)
+    
+    workout.append('attendees', userID)
+    workout.update().then(res => {
+      console.log(res)
+      wx.showToast({title: "You're Going!", icon: 'success'})
+      resolve(res.data)
+    })
+  })
+}
 
-module.exports = { fetchWithID, setTrainingDates, getCreatorInfo, edit, create, sortPastUpcoming }
+const removeAttendee = (workoutID, userID) => {
+  return new Promise(resolve => {
+    let Workouts = new wx.BaaS.TableObject('workouts')
+    let workout = Workouts.getWithoutData(workoutID)
+
+    workout.remove('attendees', userID)
+    workout.update().then(res => resolve(res.data))
+  })
+}
+
+const getAttendeeInfo = (workout) => {
+  return new Promise(resolve => {
+    let User = new wx.BaaS.User()
+    let promises = []
+    workout.attendees.forEach((attendee) => {
+      promises.push(User.get(attendee).then(res => res.data ))
+    })
+    Promise.all(promises).then(res => resolve(res))
+  })
+}
+
+
+module.exports = { fetchWithID, setTrainingDates, getCreatorInfo, edit, create, sortPastUpcoming, addAttendee, removeAttendee, getAttendeeInfo }

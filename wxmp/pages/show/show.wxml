@@ -10,8 +10,8 @@
     <view class="page__container">    
         <view class="container-info">
             <view class="flex">
-                <image class="icon" src="/icons/{{workout.category}}.png"/>
-                <view class="text">{{workout.capitalizedCategory}}</view>
+                <image style="transform: scale(1.2)" class="icon" src="{{workout.category.icon}}"/>
+                <view class="text">{{workout.category.name}}</view>
             </view>
             <view class="flex margin-32">
                 <image class="icon" src="/icons/time.png"/>
@@ -54,12 +54,14 @@
                     bindtap="toggleActiveAttendee"
                     data-index="{{index}}"
                     class="avatar active {{ activeAttendee === -1 || activeAttendee === index ? 'active' : 'inactive'}}"
-                    src="{{attendee.user.avatar}}"/>
+                    src="{{attendee.avatar}}"/>
 
-                    <view wx:if="{{activeAttendee === index}}" class="avatar-name {{activeAttendee === index ? 'avatar-name-active' : ''}}">{{attendee.user.nickname}}</view>
+                    <view 
+                    wx:if="{{activeAttendee === index}}" 
+                    class="avatar-name {{activeAttendee === index ? 'avatar-name-active' : ''}}">{{attendee.nickname}}</view>
                     
                     <view 
-                    wx:if="{{attendee.user.id === workout.created_by.id}}" 
+                    wx:if="{{attendee.id === workout.created_by.id}}" 
                     class="line-vertical {{activeAttendee === -1 ? 'active' : 'inactive'}}"/>
                 </view>
             </view>
@@ -75,7 +77,7 @@
             <button class="btn btn-share" open-type="share">SHARE</button>
             <view wx:if="{{user.id === workout.created_by.id}}" class="btn btn-ghost" bindtap="navigateToEdit">EDIT</view>
             <view wx:if="{{!user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-login" bindtap="updateUserInformation">LOGIN</view>
-            <view wx:if="{{user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-primary" bindtap="{{btn.disabled ? '' : 'createAttendee'}}">JOIN</view>
+            <view wx:if="{{user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-primary" bindtap="{{btn.disabled ? '' : 'addAttendee'}}">JOIN</view>
             <view wx:if="{{user.is_attending && user.id != workout.created_by.id}}" class="btn btn-ghost" bindtap="removeAttendee">CANCEL</view>
         </view>
     </view>

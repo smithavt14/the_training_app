@@ -1,18 +1,10 @@
 const _auth = require('../../utils/auth.js')
 const _workout = require('../../utils/workout.js')
-const _attendee = require('../../utils/attendee.js')
 const _weather = require('../../utils/weather.js')
 
 Page({
     data: {
-        toggleContainer: false, 
-        illustrations: {
-            'Swim': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYzx5mqh3pVD.png', 
-            'Metcon': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYEeHJPcDdfX.png',
-            'Yoga': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYx63uokqkjo.png',
-            'Run': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5ZMcoe8pvcs.png',
-            'Track': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5UlV4LLKSC1.png'
-        },
+        toggleContainer: false,
         animation: {
             toggleSize: {},
             attendees: []
@@ -92,24 +84,30 @@ Page({
 
     // ----- Attendee Functions -----
 
-    createAttendee: async function () {
+    addAttendee: async function () {
         this.setData({ 'btn.disabled': true })
         
         let user = this.data.user
         let workout = this.data.workout
-        
-        await _attendee.create(user, workout)
-        
-        const data = await _attendee.findAllForWorkout(workout, user)
-        this.setData(data)
-        this.setData({ 'btn.disabled': false })
+
+        if (!user.is_attending) {
+            workout = await _workout.addAttendee(workout.id, user.id)
+            const attendees = await _workout.getAttendeeInfo(workout)
+    
+            this.setData({'workout.attendees': workout.attendees, attendees, 'user.is_attending': true})
+            this.setData({ 'btn.disabled': false })
+        }
     },
 
     removeAttendee: async function () {
+        this.setData({ 'btn.disabled': true })
+
         let user = this.data.user
         let workout = this.data.workout
 
-        if (user.is_attending) {
+        let is_attending = workout.attendees.includes(user.id)
+
+        if (is_attending) {
             wx.showModal({
                 title: 'Training Cancellation',
                 content: 'Are you sure you want to cancel?',
@@ -117,14 +115,14 @@ Page({
                 confirmText: 'Confirm',
                 success: async (res) => {
                     if (res.confirm) {
-                        await _attendee.remove(user.attendee)
-                        const data = await _attendee.findAllForWorkout(workout, user)
-                        this.setData(data)
+                        workout = await _workout.removeAttendee(workout.id, user.id)
+                        let attendees = await _workout.getAttendeeInfo(workout)
+                        this.setData({'workout.attendees': workout.attendees, attendees, 'user.is_attending': false})
                     }
                 }
-            })
-            
+            }) 
         }
+        this.setData({ 'btn.disabled': false })
     },
 
     // ----- Auth functions -----
@@ -146,15 +144,14 @@ Page({
         this.mapCtx = wx.createMapContext('myMap')
     },
 
-    
-
     // ----- Lifecycle Functions -----
     onLoad: async function (options) {
         wx.showLoading({title: 'Loading...'})
-        let unset_user = await _auth.getCurrentUser()
+        let user = await _auth.getCurrentUser()
         let workout = await _workout.fetchWithID(options.id)
-        
-        let [attendees, user] = await _attendee.findAllForWorkout(workout, unset_user)
+        let attendees = await _workout.getAttendeeInfo(workout)
+
+        user['is_attending'] = workout.attendees.includes(user.id)
         
         let location = await _weather.fetchGeoLocation(workout)
         let aqi = _weather.fetchAQI(workout, location)
