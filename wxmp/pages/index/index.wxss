@@ -61,7 +61,7 @@
 .workout-card-white > .info-container > .name {
   height: 64rpx;
   font-size: 32rpx;
-  font-weight: bold;
+  font-family: 'Lato Bold';
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -97,10 +97,6 @@
   border-radius: 50%;
 }
 
-.date-today {
-  font-weight: bold; 
-}
-
 .day {
   font-size: 48rpx;
   font-family: 'Lato Black';
@@ -108,19 +104,6 @@
 }
 
 /* --- Buttons --- */
-
-.btn-today {
-  position: fixed; 
-  top: 80rpx;
-  background: white; 
-  padding: 24rpx 40rpx;
-  border-radius: 50px; 
-  box-shadow: 2px 2px 4px rgba(0,0,0,0.25);
-  font-weight: bolder;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-}
 
 .empty-message {
   margin: 64rpx 0;
