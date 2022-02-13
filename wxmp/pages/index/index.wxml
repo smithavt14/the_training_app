@@ -17,7 +17,7 @@
     <!-- Empty Message -->
     
     <!-- Dates -->
-    <view wx:if="{{tab.active === 'upcoming'}}" class="day">{{trainingDay.alias ? trainingDay.alias : trainingDay.day}}</view>
+    <view wx:if="{{trainingDay.day}}" class="day">{{trainingDay.alias ? trainingDay.alias : trainingDay.day}}</view>
     <view class="date">{{trainingDay.date}}</view>
   
     <!-- Card -->

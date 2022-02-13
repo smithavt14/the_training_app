@@ -41,7 +41,7 @@ const fetchAllForUser = (user, active) => {
   })
 }
 
-const setTrainingDates = (workouts) => {
+const setTrainingDates = (workouts, active) => {
   return new Promise(resolve => {
     let trainingDates = []
     let dayOptions = {weekday: "long"}
@@ -60,13 +60,17 @@ const setTrainingDates = (workouts) => {
       // -- Add time to the workout
       workout['time'] = { start, end }
       workout['date'] = date
-      workout['day'] = day
+      
+      // -- Remove Day if past workout
+      day = active === 'upcoming' ? day : false
 
       // -- Add alias to training day if any --
       let alias
-      if (today === workout.date) { alias = 'Today' }
-      else if (tomorrow === workout.date) { alias = 'Tomorrow' }
-      else { alias = 'Upcoming' }
+      if (active === 'upcoming') {
+        if (today === workout.date) { alias = 'Today' }
+        else if (tomorrow === workout.date) { alias = 'Tomorrow' }
+        else { alias = 'Upcoming' }
+      }
       
       // -- Check to see if this workout's day already exists in the trainingDates array
       let existing_date = trainingDates.find(workout => workout.date === date);
@@ -79,7 +83,9 @@ const setTrainingDates = (workouts) => {
       }
     });
 
-    trainingDates = trainingDates.sort((a, b) => {return new Date(a.date) - new Date(b.date)})
+    trainingDates = trainingDates.sort((a, b) => {
+      return active === 'upcoming' ? new Date(a.date) - new Date(b.date) : new Date(b.date) - new Date(a.date)
+    })
     
     // resolve
     resolve(trainingDates)

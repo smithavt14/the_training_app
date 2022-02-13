@@ -28,7 +28,7 @@ Page({
     wx.showLoading({title: 'Loading...'})
 
     let workouts = await _workout.fetchAllForUser(user, active)
-    workouts = await _workout.setTrainingDates(workouts)
+    workouts = await _workout.setTrainingDates(workouts, active)
     
     this.setData({workouts})
     wx.hideLoading()
