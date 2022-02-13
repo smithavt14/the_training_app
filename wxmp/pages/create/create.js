@@ -28,7 +28,7 @@ Page({
               let metaData = {categoryName: 'SDK'}
           
               MyFile.upload(fileParams, metaData).then(res => {
-                this.setData({'workout.image': res.data.file})
+                this.setData({'workout.image': res.data.file, progress: false})
                 this.validate()
               }, err => {
                 wx.showToast({
@@ -36,6 +36,8 @@ Page({
                     icon: "error", 
                     duration: 1500, 
                 })
+              }).onProgressUpdate(event => {
+                  this.setData({progress: event.progress})
               })
             }
         })
