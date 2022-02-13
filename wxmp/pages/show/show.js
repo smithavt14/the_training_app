@@ -69,21 +69,6 @@ Page({
 
     // ----- Workout Functions -----
 
-    // ----- Location Functions -----
-    openLocation: function () {
-        let location = this.data.workout.location
-        
-        wx.openLocation({
-            latitude: location.latitude,
-            longitude: location.longitude,
-            name: location.name,
-            address: location.address,
-            scale: 14
-        })
-    },
-
-    // ----- Attendee Functions -----
-
     addAttendee: async function () {
         this.setData({ 'btn.disabled': true })
         
@@ -125,6 +110,41 @@ Page({
         this.setData({ 'btn.disabled': false })
     },
 
+    getWorkoutInformation: async function (options) {
+        let today = new Date().toISOString()
+        let user = await _auth.getCurrentUser()
+        let workout = await _workout.fetchWithID(options.id)
+        let attendees = await _workout.getAttendeeInfo(workout)
+
+        user['is_attending'] = workout.attendees.includes(user.id)
+
+        if (workout.start_date_time >= today) {
+            let location = await _weather.fetchGeoLocation(workout)
+            let aqi = _weather.fetchAQI(workout, location)
+            let weather = _weather.fetchWeather(location, workout)
+            
+            Promise.all([aqi, weather]).then(values => {
+              this.setData({ user, workout, attendees, aqi: values[0], weather: values[1] })
+              wx.hideLoading()
+            })
+        } else {
+            this.setData({ user, workout, attendees, 'workout.is_past': true })
+        }
+    },
+
+    // ----- Location Functions -----
+    openLocation: function () {
+        let location = this.data.workout.location
+        
+        wx.openLocation({
+            latitude: location.latitude,
+            longitude: location.longitude,
+            name: location.name,
+            address: location.address,
+            scale: 14
+        })
+    },
+
     // ----- Auth functions -----
     updateUserInformation: async function () {
         let user = await _auth.updateUserInfo()
@@ -146,21 +166,7 @@ Page({
 
     // ----- Lifecycle Functions -----
     onLoad: async function (options) {
-        wx.showLoading({title: 'Loading...'})
-        let user = await _auth.getCurrentUser()
-        let workout = await _workout.fetchWithID(options.id)
-        let attendees = await _workout.getAttendeeInfo(workout)
-
-        user['is_attending'] = workout.attendees.includes(user.id)
-        
-        let location = await _weather.fetchGeoLocation(workout)
-        let aqi = _weather.fetchAQI(workout, location)
-        let weather = _weather.fetchWeather(location, workout)
-        
-        Promise.all([aqi, weather]).then(values => {
-          this.setData({ user, workout, attendees, aqi: values[0], weather: values[1] })
-          wx.hideLoading()
-        })
+        this.getWorkoutInformation(options)
     },
 
     onShareAppMessage: function () {

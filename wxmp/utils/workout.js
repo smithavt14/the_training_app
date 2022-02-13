@@ -72,15 +72,6 @@ const setTrainingDates = (workouts) => {
       }
     });
 
-    // Check if today's date exists in the array; 
-    // let today_date = trainingDates.find(workout => workout.date == today);
-    
-    // if (today_date) {
-    //   today_date['today'] = true
-    // } else {
-    //   trainingDates.push({date: today, today: true});
-    // }
-
     trainingDates = trainingDates.sort((a, b) => {return new Date(b.date) - new Date(a.date)})
     
     // resolve
@@ -163,11 +154,9 @@ const removeAttendee = (workoutID, userID) => {
 const getAttendeeInfo = (workout) => {
   return new Promise(resolve => {
     let User = new wx.BaaS.User()
-    let promises = []
-    workout.attendees.forEach((attendee) => {
-      promises.push(User.get(attendee).then(res => res.data ))
-    })
-    Promise.all(promises).then(res => resolve(res))
+    let query = new wx.BaaS.Query()
+    query.in('id', workout.attendees)
+    User.setQuery(query).find().then(res => resolve(res.data.objects))
   })
 }
 

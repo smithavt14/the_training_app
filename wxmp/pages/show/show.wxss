@@ -35,6 +35,15 @@
     font-size: 14px;
 }
 
+.btn-past {
+    background: linear-gradient(90deg, #fe8c00, #f83600);
+    color: white;
+    font-family: 'Lato Bold';
+    opacity: .9;
+    animation: 2s ease-in-out infinite pulse; 
+    transition: ease-in-out;
+}
+
 .container-aqi {
     display: flex;
     justify-content: space-around;
@@ -196,3 +205,11 @@
     padding: 0;
     overflow: hidden;
 }
+
+@keyframes pulse {
+    0% { opacity: 0.9 }
+
+    50% { opacity: 1 }
+  
+    100% { opacity: 0.9 }
+  }

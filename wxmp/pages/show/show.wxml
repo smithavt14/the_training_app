@@ -25,7 +25,7 @@
             </view>
         </view>
 
-        <view class="container-info container-weather" style="background-image: url({{weather.background}})">
+        <view wx:if="{{!workout.is_past}}" class="container-info container-weather" style="background-image: url({{weather.background}})">
             <view class="box-temp">{{weather.temp}}°</view>
             <view class="box-info">
                 <view>{{aqi.location.name}}, {{aqi.location.adm1}}</view>
@@ -68,17 +68,18 @@
         </view>
 
         <view class="container-info">
-            <view class="area-description">
-                {{workout.description}}
-            </view>
+            <view class="area-description"> {{workout.description}}</view>
         </view>
 
         <view class="container-btn">
-            <button class="btn btn-share" open-type="share">SHARE</button>
-            <view wx:if="{{user.id === workout.created_by.id}}" class="btn btn-ghost" bindtap="navigateToEdit">EDIT</view>
-            <view wx:if="{{!user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-login" bindtap="updateUserInformation">LOGIN</view>
-            <view wx:if="{{user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-primary" bindtap="{{btn.disabled ? '' : 'addAttendee'}}">JOIN</view>
-            <view wx:if="{{user.is_attending && user.id != workout.created_by.id}}" class="btn btn-ghost" bindtap="removeAttendee">CANCEL</view>
+            <view wx:if="{{workout.is_past}}" class="btn btn-past">THIS WORKOUT IS COMPLETE</view>
+            <block wx:else>
+                <button class="btn btn-share" open-type="share">SHARE</button>
+                <view wx:if="{{user.id === workout.created_by.id}}" class="btn btn-ghost" bindtap="navigateToEdit">EDIT</view>
+                <view wx:if="{{!user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-login" bindtap="updateUserInformation">LOGIN</view>
+                <view wx:if="{{user.is_authorized && !user.is_attending && user.id != workout.created_by.id }}" class="btn btn-primary" bindtap="{{btn.disabled ? '' : 'addAttendee'}}">JOIN</view>
+                <view wx:if="{{user.is_attending && user.id != workout.created_by.id}}" class="btn btn-ghost" bindtap="removeAttendee">CANCEL</view>
+            </block>
         </view>
     </view>
 </block>
