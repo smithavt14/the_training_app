@@ -33,13 +33,13 @@
 
 .header {
   font-size: 48rpx;
-  font-weight: bold;
+  font-family: 'Lato Bold';
   margin: 16rpx 0;
 }
 
 .subheader {
   font-size: 40rpx;
-  font-weight: bold;
+  font-family: 'Lato Bold';
   margin: 8rpx 0;
 }
 

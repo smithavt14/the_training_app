@@ -40,7 +40,7 @@
   box-sizing: border-box;
   padding: 32rpx;
   border-radius: 16rpx; 
-  box-shadow: 4px 4px 32px rgba(44, 83, 100, 0.25);
+  box-shadow: 4px 4px 16px rgba(44, 83, 100, 0.20);
   display: flex;
   align-items: top;
   margin: 16px 0;
