@@ -25,9 +25,12 @@ const fetchAllForUser = (user, active) => {
   return new Promise(resolve => {
     const Workout = new wx.BaaS.TableObject('workouts')
     let query = new wx.BaaS.Query()
-    let today = new Date().toISOString()
+    let today = new Date()
+    today.setHours(0)
+    today.setMinutes(0)
+    today = today.toISOString()
 
-    let operator = active === 'upcoming' ? '>=' : '<='
+    let operator = active === 'upcoming' ? '>=' : '<'
 
     query.arrayContains('attendees', [user.id])
     query.compare('start_date_time', operator, today)
@@ -44,10 +47,11 @@ const setTrainingDates = (workouts) => {
     let dayOptions = {weekday: "long"}
     let dateOptions = {month: "long", day: "numeric", year: "numeric"}
     let timeOptions = {hour: 'numeric', minute: '2-digit'}
-    let today = new Date().toLocaleDateString([], dateOptions)
 
     workouts.forEach((workout) => {
       // -- Turn date to a locale date string
+      let today = new Date().toLocaleDateString('en-us', dateOptions)
+      let tomorrow = new Date(Date.now() + 86400000).toLocaleDateString('en-us', dateOptions)
       let date = new Date(workout.start_date_time).toLocaleDateString('en-us', dateOptions)
       let day = new Date(workout.start_date_time).toLocaleDateString('en-us', dayOptions)
       let start = new Date(workout.start_date_time).toLocaleTimeString('en-us', timeOptions)
@@ -57,22 +61,25 @@ const setTrainingDates = (workouts) => {
       workout['time'] = { start, end }
       workout['date'] = date
       workout['day'] = day
+
+      // -- Add alias to training day if any --
+      let alias
+      if (today === workout.date) { alias = 'Today' }
+      else if (tomorrow === workout.date) { alias = 'Tomorrow' }
+      else { alias = 'Upcoming' }
       
       // -- Check to see if this workout's day already exists in the trainingDates array
       let existing_date = trainingDates.find(workout => workout.date === date);
-
-      // -- Indicate whether workout is in the past or not -- 
-      workout['completed'] = new Date(workout.start_date_time) < new Date()
       
       // -- Push workouts into calendar dates --
       if (existing_date) {
         existing_date['workouts'].push(workout);
       } else {
-        trainingDates.push({date, day, workouts: [workout]});
+        trainingDates.push({date, day, alias, workouts: [workout]});
       }
     });
 
-    trainingDates = trainingDates.sort((a, b) => {return new Date(b.date) - new Date(a.date)})
+    trainingDates = trainingDates.sort((a, b) => {return new Date(a.date) - new Date(b.date)})
     
     // resolve
     resolve(trainingDates)

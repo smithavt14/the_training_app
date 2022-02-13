@@ -18,7 +18,7 @@
     class="input-container container-image" 
     mode="aspectFill"
     bindtap="changeImage" 
-    style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url({{ workout.image.path || illustrations[workout.category] || illustrations['Run'] }})">
+    style="background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('{{ workout.image.path || illustrations[workout.category] || illustrations.run }}')">
         <view wx:if="{{progress}}">Upload Status: {{progress}}%</view>
         <view wx:else>CHOOSE IMAGE</view>
     </view>

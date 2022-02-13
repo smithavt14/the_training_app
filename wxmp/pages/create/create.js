@@ -5,13 +5,7 @@ const _category = require('../../utils/category.js')
 
 Page({
     data: {
-        illustrations: {
-            'Swim': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYzx5mqh3pVD.png', 
-            'Metcon': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYEeHJPcDdfX.png',
-            'Yoga': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjidYx63uokqkjo.png',
-            'Run': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5ZMcoe8pvcs.png',
-            'Track': 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5UlV4LLKSC1.png'
-        },
+        illustrations: { run: 'https://cloud-minapp-40635.cloud.ifanrusercontent.com/1mjic5ZMcoe8pvcs.png' },
         categories: _category.categoryNames, 
         date: _picker.date(),
         time: _picker.time(), 
@@ -80,7 +74,6 @@ Page({
     changeLocation: function (e) {
         wx.chooseLocation({
             success: (location) => {
-                console.log(location)
                 this.setData({'workout.location': location})
                 this.validate();
             }, 
@@ -114,9 +107,6 @@ Page({
 
     createWorkout: function (workout, user) {
         _workout.create(workout, user).then(res => {
-            let workoutId = res.data.id
-            let userId = res.data.created_by
-            this.setAttendee(workoutId, userId)
             wx.hideLoading()
             wx.showToast({ title: 'Success!', icon: "success", duration: 1500, 
                 complete: () => {
