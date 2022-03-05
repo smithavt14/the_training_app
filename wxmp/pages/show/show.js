@@ -165,11 +165,6 @@ Page({
     },
 
     // ----- Map Functionality -----
-
-    showMap: function () {
-        console.log('Map is fully loaded')
-        this.setData({map: true})
-    },
     
     buildMap: function () {
         this.mapCtx = wx.createMapContext('myMap')

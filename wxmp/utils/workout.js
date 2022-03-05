@@ -171,7 +171,9 @@ const getAttendeeInfo = (workout) => {
     query.in('id', workout.attendees)
     User.setQuery(query).find().then(res => {
       resolve(res.data.objects)
-    })
+    }), err => {
+      console.log(err)
+    }
   })
 }
 

@@ -33,6 +33,7 @@
     border-radius: 4px; 
     box-shadow: 4px 4px 16px rgba(44, 83, 100, 0.20);
     font-size: 14px;
+    transition: all 0.5s ease-in-out;
 }
 
 .btn-past {
@@ -83,6 +84,16 @@
     padding: 0;
     height: 240rpx;
     overflow: hidden;
+}
+
+.container-hidden {
+    position: absolute; 
+    transform: scale(0);
+}
+
+.container-show {
+    position: relative;
+    transform: scale(1);
 }
 
 .container-map-overlay {
