@@ -169,7 +169,9 @@ const getAttendeeInfo = (workout) => {
     let User = new wx.BaaS.User()
     let query = new wx.BaaS.Query()
     query.in('id', workout.attendees)
-    User.setQuery(query).find().then(res => resolve(res.data.objects))
+    User.setQuery(query).find().then(res => {
+      resolve(res.data.objects)
+    })
   })
 }
 

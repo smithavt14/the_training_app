@@ -112,11 +112,17 @@ Page({
 
     getWorkoutInformation: async function (options) {
         let today = new Date().toISOString()
+        
         let user = await _auth.getCurrentUser()
         let workout = await _workout.fetchWithID(options.id)
-        let attendees = await _workout.getAttendeeInfo(workout)
+        this.setData({workout, user})
 
+        _workout.getAttendeeInfo(workout).then(attendees => {
+            this.setData({attendees})
+        })
+        
         user['is_attending'] = workout.attendees.includes(user.id)
+        this.setData({user})
 
         if (workout.start_date_time >= today) {
             let location = await _weather.fetchGeoLocation(workout)
@@ -124,11 +130,11 @@ Page({
             let weather = _weather.fetchWeather(location, workout)
             
             Promise.all([aqi, weather]).then(values => {
-              this.setData({ user, workout, attendees, aqi: values[0], weather: values[1] })
+              this.setData({ aqi: values[0], weather: values[1] })
               wx.hideLoading()
             })
         } else {
-            this.setData({ user, workout, attendees, 'workout.is_past': true })
+            this.setData({ 'workout.is_past': true })
         }
     },
 
@@ -160,8 +166,14 @@ Page({
 
     // ----- Map Functionality -----
 
+    showMap: function () {
+        console.log('Map is fully loaded')
+        this.setData({map: true})
+    },
+    
     buildMap: function () {
         this.mapCtx = wx.createMapContext('myMap')
+        this.setData({map: true})
     },
 
     // ----- Lifecycle Functions -----

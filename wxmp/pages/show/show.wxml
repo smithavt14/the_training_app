@@ -40,7 +40,8 @@
             longitude="{{workout.location.longitude}}" 
             latitude="{{workout.location.latitude}}" 
             scale="14"
-            markers="{{[{latitude: workout.location.latitude, longitude: workout.location.longitude}]}}">
+            markers="{{[{id: 1, latitude: workout.location.latitude, longitude: workout.location.longitude}]}}"
+            bindupdated="showMap">
                 <view class="container-map-overlay" bindtap="openLocation"/>
             </map>
         </view>
@@ -48,7 +49,7 @@
         <view class="container-info">
             <view class="title">WHO'S GOING</view>
             <view class="container-avatars">
-                <view class="avatar-box" wx:for="{{attendees}}" wx:for-item="attendee">
+                <view class="avatar-box" wx:for="{{attendees}}" wx:key="id" wx:for-item="attendee">
                     
                     <image 
                     bindtap="toggleActiveAttendee"
