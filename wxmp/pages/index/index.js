@@ -45,7 +45,6 @@ Page({
     })
   },
 
-  
 
   changeTab: function (e) {
     let active = e.currentTarget.dataset.value

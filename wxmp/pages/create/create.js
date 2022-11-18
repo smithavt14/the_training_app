@@ -15,13 +15,17 @@ Page({
     // ----- Input Functions -----
 
     changeImage: function () {
-        wx.chooseImage({
+        wx.chooseMedia({
+            count: 1, 
+            mediaType: ['image'],
+            sourceType: ['album'],
             success: (res) => {
               let MyFile = new wx.BaaS.File()
-              let fileParams = {filePath: res.tempFilePaths[0]}
+              let fileParams = {filePath: res.tempFiles[0].tempFilePath}
               let metaData = {categoryName: 'SDK'}
           
               MyFile.upload(fileParams, metaData).then(res => {
+                  console.log(res)
                 this.setData({'workout.image': res.data.file, progress: false})
                 this.validate()
               }, err => {
@@ -156,6 +160,15 @@ Page({
     updateUserInformation: async function () {
         let user = await _auth.updateUserInfo()
         this.setData({user})
+    },
+
+    // ----- Display Functions -----
+    
+    changeKeyboardHeight: function (e) {
+        let height = e.detail.height
+        let duration = e.detail.duration
+
+        this.setData({keyboard: {height, duration}})
     },
 
     // ----- Lifecycle Functions -----

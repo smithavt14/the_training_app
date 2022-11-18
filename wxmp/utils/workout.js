@@ -118,7 +118,6 @@ const create = (workout, user) => {
     workout['start_date_time'] = new Date(workout.date + ' ' + workout.time.start).toISOString()
     if (workout.time.end) workout['end_date_time'] = new Date(workout.date + ' ' + workout.time.end).toISOString()
 
-    console.log(user.id, typeof(user.id))
     workout['attendees'] = [user.id]
 
     new_workout.set(workout).save().then(res => resolve(res))
